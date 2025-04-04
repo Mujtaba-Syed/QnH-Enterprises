@@ -1,0 +1,109 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>QnH Enterprises </title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        {% include 'spinner.html' %}
+        <!-- Spinner End -->
+
+
+        <!-- Navbar start -->
+        {% include 'navbar.html' %}
+        <!-- Navbar End -->
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid py-5 mb-4">
+           
+        </div>
+        <!-- Single Page Header End -->
+
+        <!-- Sales and Refund Policy Start -->
+        <div class="container py-5">
+            <h2 class="text-center mb-4">Sales and Refund Policy</h2>
+            <p>At Q&H Enterprises, we are committed to providing quality products and services. Please read our sales and refund policy carefully to understand our practices regarding purchases, returns, and refunds.</p>
+            
+            <h4>1. Sales Policy</h4>
+            <p>All purchases made on our website are subject to availability. We reserve the right to cancel or modify orders in the event of stock shortages, pricing errors, or other unforeseen circumstances. Prices are subject to change without notice.</p>
+            
+            <h4>2. Returns and Refunds</h4>
+            <p>If you are not satisfied with your purchase, we offer a refund or exchange within 30 days of purchase. The product must be in its original condition and packaging. Please contact our customer service team at returns@qhenterprises.com to initiate a return or exchange.</p>
+            
+            <h4>3. Non-Refundable Items</h4>
+            <p>Some products are non-refundable, including personalized items, digital downloads, and products marked as "final sale." Please review the product description carefully before purchasing.</p>
+            
+            <h4>4. Process for Returns</h4>
+            <p>To return an item, please follow these steps:</p>
+            <ul>
+                <li>Contact our customer service team with your order number and the reason for the return.</li>
+                <li>Send the item back to us using the return label provided.</li>
+                <li>Once we receive the returned item, we will process your refund within 7-10 business days.</li>
+            </ul>
+            
+            <h4>5. Shipping Costs</h4>
+            <p>Shipping costs for returns are the responsibility of the customer, unless the return is due to an error on our part (e.g., incorrect or defective items).</p>
+            
+            <h4>6. Exchange Policy</h4>
+            <p>If you wish to exchange an item, we will provide a replacement product of the same value. If the replacement is not available, we will issue a refund.</p>
+            
+            <p>If you have any questions about our sales and refund policy, please contact us at support@qhenterprises.com.</p>
+        </div>
+        <!-- Sales and Refund Policy End -->
+
+        <!-- Footer Start -->
+        {% include 'footer.html' %}
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        {% include 'copyright.html' %}
+        <!-- Copyright End -->
+
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    </body>
+
+</html>

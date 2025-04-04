@@ -24,8 +24,14 @@ class ShopView(TemplateView):
 class TestimonialView(TemplateView):
     template_name = 'testimonial.html'
 
+class PrivacyPolicyView(TemplateView):
+    template_name = 'privacy-policy.html'
 
-    
+class TermsOfUseView(TemplateView):
+    template_name = 'terms-of-use.html'
+
+class SalesAndRefundPolicyView(TemplateView):
+    template_name = 'sales-and-refund-policy.html'
 
 
 
