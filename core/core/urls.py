@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import HomeView, PageNotFoundView, CartView, CheckoutView, ContactView, ShopDetailView, ShopView, TestimonialView
+from .views import( HomeView, PageNotFoundView, CartView, CheckoutView, 
+        ContactView, ShopDetailView, ShopView, TestimonialView, 
+            PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView
+)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -28,4 +31,7 @@ urlpatterns = [
     path('shop-detail/', ShopDetailView.as_view(), name='shop-detail'),
     path('shop/', ShopView.as_view(), name='shop'),
     path('testimonial/', TestimonialView.as_view(), name='testimonial'),
+    path('privacy-policy/', PrivacyPolicyView.as_view(), name='privacy-policy'),
+    path('terms-of-use/', TermsOfUseView.as_view(), name='terms-of-use'),
+    path('sales-and-refund-policy/', SalesAndRefundPolicyView.as_view(), name='sales-and-refund-policy'),
 ]
