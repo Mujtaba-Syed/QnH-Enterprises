@@ -1,0 +1,10 @@
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore Django migrations
+*.log
+*.sqlite3
+db.sqlite3
+migrations/
