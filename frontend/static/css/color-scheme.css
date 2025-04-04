@@ -1,6 +1,6 @@
 
 .custom-topbar {
-    background-color: #333333 !important;
+    background-color: #f8e4eb !important;
 }
 
 .custom-navbar {
@@ -16,7 +16,7 @@
 }
 
 .custom-icon-color {
-    color: #FFB524 !important; 
+    color: #3e654e !important; 
 }
 
 .custom-dropdown-bg {
@@ -28,9 +28,9 @@
 }
 
 .custom-text-color {
-    color: #f1f1f1 !important;
+    color: #742727 !important;
 }
 
 .custom-text-color:hover {
-    color: #ff9800 !important; 
+    color: #b86e00 !important; 
 }
