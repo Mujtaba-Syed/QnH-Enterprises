@@ -1,0 +1,36 @@
+
+.custom-topbar {
+    background-color: #333333 !important;
+}
+
+.custom-navbar {
+    background-color: #ffffff !important; 
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #333333 !important; 
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #ff9800 !important; 
+}
+
+.custom-icon-color {
+    color: #FFB524 !important; 
+}
+
+.custom-dropdown-bg {
+    background-color: #444444 !important; 
+}
+
+.custom-badge-bg {
+    background-color: #ff5722 !important; 
+}
+
+.custom-text-color {
+    color: #f1f1f1 !important;
+}
+
+.custom-text-color:hover {
+    color: #ff9800 !important; 
+}
