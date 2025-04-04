@@ -16,9 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import redirect_to_home
+from .views import HomeView, PageNotFoundView, CartView, CheckoutView, ContactView, ShopDetailView, ShopView, TestimonialView
 
 urlpatterns = [
-    path('', redirect_to_home),
+    path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
+    path('404/', PageNotFoundView.as_view(), name='404'),
+    path('cart/', CartView.as_view(), name='cart'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('contact/', ContactView.as_view(), name='contact'),
+    path('shop-detail/', ShopDetailView.as_view(), name='shop-detail'),
+    path('shop/', ShopView.as_view(), name='shop'),
+    path('testimonial/', TestimonialView.as_view(), name='testimonial'),
 ]
