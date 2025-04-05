@@ -1,11 +1,13 @@
 from django.db import models
+
+
 class Product(models.Model):
     """Stores all product details."""
     TYPE_CHOICES = [
         ('perfume', 'Perfume'),
         ('shirt', 'Shirt'),
         ('car', 'Car'),
-        ('watch', 'Watch'),
+        ('mobile_accessories', 'Mobile Accessories'),
     ]
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
