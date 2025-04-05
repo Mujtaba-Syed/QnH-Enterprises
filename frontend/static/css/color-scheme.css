@@ -1,0 +1,36 @@
+
+.custom-topbar {
+    background-color: #f8e4eb !important;
+}
+
+.custom-navbar {
+    background-color: #ffffff !important; 
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #333333 !important; 
+}
+
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #ff9800 !important; 
+}
+
+.custom-icon-color {
+    color: #3e654e !important; 
+}
+
+.custom-dropdown-bg {
+    background-color: #444444 !important; 
+}
+
+.custom-badge-bg {
+    background-color: #ff5722 !important; 
+}
+
+.custom-text-color {
+    color: #742727 !important;
+}
+
+.custom-text-color:hover {
+    color: #b86e00 !important; 
+}
