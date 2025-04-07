@@ -8,6 +8,7 @@ class HomeView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        #to get all products
         response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/')
         
         if response.status_code == 200:
@@ -34,7 +35,60 @@ class HomeView(TemplateView):
             'cars': [product for product in products if product['product_type'] == 'car'],
         }
 
+        #to get featured products
+        response = requests.get(f'{settings.BASE_URL}/api/products/get-featured-products/')
+        if response.status_code == 200:
+            featured_products = response.json()
+        else:
+            featured_products = []
+        
+        for product in featured_products:
+            if product['product_image']:
+                if not product['product_image'].startswith("http"):
+                    product['product_image'] = f'{settings.BASE_URL}{product["product_image"]}'
+                else:
+                    product['product_image'] = f'{settings.BASE_URL}{product["product_image"]}' 
+            else:
+                product['product_image'] = ''
+        
+   
+        #to get newly added products
+        response = requests.get(f'{settings.BASE_URL}/api/products/get-newly-added-products/')
+        if response.status_code == 200:
+            newly_added_products = response.json()
+        else:
+            newly_added_products = []
+
+        for product in newly_added_products:
+            if product['image']:
+                if not product['image'].startswith("http"):
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+                else:
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+            else:
+                product['image'] = ''
+        #to get best seller products
+        response = requests.get(f'{settings.BASE_URL}/api/products/get-best-seller-products/')
+        if response.status_code == 200:
+            best_seller_products = response.json()
+        else:
+            best_seller_products = []
+            
+        for product in best_seller_products:
+            if product['image']:
+                if not product['image'].startswith("http"):
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+                else:
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+            else:
+                product['image'] = ''
+                    
+
         context['categorized_products'] = categorized_products
+        context['featured_products'] = featured_products
+        context['newly_added_products'] = newly_added_products
+        context['best_seller_products'] = best_seller_products
+
         return context
 
 class PageNotFoundView(TemplateView):
