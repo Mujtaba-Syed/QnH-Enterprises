@@ -8,3 +8,12 @@ __pycache__/
 *.sqlite3
 db.sqlite3
 migrations/
+venv/
+banana/
+.env
+db.sqlite3
+*.pyc
+__pycache__/
+venv/
+.env
+db.sqlite3
