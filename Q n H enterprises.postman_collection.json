@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "edf3e072-789e-4919-8b1b-95379dda2e69",
+		"name": "Q n H enterprises",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29401555",
+		"_collection_link": "https://speeding-resonance-278672.postman.co/workspace/Personal~4f927c20-6449-4e61-864a-61303287867a/collection/29401555-edf3e072-789e-4919-8b1b-95379dda2e69?action=share&source=collection_link&creator=29401555"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/product/api/get-all-product/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"product",
+								"api",
+								"get-all-product",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
