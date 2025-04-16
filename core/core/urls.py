@@ -38,6 +38,7 @@ urlpatterns = [
     path('sales-and-refund-policy/', SalesAndRefundPolicyView.as_view(), name='sales-and-refund-policy'),
 
     path('api/products/', include('backend.products.urls')),
+    path('api/reviews/', include('backend.reviews.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
