@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 class ReviewListAPIView(APIView):
     def get(self, request):
-        reviews = Review.objects.all()
+        reviews = Review.objects.filter(is_active=True)
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
