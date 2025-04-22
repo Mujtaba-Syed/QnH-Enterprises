@@ -1,11 +1,18 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Review
+from .serializers import ReviewSerializer
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
-class HomeView(View):
+class ReviewListAPIView(APIView):
     def get(self, request):
-        return HttpResponse("Welcome to the Home Page")
-    
-    
-# make a list view, a get request to get all reviews make its serializer
+        reviews = Review.objects.filter(is_active=True)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ReviewDetailAPIView(APIView):
+    def get(self, request, pk):
+        review = get_object_or_404(Review, pk=pk)
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data, status=status.HTTP_200_OK)

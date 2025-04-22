@@ -14,10 +14,13 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Load environment variables
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -29,11 +32,9 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = []
 
+BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
 
-load_dotenv()
-BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')  
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,19 +85,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+# Database Configuration
+PRODUCTION = config('PRODUCTION', default=False, cast=bool)
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DB_ENGINE = config("DB_ENGINE", default="sqlite")
-
-if DB_ENGINE == "postgres":
+if PRODUCTION:
+    # PostgreSQL configuration for production
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': config('POSTGRES_DB'),
             'USER': config('POSTGRES_USER'),
             'PASSWORD': config('POSTGRES_PASSWORD'),
-            'HOST': config('POSTGRES_HOST', default='127.0.0.1'),
+            'HOST': config('POSTGRES_HOST', default='localhost'),
             'PORT': config('POSTGRES_PORT', default='5432'),
             'OPTIONS': {
                 'options': '-c search_path=public'
@@ -104,6 +104,7 @@ if DB_ENGINE == "postgres":
         }
     }
 else:
+    # SQLite configuration for development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -111,10 +112,7 @@ else:
         }
     }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -130,31 +128,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = 'static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend', 'static'),
-
 ]
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'core','media')
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'core', 'media')
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
