@@ -1,13 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-
-
-# Create your models here.
-#make a review model with the following fields
-#name, image description, rating, created_at, updated_at
+from backend.products.models import Product
 
 class Review(models.Model):
     name = models.CharField(max_length=255)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True, related_name='reviews')
     image = models.ImageField(upload_to='review_images/', blank=True, null=True)
     description = models.TextField()
     rating = models.PositiveSmallIntegerField() 
