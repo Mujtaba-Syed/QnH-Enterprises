@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend.authentication',
     'rest_framework',
+    'rest_framework_simplejwt',
     'backend.orders',
     'backend.products',
     'backend.customers',
@@ -52,6 +53,12 @@ INSTALLED_APPS = [
     'backend.shipping',
     'backend.reviews',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +69,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+FRONTEND_URL = 'http://localhost:8000' 
 
 ROOT_URLCONF = 'core.urls'
 
@@ -82,6 +93,8 @@ TEMPLATES = [
         },
     },
 ]
+AUTH_USER_MODEL = 'authentication.CustomUser'
+
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
