@@ -1,12 +1,255 @@
 {
 	"info": {
-		"_postman_id": "edf3e072-789e-4919-8b1b-95379dda2e69",
+		"_postman_id": "d32637f0-75be-40f5-ab29-310dcdcd28c5",
 		"name": "Q n H enterprises",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "29401555",
-		"_collection_link": "https://speeding-resonance-278672.postman.co/workspace/Personal~4f927c20-6449-4e61-864a-61303287867a/collection/29401555-edf3e072-789e-4919-8b1b-95379dda2e69?action=share&source=collection_link&creator=29401555"
+		"_exporter_id": "44568211"
 	},
 	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"tesuser\",\n    \"email\": \"test@example.com\",\n    \"password\": \"Test@1234\",\n    \"password2\": \"Test@1234\",\n    \"phone\": \"+1234567890\",\n    \"address\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipcode\": \"10001\",\n    \"country\": \"USA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/accounts/register/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"local\",\n    \"password\": \"local34502\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/accounts/login/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/accounts/profile/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2MDk5MDg1LCJpYXQiOjE3NDYwOTg3ODUsImp0aSI6IjU2YzEyMTMzNjZlMjQ2Yzc5OTU2YjI5OGMwNTMyNTQ1IiwidXNlcl9pZCI6MX0.NeDGl1gzPOjM5rEBPGAenRvhCWqY6CaMDnbsQ3jkMUA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+1987654321\",\n    \"address\": \"456 Broadway\",\n    \"city\": \"Los Angeles\",\n    \"state\": \"CA\",\n    \"zipcode\": \"90001\",\n    \"country\": \"USA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/accounts/profile/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/accounts/password-reset/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"password-reset",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"new_password\": \"New@1234\",\n    \"new_password2\": \"New@1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/accounts/password-reset-confirm/MQ/cp4jv6-732a22648c248cf3ad431b7e767a9022:1746104982/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"password-reset-confirm",
+								"MQ",
+								"cp4jv6-732a22648c248cf3ad431b7e767a9022:1746104982",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2MTA1NTQxLCJpYXQiOjE3NDYxMDUyNDEsImp0aSI6IjI0NzQ0ZjA0Yzk3MDQ1OWI4OTBmYTkwYWUwNjM2NTBjIiwidXNlcl9pZCI6MX0.MARxA_t8NY0FmHIBNcYT4h-XC6JfAOhP3MO5qhl2jl8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/accounts/logout/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"accounts",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Products",
 			"item": [
@@ -14,7 +257,12 @@
 					"name": "Get all Products",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
 						"url": {
 							"raw": "{{localhost}}/product/api/get-all-product/",
 							"host": [
@@ -35,22 +283,16 @@
 	],
 	"event": [
 		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"packages": {},
-				"exec": [
-					""
-				]
-			}
-		},
-		{
 			"listen": "test",
 			"script": {
 				"type": "text/javascript",
-				"packages": {},
 				"exec": [
-					""
+					"// Automatically set access token after login",
+					"if (pm.response.code === 200 && pm.request.url.path.includes('login')) {",
+					"    var jsonData = pm.response.json();",
+					"    pm.collectionVariables.set('access_token', jsonData.access);",
+					"    console.log('Access token set:', jsonData.access);",
+					"}"
 				]
 			}
 		}
@@ -58,6 +300,21 @@
 	"variable": [
 		{
 			"key": "localhost",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "uid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
 			"value": "",
 			"type": "string"
 		}
