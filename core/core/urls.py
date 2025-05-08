@@ -39,6 +39,9 @@ urlpatterns = [
 
     path('api/products/', include('backend.products.urls')),
     path('api/reviews/', include('backend.reviews.urls')),
+    path('accounts/', include('backend.authentication.urls')),
+
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
