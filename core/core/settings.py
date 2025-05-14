@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'backend.payments',
     'backend.shipping',
     'backend.reviews',
+    'backend.cart',
+
 ]
 
 REST_FRAMEWORK = {
