@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d32637f0-75be-40f5-ab29-310dcdcd28c5",
+		"_postman_id": "e9d57b84-f09a-478a-b71f-30bda0744819",
 		"name": "Q n H enterprises",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "44568211"
@@ -54,7 +54,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"local\",\n    \"password\": \"local34502\"\n}",
+							"raw": "{\n    \"username\": \"test\",\n    \"password\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,6 +272,171 @@
 								"product",
 								"api",
 								"get-all-product",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Get Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2ODI3NDM5LCJpYXQiOjE3NDY4MjcxMzksImp0aSI6IjE0ODBhZjAxOGQ5MjQ0MzVhYWM4OTAzZTljMjkzZjUwIiwidXNlcl9pZCI6MX0.-cZxRvVLa0CxWzRjc34rvFE3VtMU8jmvgTR1_9vB2YE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/cart/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/cart/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Item to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": 1,\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/cart/items/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"items",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n     \"product_id\":2,\n    \"quantity\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/cart/items/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"items",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Item from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/cart/items/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"items",
+								"1",
 								""
 							]
 						}
