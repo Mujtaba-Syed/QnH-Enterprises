@@ -6,9 +6,14 @@ from django.conf import settings
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
     created_at = models.DateTimeField(auto_now_add=True)
-    
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=False)
+
     def __str__(self):
-      return f"Cart - {self.user.username}"
+        return f"Cart - {self.user.username}"
+
 
 
 class CartItem(models.Model):

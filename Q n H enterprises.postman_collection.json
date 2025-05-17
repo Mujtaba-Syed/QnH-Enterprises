@@ -284,7 +284,31 @@
 			"name": "Cart",
 			"item": [
 				{
-					"name": "Get Cart",
+					"name": "Get All User Carts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/carts/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Cart",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -318,7 +342,69 @@
 					"response": []
 				},
 				{
-					"name": "Clear Cart",
+					"name": "Get Specific Cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/cart/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Cart Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"is_active\": false,\n    \"is_completed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/api/cart/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Cart Items",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -328,11 +414,37 @@
 							}
 						],
 						"url": {
-							"raw": "{{localhost}}/cart/",
+							"raw": "{{localhost}}/api/cart/clear/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
+								"api",
+								"cart",
+								"clear",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Cart (Soft Delete)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/cart/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
 								"cart",
 								""
 							]
@@ -379,7 +491,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Cart Item",
+					"name": "Update Cart Item Quantity",
 					"request": {
 						"method": "PUT",
 						"header": [
