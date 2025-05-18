@@ -160,3 +160,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'core', 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1014374480164-2levi2cv508ht7llvlkhpghk6cigslo7.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'

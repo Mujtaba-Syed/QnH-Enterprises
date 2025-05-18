@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import( HomeView, PageNotFoundView, CartView, CheckoutView, 
         ContactView, ShopDetailView, ShopView, TestimonialView, 
-            PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView
+            PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
+            LoginView, RegisterView,
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -36,12 +37,14 @@ urlpatterns = [
     path('privacy-policy/', PrivacyPolicyView.as_view(), name='privacy-policy'),
     path('terms-of-use/', TermsOfUseView.as_view(), name='terms-of-use'),
     path('sales-and-refund-policy/', SalesAndRefundPolicyView.as_view(), name='sales-and-refund-policy'),
-
+    path('login/', LoginView.as_view(), name='login-temp'),
+    path('register/', RegisterView.as_view(), name='register-temp'),
     path('api/products/', include('backend.products.urls')),
     path('api/reviews/', include('backend.reviews.urls')),
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
 
+    path('oauth/', include('social_django.urls', namespace='social')),
 
 
 ]
