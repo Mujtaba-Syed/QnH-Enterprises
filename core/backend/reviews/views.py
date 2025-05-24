@@ -34,3 +34,16 @@ class AddReviewAPIView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": "Unable to add review."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ActiveReviewsApiView(APIView):
+
+    def get(self, request):
+        try:
+            reviews = Review.objects.filter(is_active=True)
+            if not reviews.exists():
+                return Response({"message": "No active reviews found."}, status=status.HTTP_404_NOT_FOUND)
+            serializer = ReviewSerializer(reviews, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": "Something went wrong."}, status=status.HTTP_400_BAD_REQUEST)

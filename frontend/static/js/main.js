@@ -154,3 +154,16 @@
 
 })(jQuery);
 
+// Function to handle "Add to Cart" button click on index.html
+  function handleAddToCart() {
+    event.preventDefault(); 
+    const accessToken = localStorage.getItem('access');
+
+    if (accessToken) {
+      window.location.href = '/cart/';
+      console.log("we found access token")
+    } else {
+      alert('Please log in to add items to your cart.');
+      window.location.href = '/login/';
+    }
+  }
