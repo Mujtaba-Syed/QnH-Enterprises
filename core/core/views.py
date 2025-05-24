@@ -83,11 +83,25 @@ class HomeView(TemplateView):
             else:
                 product['image'] = ''
                     
-
+        #for testimonial section
+        response= requests.get(f'{settings.BASE_URL}/api/reviews/active-reviews/')
+        if response.status_code ==200:
+            client_review=response.json()
+        else:
+            client_review= []
+        for product in client_review:
+            if product['image']:
+                if not product['image'].startswith("http"):
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+                else:
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+            else:
+                product['image'] = ''
         context['categorized_products'] = categorized_products
         context['featured_products'] = featured_products
         context['newly_added_products'] = newly_added_products
         context['best_seller_products'] = best_seller_products
+        context['client_review'] = client_review
 
         return context
 

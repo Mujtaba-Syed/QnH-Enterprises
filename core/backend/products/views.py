@@ -4,8 +4,12 @@ from rest_framework.response import Response
 from .models import Product, FeaturedProducts
 from .serializers import ProductSerializer, FeaturedProductsSerializer, NewlyAddedProductsSerializer, BestSellerProductsSerializer
 from rest_framework import status
+from rest_framework.permissions import AllowAny
+
 
 class ProductView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         try:
             products = Product.objects.filter(is_active=True)

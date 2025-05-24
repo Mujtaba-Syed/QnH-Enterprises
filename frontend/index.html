@@ -205,7 +205,11 @@
                                             
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
                                                     <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
+                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
+
                                                     </a>
                                                 </div>
                                             
@@ -237,9 +241,9 @@
                                                 
                                                     <div class="d-flex justify-content-between flex-lg-wrap mt-auto  position-absolute" style="bottom: 0; margin: 0 0px 15px 0px">
                                                         <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px; margin-bottom: 10px;">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </a>
+                                                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
                                                     </div>
                                                 </div>
                                                 
@@ -271,9 +275,9 @@
                                                 
                                                     <div class="d-flex justify-content-between flex-lg-wrap mt-auto  position-absolute" style="bottom: 0; margin: 0 0px 15px 0px">
                                                         <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px; margin-bottom: 10px;">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </a>
+                                                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
                                                     </div>
                                                 </div>
                                                 
@@ -304,9 +308,9 @@
                                                 
                                                     <div class="d-flex justify-content-between flex-lg-wrap mt-auto  position-absolute" style="bottom: 0; margin: 0 0px 15px 0px">
                                                         <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px; margin-bottom: 10px;">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </a>
+                                                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
                                                     </div>
                                                 </div>
                                                 
@@ -338,9 +342,9 @@
                                                 
                                                     <div class="d-flex justify-content-between flex-lg-wrap mt-auto  position-absolute" style="bottom: 0; margin: 0 0px 15px 0px">
                                                         <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px; margin-bottom: 10px;">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </a>
+                                                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                    </button>
                                                     </div>
                                                 </div>
                                                 
@@ -349,54 +353,7 @@
                                         {% empty %}
                                         <p>No products available.</p>
                                         {% endfor %}
-                                        <!-- <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="{% static 'img/fruite-item-3.jpg' %}" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Banana</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="{% static 'img/fruite-item-2.jpg' %}" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Raspberries</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="{% static 'img/fruite-item-1.jpg' %}" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Oranges</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
+
                                     </div>
                                 </div>
                             </div>
@@ -459,9 +416,9 @@
                         <div style="text-align: center;">
                             <p class="text-dark fs-5 fw-bold mb-0">RS {{ product.price }}</p>
                           </div>
-                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
-                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                        </a>
+                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                        </button>
                       </div>
                     </div>
                     {% empty %}
@@ -554,7 +511,9 @@
                                         {% endif %}
                                     </div>
                                     <h4 class="mb-3">RS {{ product.price }}</h4>
-                                    <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>  
+                                    <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                    </button>       
                                 </div>
                             </div>
                         </div>
@@ -617,81 +576,39 @@
                     <h1 class="display-5 mb-5 text-dark">Our Client Saying!</h1>
                 </div>
                 <div class="owl-carousel testimonial-carousel">
+                    {% for review in client_review %}
                     <div class="testimonial-item img-border-radius bg-light rounded p-4">
                         <div class="position-relative">
                             <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
+                            
                             <div class="mb-4 pb-4 border-bottom border-secondary">
-                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </p>
+                                <p class="mb-0">{{ review.description }}</p>
                             </div>
+
                             <div class="d-flex align-items-center flex-nowrap">
                                 <div class="bg-secondary rounded">
-                                    <img src="{% static 'img/testimonial-1.jpg' %}" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                    <img src="{{ review.image }}" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="{{ review.name }}">
                                 </div>
                                 <div class="ms-4 d-block">
-                                    <h4 class="text-dark">Client Name</h4>
-                                    <p class="m-0 pb-3">Profession</p>
+                                    <h4 class="text-dark">{{ review.name }}</h4>
+                                    <p class="m-0 pb-3">Client</p>
+
                                     <div class="d-flex pe-5">
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star"></i>
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star text-primary"></i>
+                                            {% else %}
+                                                <i class="fas fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                        <div class="position-relative">
-                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
-                            <div class="mb-4 pb-4 border-bottom border-secondary">
-                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </p>
-                            </div>
-                            <div class="d-flex align-items-center flex-nowrap">
-                                <div class="bg-secondary rounded">
-                                    <img src="{% static 'img/testimonial-1.jpg' %}" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                </div>
-                                <div class="ms-4 d-block">
-                                    <h4 class="text-dark">Client Name</h4>
-                                    <p class="m-0 pb-3">Profession</p>
-                                    <div class="d-flex pe-5">
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-item img-border-radius bg-light rounded p-4">
-                        <div class="position-relative">
-                            <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 0;"></i>
-                            <div class="mb-4 pb-4 border-bottom border-secondary">
-                                <p class="mb-0">Lorem Ipsum is simply dummy text of the printing Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                </p>
-                            </div>
-                            <div class="d-flex align-items-center flex-nowrap">
-                                <div class="bg-secondary rounded">
-                                    <img src="{% static 'img/testimonial-1.jpg' %}" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                </div>
-                                <div class="ms-4 d-block">
-                                    <h4 class="text-dark">Client Name</h4>
-                                    <p class="m-0 pb-3">Profession</p>
-                                    <div class="d-flex pe-5">
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@ from backend.products.models import Product
 
 class Review(models.Model):
     name = models.CharField(max_length=255)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True, related_name='reviews')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,null=True, blank=True, related_name='reviews')
     image = models.ImageField(upload_to='review_images/', blank=True, null=True)
     description = models.TextField()
     rating = models.PositiveSmallIntegerField() 
