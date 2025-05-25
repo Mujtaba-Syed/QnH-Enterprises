@@ -122,6 +122,16 @@ class ShopDetailView(TemplateView):
 
 class ShopView(TemplateView):
     template_name = 'shop.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        response = requests.get(f'{settings.BASE_URL}/api/products/get-product-type-count/')
+        if response.status_code == 200:
+            side_cat_filters = response.json()
+        else:
+            side_cat_filters = []
+        context['side_cat_filters'] = side_cat_filters
+
+        return context
 
 class TestimonialView(TemplateView):
     template_name = 'testimonial.html'
