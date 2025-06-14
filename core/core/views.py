@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 import requests
 from django.conf import settings
+from urllib.parse import urljoin
 
 
 class HomeView(TemplateView):
@@ -12,18 +13,19 @@ class HomeView(TemplateView):
         response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/')
         
         if response.status_code == 200:
-            products = response.json()
+            data = response.json()
+            print('data',data)
+            products = data.get("results", [])
         else:
             products = []
 
         for product in products:
-            if product['image']:
-                if not product['image'].startswith("http"):
-                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
-                    print('with media',product['image'])
+            image = product.get('image')
+            if image:
+                if image.startswith("http"):
+                    product['image'] = image
                 else:
-                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
-                    print('without media',product['image'])
+                    product['image'] = urljoin(settings.BASE_URL, image)
             else:
                 product['image'] = ''
 
