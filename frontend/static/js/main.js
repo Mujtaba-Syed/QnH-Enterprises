@@ -152,6 +152,48 @@
         button.parent().parent().find('input').val(newVal);
     });
 
+    // Featured Products Vertical Slideshow
+    $(function() {
+        const $container = $('.featured-products-container');
+        const $wrapper = $('.featured-products-wrapper');
+        const $items = $('.featured-product-item');
+        
+        if ($container.length && $items.length > 3) {
+            const itemHeight = 133; // Height of each item in pixels
+            const visibleItems = 3;
+            const totalItems = $items.length;
+            const maxScroll = (totalItems - visibleItems) * itemHeight;
+            let currentPosition = 0;
+            
+            // Auto-scroll functionality
+            let autoScrollInterval;
+            
+            function startAutoScroll() {
+                autoScrollInterval = setInterval(function() {
+                    if (currentPosition >= maxScroll) {
+                        currentPosition = 0;
+                    } else {
+                        currentPosition += itemHeight;
+                    }
+                    $wrapper.css('transform', `translateY(-${currentPosition}px)`);
+                }, 2000); // Auto-scroll every 2 seconds
+            }
+            
+            function stopAutoScroll() {
+                clearInterval(autoScrollInterval);
+            }
+            
+            // Start auto-scroll on page load
+            startAutoScroll();
+            
+            // Pause auto-scroll on hover
+            $container.hover(
+                function() { stopAutoScroll(); },
+                function() { startAutoScroll(); }
+            );
+        }
+    });
+
 })(jQuery);
 
 // Function to handle "Add to Cart" button click on index.html
