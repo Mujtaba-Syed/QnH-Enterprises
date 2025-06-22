@@ -14,7 +14,6 @@ class HomeView(TemplateView):
         
         if response.status_code == 200:
             data = response.json()
-            print('data',data)
             products = data.get("results", [])
         else:
             products = []
