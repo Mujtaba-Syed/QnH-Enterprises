@@ -2,13 +2,17 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 import six
 from django.utils import timezone
 import datetime
+from django.conf import settings
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
     """
     Custom token generator with expiration time
     """
-    def __init__(self, expiration_minutes=15):
-        self.expiration_minutes = expiration_minutes
+    def __init__(self, expiration_minutes=None):
+        # Get expiry time from settings, default to 120 minutes if not set
+        self.expiration_minutes = expiration_minutes or getattr(
+            settings, 'PASSWORD_RESET_TOKEN_EXPIRY_MINUTES', 120
+        )
         super().__init__()
 
     def _make_hash_value(self, user, timestamp):
@@ -57,5 +61,5 @@ class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
         except (ValueError, IndexError):
             return False
 
-# Create an instance of the token generator with 15-minute expiration
-account_activation_token = AccountActivationTokenGenerator(expiration_minutes=15)
+# Create an instance of the token generator with expiry time from settings
+account_activation_token = AccountActivationTokenGenerator()

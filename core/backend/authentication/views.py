@@ -49,9 +49,10 @@ class LoginView(APIView):
         try:
             serializer = LoginSerializer(data=request.data)
             if serializer.is_valid():
+                validated_data = serializer.validated_data
                 user = authenticate(
-                    username=serializer.validated_data['username'],
-                    password=serializer.validated_data['password']
+                    username=validated_data['username'],
+                    password=validated_data['password']
                 )
                 if user:
                     login(request, user)
@@ -82,7 +83,8 @@ class PasswordResetRequestView(APIView):
         try:
             serializer = PasswordResetSerializer(data=request.data)
             if serializer.is_valid():
-                email = serializer.validated_data['email']
+                validated_data = serializer.validated_data
+                email = validated_data['email']
                 try:
                     user = User.objects.get(email=email)
                     send_verification_email(user, email)
@@ -109,7 +111,8 @@ class PasswordResetConfirmView(APIView):
             
             serializer = PasswordResetConfirmSerializer(data=request.data)
             if serializer.is_valid():
-                user.set_password(serializer.validated_data['new_password'])
+                validated_data = serializer.validated_data
+                user.set_password(validated_data['new_password'])
                 user.save()
                 return Response({'detail': 'Password has been reset successfully.'},
                               status=status.HTTP_200_OK)

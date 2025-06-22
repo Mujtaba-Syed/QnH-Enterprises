@@ -8,7 +8,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-      return f"Cart - {self.user.username}"
+        return f"Cart - {getattr(self.user, 'username', 'Unknown User')}"
 
 
 class CartItem(models.Model):
