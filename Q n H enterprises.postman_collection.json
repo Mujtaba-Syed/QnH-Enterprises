@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e9d57b84-f09a-478a-b71f-30bda0744819",
+		"_postman_id": "dd180c6a-8a25-41de-a687-26cfcf9d5887",
 		"name": "Q n H enterprises",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "44568211"
+		"_exporter_id": "42772023"
 	},
 	"item": [
 		{
@@ -277,6 +277,62 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Product Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/products/get-all-products/?search=Pouros",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"get-all-products",
+								""
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "Pouros"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Featured Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/api/products/get-featured-products/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"get-featured-products",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -291,7 +347,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ2ODI3NDM5LCJpYXQiOjE3NDY4MjcxMzksImp0aSI6IjE0ODBhZjAxOGQ5MjQ0MzVhYWM4OTAzZTljMjkzZjUwIiwidXNlcl9pZCI6MX0.-cZxRvVLa0CxWzRjc34rvFE3VtMU8jmvgTR1_9vB2YE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
 									"type": "string"
 								}
 							]
@@ -320,6 +376,16 @@
 				{
 					"name": "Clear Cart",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -328,12 +394,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{localhost}}/cart/",
+							"raw": "{{localhost}}/api/cart/clear/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
+								"api",
 								"cart",
+								"clear",
 								""
 							]
 						}
@@ -341,8 +409,18 @@
 					"response": []
 				},
 				{
-					"name": "Add Item to Cart",
+					"name": "increase Item to Cart",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -356,7 +434,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"product_id\": 1,\n    \"quantity\": 2\n}",
+							"raw": "{\n    \"product_id\": 5\n    // \"quantity\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -364,14 +442,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{localhost}}/api/cart/items/",
+							"raw": "{{localhost}}/api/cart/add/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"api",
 								"cart",
-								"items",
+								"add",
 								""
 							]
 						}
@@ -381,6 +459,16 @@
 				{
 					"name": "Update Cart Item",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -394,7 +482,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \n     \"product_id\":2,\n    \"quantity\": 5\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -402,15 +490,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{localhost}}/api/cart/items/1/",
+							"raw": "{{localhost}}/api/cart/update/4/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"api",
 								"cart",
-								"items",
-								"1",
+								"update",
+								"4",
 								""
 							]
 						}
@@ -418,8 +506,54 @@
 					"response": []
 				},
 				{
-					"name": "Remove Item from Cart",
+					"name": "Decrease Item from Cart",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/cart/decrease/4/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"decrease",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove item from cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwNTk1NDg1LCJpYXQiOjE3NTA1OTE4ODUsImp0aSI6Ijc3NWM4M2Y3ZDkwNzQxZDY4YzIyYjhkNzkxMzE3YTViIiwidXNlcl9pZCI6Mn0.jLxQKN1GSbqVKapNq7eLAQvE5ZRsCcsBlDDv6zb3ImU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -428,15 +562,70 @@
 							}
 						],
 						"url": {
-							"raw": "{{localhost}}/api/cart/items/1/",
+							"raw": "{{localhost}}/api/cart/remove/4/",
 							"host": [
 								"{{localhost}}"
 							],
 							"path": [
 								"api",
 								"cart",
-								"items",
-								"1",
+								"remove",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}api/reviews/active-reviews/",
+							"host": [
+								"{{localhost}}api"
+							],
+							"path": [
+								"reviews",
+								"active-reviews",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "categories and count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/api/products/get-product-type-count/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"get-product-type-count",
 								""
 							]
 						}

@@ -46,7 +46,7 @@ def send_verification_email(user, recipient_email):
             return False
 
         # Generate token with expiration
-        expiration_minutes = account_activation_token.expiration_minutes
+        expiration_minutes = getattr(settings, 'PASSWORD_RESET_TOKEN_EXPIRY_MINUTES', 120)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = account_activation_token.make_token(user)
         

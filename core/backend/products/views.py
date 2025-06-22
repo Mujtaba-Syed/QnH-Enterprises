@@ -10,24 +10,42 @@ from .serializers import (ProductSerializer,
                           )
 
 
-from rest_framework import status
+from rest_framework import status, pagination, filters, viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.exceptions import NotFound, APIException
 
 
-class ProductView(APIView):
+
+class ProductPagination(pagination.PageNumberPagination):
+    page_size = 100
+    page_size_query_param = "page_size"
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                "count": self.page.paginator.count,
+                "pages": self.page.paginator.num_pages,
+                "results": data,
+            }
+        )
+
+
+class ProductView(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
+    pagination_class = ProductPagination 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["name", "product_type", "rating"]
+    serializer_class = ProductSerializer
 
-    def get(self, request):
+    def get_queryset(self):
         try:
-            products = Product.objects.filter(is_active=True)
-            if not products:
-                return Response({'error': 'No active products found'}, status=status.HTTP_404_NOT_FOUND)
-            serializer = ProductSerializer(products, many=True)
-            return Response(serializer.data)
+            queryset = Product.objects.filter(is_active=True)
+            if not queryset.exists():
+                raise NotFound(detail="No active products found.")
+            return queryset
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            raise APIException(detail=f"Failed to fetch products: {str(e)}")
+        
 class FeaturedProdcutsApiView(APIView):
     def get(self, request):
         try:
