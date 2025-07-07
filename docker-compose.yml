@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Django Web Application
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - media_volume:/app/core/media
+    env_file:
+      - .env
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    command: ${STARTUP_SCRIPT:-./scripts/start-dev.sh}
+
+  # PostgreSQL Database (only for production)
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-qnh_db}
+      - POSTGRES_USER=${POSTGRES_USER:-qnh_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-qnh_password}
+    ports:
+      - "5432:5432"
+    profiles:
+      - production
+
+  # Redis for caching (optional, for production)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    profiles:
+      - production
+
+volumes:
+  postgres_data:
+  media_volume: 
