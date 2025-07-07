@@ -102,7 +102,7 @@ AUTH_USER_MODEL = 'authentication.CustomUser'
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database Configuration
-PRODUCTION = config('PRODUCTION', default=False, cast=bool)
+PRODUCTION = config('PRODUCTION', default=True, cast=bool)
 
 if PRODUCTION:
     # PostgreSQL configuration for production
@@ -112,8 +112,8 @@ if PRODUCTION:
             'NAME': config('POSTGRES_DB'),
             'USER': config('POSTGRES_USER'),
             'PASSWORD': config('POSTGRES_PASSWORD'),
-            'HOST': config('POSTGRES_HOST', default='localhost'),
-            'PORT': config('POSTGRES_PORT', default='5432'),
+            'HOST': config('POSTGRES_HOST'),
+            'PORT': config('POSTGRES_PORT'),
             'OPTIONS': {
                 'options': '-c search_path=public'
             }
