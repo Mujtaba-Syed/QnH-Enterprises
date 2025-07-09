@@ -3,16 +3,18 @@
 *.pyo
 __pycache__/
 
-# Ignore Django migrations
-*.log
+# Ignore Django database files
 *.sqlite3
 db.sqlite3
+
+# Ignore log files
+*.log
+
+# Ignore virtual environment
 venv/
+
+# Ignore environment variables
+.env
+
+# Ignore temporary directories
 banana/
-.env
-db.sqlite3
-*.pyc
-__pycache__/
-venv/
-.env
-db.sqlite3
