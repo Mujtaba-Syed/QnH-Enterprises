@@ -5,7 +5,9 @@ from .views import (
     LogoutView,
     PasswordResetRequestView,
     PasswordResetConfirmView,
-    UserProfileView
+    UserProfileView,
+    GoogleOAuthView,
+    GoogleOAuthInitiateView
 )
 
 urlpatterns = [
@@ -15,4 +17,6 @@ urlpatterns = [
     path('password-reset/', PasswordResetRequestView.as_view(), name='password-reset'),
     path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
     path('profile/', UserProfileView.as_view(), name='profile'),
+    path('google-oauth/', GoogleOAuthView.as_view(), name='google-oauth'),
+    path('google-oauth-initiate/', GoogleOAuthInitiateView.as_view(), name='google-oauth-initiate'),
 ]

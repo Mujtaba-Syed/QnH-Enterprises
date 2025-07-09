@@ -240,3 +240,6 @@ class LoginView(TemplateView):
 class RegisterView(TemplateView):
     template_name = 'register.html'
 
+class OAuthSuccessView(TemplateView):
+    template_name = 'oauth-success.html'
+
