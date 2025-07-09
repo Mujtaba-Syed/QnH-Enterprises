@@ -12,7 +12,7 @@ class ProductMiniSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price', 'image']
 
     def get_price(self, obj):
-        return f"{obj.price:.2f}"  # Assumes obj.price is Decimal
+        return f"{obj.price:.2f}"  
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'quantity', 'total']
 
     def get_total(self, obj):
-        total = obj.product.price * obj.quantity  # Decimal * int
+        total = obj.product.price * obj.quantity  
         return f"{total:.2f} "
 
 
@@ -32,7 +32,6 @@ class AddCartItemSerializer(serializers.Serializer):
     product_id = serializers.IntegerField(
         help_text="ID of the product to add to cart"
     )
-    # Removed quantity field - always adds 1 when clicked
 
     def validate_product_id(self, value):
         """Validate that product exists"""

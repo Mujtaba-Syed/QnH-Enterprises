@@ -45,15 +45,12 @@ def send_verification_email(user, recipient_email):
             logger.error("FRONTEND_URL is not configured in settings")
             return False
 
-        # Generate token with expiration
         expiration_minutes = getattr(settings, 'PASSWORD_RESET_TOKEN_EXPIRY_MINUTES', 120)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = account_activation_token.make_token(user)
         
-        # Build reset link
         reset_link = f"{settings.FRONTEND_URL}/accounts/password-reset-confirm/{uid}/{token}/"
         
-        # Build email content
         subject = "Password Reset Request"
         message = (
             f"Hello {user.username},\n\n"
@@ -66,7 +63,6 @@ def send_verification_email(user, recipient_email):
             f"Your Application Team"
         )
 
-        # Send email
         return send_email(subject, recipient_email, message)
     except Exception as e:
         logger.error(f"Error in send_verification_email: {str(e)}")

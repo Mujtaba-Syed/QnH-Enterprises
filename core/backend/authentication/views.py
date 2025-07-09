@@ -19,10 +19,9 @@ from .email_helpers import send_verification_email
 from django.shortcuts import redirect
 from django.conf import settings
 from social_django.models import UserSocialAuth
-from social_core.exceptions import AuthForbidden, AuthTokenError
 import requests
-import json
-
+from django.shortcuts import redirect
+from urllib.parse import urlencode
 User = get_user_model()
 
 class RegisterView(APIView):
@@ -155,13 +154,11 @@ class GoogleOAuthView(APIView):
     def get(self, request):
         """Handle Google OAuth callback and return JWT tokens"""
         try:
-            # Get the authorization code from the request
             code = request.GET.get('code')
             if not code:
                 return Response({'detail': 'Authorization code not provided'}, 
                               status=status.HTTP_400_BAD_REQUEST)
             
-            # Exchange code for access token
             token_url = 'https://oauth2.googleapis.com/token'
             token_data = {
                 'client_id': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
@@ -179,7 +176,6 @@ class GoogleOAuthView(APIView):
             token_info = token_response.json()
             access_token = token_info.get('access_token')
             
-            # Get user info from Google
             user_info_url = 'https://www.googleapis.com/oauth2/v2/userinfo'
             headers = {'Authorization': f'Bearer {access_token}'}
             user_response = requests.get(user_info_url, headers=headers)
@@ -198,13 +194,10 @@ class GoogleOAuthView(APIView):
                 return Response({'detail': 'Email not provided by Google'}, 
                               status=status.HTTP_400_BAD_REQUEST)
             
-            # Check if user exists, if not create one
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                # Create new user
-                username = email.split('@')[0]  # Use email prefix as username
-                # Ensure username is unique
+                username = email.split('@')[0]  
                 base_username = username
                 counter = 1
                 while User.objects.filter(username=username).exists():
@@ -216,10 +209,9 @@ class GoogleOAuthView(APIView):
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
-                    password=None  # No password for OAuth users
+                    password=None 
                 )
                 
-                # Create social auth association
                 UserSocialAuth.objects.create(
                     user=user,
                     provider='google-oauth2',
@@ -227,14 +219,10 @@ class GoogleOAuthView(APIView):
                     extra_data=user_info
                 )
             
-            # Generate JWT tokens
             refresh = RefreshToken.for_user(user)
             
-            # Redirect to a page that will handle the tokens
-            from django.shortcuts import redirect
-            from urllib.parse import urlencode
+
             
-            # Create a redirect URL with tokens as query parameters
             tokens_data = {
                 'access': str(refresh.access_token),
                 'refresh': str(refresh),
@@ -258,7 +246,6 @@ class GoogleOAuthInitiateView(APIView):
         """Redirect to Google OAuth authorization URL"""
         google_auth_url = 'https://accounts.google.com/o/oauth2/v2/auth'
         
-        # Use the redirect URI from settings
         redirect_uri = f"{settings.BASE_URL}/accounts/google-oauth/"
 
         
