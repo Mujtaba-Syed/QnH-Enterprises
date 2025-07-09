@@ -17,6 +17,7 @@ RUN apt-get update \
         python3-dev \
         libffi-dev \
         libssl-dev \
+        dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -29,11 +30,14 @@ COPY . .
 # Create media directory
 RUN mkdir -p /app/core/media
 
-# Make scripts executable
-RUN chmod +x scripts/start.sh scripts/start-dev.sh
+# Convert line endings and make scripts executable
+RUN find . -name "*.sh" -exec dos2unix {} \; && \
+    find . -name "*.py" -exec dos2unix {} \; && \
+    chmod +x scripts/start.sh scripts/start-dev.sh && \
+    ls -la scripts/
 
 # Make port 8000 available
 EXPOSE 8000
 
 # Run the application (default to development)
-CMD ["./scripts/start-dev.sh"] 
+CMD ["/bin/bash", "scripts/start-dev.sh"]
