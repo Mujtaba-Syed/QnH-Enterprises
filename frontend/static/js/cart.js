@@ -47,6 +47,7 @@ class CartManager {
                 console.log('Cart data received:', cartData);
                 this.cartItems = cartData.items || [];
                 this.renderCart();
+                this.updateNavbarCartBadge(cartData.total_quantity || 0);
             } else if (response.status === 401) {
                 console.log('Unauthorized - redirecting to login');
                 // User not authenticated, redirect to login
@@ -56,6 +57,7 @@ class CartManager {
                 // Cart not found, show empty cart
                 this.cartItems = [];
                 this.renderCart();
+                this.updateNavbarCartBadge(0);
             } else {
                 const errorText = await response.text();
                 console.error('Failed to load cart:', response.status, errorText);
@@ -64,6 +66,13 @@ class CartManager {
         } catch (error) {
             console.error('Error loading cart:', error);
             this.showMessage('Error loading cart items', 'error');
+        }
+    }
+
+    updateNavbarCartBadge(count) {
+        const cartBadge = document.getElementById('cartBadge');
+        if (cartBadge) {
+            cartBadge.textContent = count.toString();
         }
     }
 
@@ -301,23 +310,28 @@ class CartManager {
     }
 
     showMessage(message, type = 'info') {
-        // Create a simple toast notification
-        const toast = document.createElement('div');
-        toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-        toast.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        document.body.appendChild(toast);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.remove();
-            }
-        }, 3000);
+        // Use the new notification system
+        if (window.notificationManager) {
+            window.notificationManager.show(message, type, 4000);
+        } else {
+            // Fallback to simple alert if notification system is not available
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 3000);
+        }
     }
 }
 

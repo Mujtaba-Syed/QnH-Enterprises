@@ -38,7 +38,7 @@
                     <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search custom-icon-color"></i></button>
                     <a href="{% url 'cart' %}" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x custom-icon-color"></i>
-                        <span class="position-absolute custom-badge-bg rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        <span class="position-absolute custom-badge-bg rounded-circle d-flex align-items-center justify-content-center text-dark px-1" id="cartBadge" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                     </a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
@@ -58,8 +58,46 @@
     document.addEventListener("DOMContentLoaded", function () {
         const accessToken = localStorage.getItem('access');
         const userMenu = document.getElementById('userMenu');
+        const cartBadge = document.getElementById('cartBadge');
 
         if (!userMenu) return;
+
+        // Function to update cart count
+        async function updateCartCount() {
+            const accessToken = localStorage.getItem('access');
+            if (!accessToken) {
+                cartBadge.textContent = '0';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/cart/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const cartData = await response.json();
+                    const totalQuantity = cartData.total_quantity || 0;
+                    cartBadge.textContent = totalQuantity.toString();
+                } else if (response.status === 401) {
+                    // User not authenticated, show 0
+                    cartBadge.textContent = '0';
+                } else {
+                    // Other errors, show 0
+                    cartBadge.textContent = '0';
+                }
+            } catch (error) {
+                console.error('Error fetching cart count:', error);
+                cartBadge.textContent = '0';
+            }
+        }
+
+        // Update cart count on page load
+        updateCartCount();
 
         // If token exists, show logout
         if (accessToken) {
@@ -81,5 +119,29 @@
                 <a href="{% url 'login-temp' %}" class="dropdown-item custom-text-color">Login</a>
             `;
         }
+
+        // Listen for storage events to update cart count when items are added/removed
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'access') {
+                updateCartCount();
+            }
+        });
+
+        // Also update cart count when user logs in/out (for same tab)
+        const originalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key, value) {
+            originalSetItem.apply(this, arguments);
+            if (key === 'access') {
+                updateCartCount();
+            }
+        };
+
+        const originalRemoveItem = localStorage.removeItem;
+        localStorage.removeItem = function(key) {
+            originalRemoveItem.apply(this, arguments);
+            if (key === 'access') {
+                cartBadge.textContent = '0';
+            }
+        };
     });
 </script>

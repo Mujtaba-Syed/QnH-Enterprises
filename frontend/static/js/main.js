@@ -197,15 +197,101 @@
 })(jQuery);
 
 // Function to handle "Add to Cart" button click on index.html
-  function handleAddToCart() {
+  function handleAddToCart(event, productId) {
     event.preventDefault(); 
+    console.log('handleAddToCart called with productId:', productId);
     const accessToken = localStorage.getItem('access');
+    console.log('Access token:', accessToken ? 'Present' : 'Not found');
 
     if (accessToken) {
-      window.location.href = '/cart/';
-      console.log("we found access token")
+      // Show loading state
+      const button = event.target;
+      const originalText = button.innerHTML;
+      button.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
+      button.style.pointerEvents = 'none';
+
+      // Make API call to add product to cart
+      console.log('Making API call to /api/cart/add/ with product_id:', productId);
+      fetch('/api/cart/add/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          product_id: productId
+        })
+      })
+      .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('Response data:', data);
+        // Restore button state
+        button.innerHTML = originalText;
+        button.style.pointerEvents = 'auto';
+
+        if (data.message) {
+          alert(data.message);
+        } else {
+          alert('Product added to cart successfully!');
+        }
+        // Update cart badge after successful addition
+        updateCartBadge();
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+        // Restore button state
+        button.innerHTML = originalText;
+        button.style.pointerEvents = 'auto';
+        
+        alert('Failed to add product to cart. Please try again.');
+      });
     } else {
       alert('Please log in to add items to your cart.');
-      window.location.href = '/login/';
+      setTimeout(() => {
+        window.location.href = '/login/';
+      }, 2000);
+    }
+  }
+
+  // Helper function to get CSRF token
+  function getCSRFToken() {
+    const token = document.querySelector('[name=csrfmiddlewaretoken]');
+    return token ? token.value : '';
+  }
+
+  // Function to update cart badge in navbar
+  async function updateCartBadge() {
+    const accessToken = localStorage.getItem('access');
+    const cartBadge = document.getElementById('cartBadge');
+    
+    if (!accessToken || !cartBadge) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cart/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const cartData = await response.json();
+        const totalQuantity = cartData.total_quantity || 0;
+        cartBadge.textContent = totalQuantity.toString();
+      } else if (response.status === 401) {
+        cartBadge.textContent = '0';
+      } else {
+        cartBadge.textContent = '0';
+      }
+    } catch (error) {
+      console.error('Error updating cart badge:', error);
+      cartBadge.textContent = '0';
     }
   }
