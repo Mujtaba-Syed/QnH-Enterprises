@@ -317,23 +317,13 @@ class CheckoutManager {
     }
 
     showMessage(message, type = 'info') {
-        // Create a simple toast notification
-        const toast = document.createElement('div');
-        toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-        toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-        toast.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-        
-        document.body.appendChild(toast);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.remove();
-            }
-        }, 3000);
+        // Use the new notification system
+        if (window.notificationManager) {
+            window.notificationManager.show(message, type, 4000);
+        } else {
+            // Fallback to simple alert if notification system is not available
+            alert(message);
+        }
     }
 }
 

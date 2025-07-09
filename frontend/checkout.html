@@ -124,7 +124,6 @@
                             <div class="form-item">
                                 <label class="form-label my-3">Order Notes</label>
                                 <textarea name="order_notes" id="order-notes" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Order Notes (Optional)"></textarea>
-                                <div class="form-text">Optional</div>
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-6 col-xl-5">
@@ -148,23 +147,141 @@
 
                             <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div class="col-12">
-                                    <div class="form-check text-start my-3">
-                                        <input type="checkbox" class="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer">
-                                        <label class="form-check-label" for="Transfer-1">Payment Details</label>
-                                    </div>
+                                   
                                     <p class="text-start text-dark">We will redirect you to our whatsapp page to confirm your order and proceed with the payment.</p>
+                                    <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                                        <button 
+                                            type="button"
+                                            id="whatsapp-order-btn"
+                                            class="btn btn-success py-3 px-4 text-uppercase w-100"
+                                        >
+                                            <i class="fab fa-whatsapp me-2"></i>Place Order on WhatsApp
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
-                    
-                            <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button 
-                                    type="button"
-                                    id="whatsapp-order-btn"
-                                    class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary"
-                                >
-                                    Place Order on WhatsApp
-                                </button>
+                            <h3 class="text-center text-dark mt-3 ">OR</h3>
+                            <h6 class="text-start text-dark mt-3 ">You can also place your order via jazzcash or bank transfer without whatsapp redirecting.</h6>
+                            
+                            <!-- Payment Options -->
+                            <div class="row g-3 mb-3 mt-3">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-primary w-100 py-3" data-bs-toggle="modal" data-bs-target="#jazzcashModal">
+                                        <i class="fas fa-mobile-alt me-2"></i>
+                                        <span>Jazzcash</span>
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-success w-100 py-3" data-bs-toggle="modal" data-bs-target="#bankTransferModal">
+                                        <i class="fas fa-university me-2"></i>
+                                        <span>Bank Transfer</span>
+                                    </button>
+                                </div>
                             </div>
+                            
+                            <!-- Jazzcash Modal -->
+                            <div class="modal fade" id="jazzcashModal" tabindex="-1" aria-labelledby="jazzcashModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="jazzcashModalLabel">
+                                                <i class="fas fa-mobile-alt me-2"></i>Jazzcash Payment
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="text-center mb-3">
+                                                <i class="fas fa-mobile-alt fa-3x text-primary"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p><strong>Jazzcash Number:</strong> 0300-1234567</p>
+                                                    <p><strong>Account Name:</strong> John Doe</p>
+                                                    <p class="text-muted small">Please send the payment and share the transaction ID with us.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bank Transfer Modal -->
+                            <div class="modal fade" id="bankTransferModal" tabindex="-1" aria-labelledby="bankTransferModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="bankTransferModalLabel">
+                                                <i class="fas fa-university me-2"></i>Bank Transfer
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="text-center mb-3">
+                                                <i class="fas fa-university fa-3x text-success"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p><strong>Bank Name:</strong> Bank of Pakistan</p>
+                                                    <p><strong>Account Number:</strong> 1234567890</p>
+                                                    <p><strong>Account Name:</strong> John Doe</p>
+                                                    <p class="text-muted small">Please transfer the amount and share the transaction receipt with us.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <!-- WhatsApp Modal -->
+                            <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="whatsappModalLabel">
+                                                <i class="fab fa-whatsapp me-2 text-success"></i>WhatsApp Contact
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="text-center mb-3">
+                                                <i class="fab fa-whatsapp fa-3x text-success"></i>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <p><strong>WhatsApp Number:</strong> 0300-1234567</p>
+                                                    <p class="text-muted small">Share your order details and we'll confirm your order via WhatsApp.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- share your order details on whatsapp add whtsapp icon when click on it  show the number of whatsapp -->
+                            <p class="text-start text-dark">Share your payment details on whatsapp</p>
+                            
+                            <!-- WhatsApp Contact Button -->
+                            <div class="row g-4 text-center align-items-center justify-content-center mb-3">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-outline-success w-100 py-3" data-bs-toggle="modal" data-bs-target="#whatsappModal">
+                                        <i class="fab fa-whatsapp me-2"></i>
+                                        <span>Contact us on WhatsApp</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                    
+                        
                             
                         </div>
                     </div>
@@ -197,6 +314,7 @@
     <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
 
     <!-- Template Javascript -->
+    <script src="{% static 'js/notification-manager.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/checkout.js' %}"></script>
     </body>
