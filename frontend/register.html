@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title>Register</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
   <style>
     .password-field {
       position: relative;
@@ -195,17 +196,29 @@
 
     // Final validation before submission
     if (!validateEmail(email)) {
-      alert('Please enter a valid email address');
+      if (window.notificationManager) {
+        window.notificationManager.error('Please enter a valid email address');
+      } else {
+        alert('Please enter a valid email address');
+      }
       return;
     }
 
     if (phone && !validatePhone(phone)) {
-      alert('Please enter a valid phone number');
+      if (window.notificationManager) {
+        window.notificationManager.error('Please enter a valid phone number');
+      } else {
+        alert('Please enter a valid phone number');
+      }
       return;
     }
 
     if (!validatePasswordMatch(password, confirmPassword)) {
-      alert('Passwords do not match');
+      if (window.notificationManager) {
+        window.notificationManager.error('Passwords do not match');
+      } else {
+        alert('Passwords do not match');
+      }
       return;
     }
 
@@ -222,13 +235,264 @@
     });
 
     const data = await res.json();
+    console.log('Registration response:', data);
+    console.log('Response status:', res.status);
+    
     if (res.ok) {
-      alert('Registration successful! You can now log in.');
+      if (window.notificationManager) {
+        window.notificationManager.success('Registration successful! You can now log in.');
+      } else {
+        alert('Registration successful! You can now log in.');
+      }
       window.location.href = '/login';
     } else {
-      alert(JSON.stringify(data));
+      // Handle different types of error responses
+      let errorMessage = 'Registration failed';
+      
+      if (data.detail) {
+        errorMessage = data.detail;
+      } else if (data.non_field_errors && data.non_field_errors.length > 0) {
+        errorMessage = data.non_field_errors[0];
+      } else if (data.username && data.username.length > 0) {
+        errorMessage = data.username[0];
+      } else if (data.email && data.email.length > 0) {
+        errorMessage = data.email[0];
+      } else if (data.password && data.password.length > 0) {
+        errorMessage = data.password[0];
+      } else if (data.phone && data.phone.length > 0) {
+        errorMessage = data.phone[0];
+      } else if (typeof data === 'string') {
+        errorMessage = data;
+      }
+      
+      console.log('Error message:', errorMessage);
+      console.log('Notification manager available:', !!window.notificationManager);
+      
+      if (window.notificationManager) {
+        window.notificationManager.error(errorMessage);
+      } else {
+        alert(errorMessage);
+      }
     }
   });
+</script>
+
+<!-- Notification Manager -->
+<script>
+class NotificationManager {
+    constructor() {
+        this.notifications = [];
+        this.container = null;
+        this.init();
+    }
+
+    init() {
+        this.container = document.createElement('div');
+        this.container.id = 'notification-container';
+        this.container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 400px;
+            pointer-events: none;
+        `;
+        document.body.appendChild(this.container);
+    }
+
+    show(message, type = 'info', duration = 4000) {
+        const notification = this.createNotification(message, type);
+        this.container.appendChild(notification);
+        this.notifications.push(notification);
+
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        setTimeout(() => {
+            this.remove(notification);
+        }, duration);
+
+        return notification;
+    }
+
+    createNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-exclamation-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-info-circle'
+        };
+        
+        // Fallback icons in case FontAwesome is not loaded
+        const fallbackIcons = {
+            success: '✓',
+            error: '✗',
+            warning: '⚠',
+            info: 'ℹ'
+        };
+
+        const colors = {
+            success: '#28a745',
+            error: '#dc3545',
+            warning: '#ffc107',
+            info: '#17a2b8'
+        };
+
+        notification.style.cssText = `
+            background: white;
+            border-left: 4px solid ${colors[type]};
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;
+            padding: 16px 20px;
+            transform: translateX(100%);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+        `;
+
+        notification.innerHTML = `
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="flex-shrink: 0;">
+                    <span style="color: ${colors[type]}; font-size: 20px; font-weight: bold;">${fallbackIcons[type]}</span>
+                </div>
+                <div style="flex-grow: 1; min-width: 0;">
+                    <div style="font-weight: 500; color: #333; margin-bottom: 4px; font-size: 14px;">
+                        ${this.getTitle(type)}
+                    </div>
+                    <div style="color: #666; font-size: 13px; line-height: 1.4;">
+                        ${message}
+                    </div>
+                </div>
+                <button class="notification-close" style="
+                    background: none;
+                    border: none;
+                    color: #999;
+                    cursor: pointer;
+                    font-size: 16px;
+                    padding: 0;
+                    margin-left: 8px;
+                    flex-shrink: 0;
+                    transition: color 0.2s;
+                " onclick="this.parentElement.parentElement.remove()">
+                    ✕
+                </button>
+            </div>
+            <div class="notification-progress" style="
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 3px;
+                background: ${colors[type]};
+                width: 100%;
+                transform: scaleX(1);
+                transform-origin: left;
+                transition: transform 4s linear;
+            "></div>
+        `;
+
+        setTimeout(() => {
+            notification.classList.add('show');
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+
+        return notification;
+    }
+
+    getTitle(type) {
+        const titles = {
+            success: 'Success',
+            error: 'Error',
+            warning: 'Warning',
+            info: 'Information'
+        };
+        return titles[type] || 'Notification';
+    }
+
+    remove(notification) {
+        if (notification && notification.parentNode) {
+            notification.style.transform = 'translateX(100%)';
+            notification.style.opacity = '0';
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+                const index = this.notifications.indexOf(notification);
+                if (index > -1) {
+                    this.notifications.splice(index, 1);
+                }
+            }, 300);
+        }
+    }
+
+    success(message, duration = 4000) {
+        return this.show(message, 'success', duration);
+    }
+
+    error(message, duration = 5000) {
+        return this.show(message, 'error', duration);
+    }
+
+    warning(message, duration = 4000) {
+        return this.show(message, 'warning', duration);
+    }
+
+    info(message, duration = 4000) {
+        return this.show(message, 'info', duration);
+    }
+}
+
+// Initialize notification manager
+window.notificationManager = new NotificationManager();
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+    .notification {
+        opacity: 1;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .notification.show {
+        opacity: 1;
+        transform: translateX(0) !important;
+    }
+    
+    .notification-close:hover {
+        color: #333 !important;
+    }
+    
+    .notification-progress {
+        animation: progress-shrink 4s linear forwards;
+    }
+    
+    @keyframes progress-shrink {
+        from { transform: scaleX(1); }
+        to { transform: scaleX(0); }
+    }
+    
+    @media (max-width: 768px) {
+        #notification-container {
+            top: 10px;
+            right: 10px;
+            left: 10px;
+            max-width: none;
+        }
+        
+        .notification {
+            margin-bottom: 8px;
+            padding: 12px 16px;
+        }
+    }
+`;
+document.head.appendChild(style);
 </script>
 </body>
 </html>

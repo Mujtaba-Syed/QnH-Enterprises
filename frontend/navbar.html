@@ -109,7 +109,11 @@
                 e.preventDefault();
                 localStorage.removeItem('access');
                 localStorage.removeItem('refresh');
-                alert('You have been logged out.');
+                if (window.notificationManager) {
+                    window.notificationManager.info('You have been logged out.');
+                } else {
+                    alert('You have been logged out.');
+                }
                 window.location.href = '{% url "login-temp" %}';
             });
 

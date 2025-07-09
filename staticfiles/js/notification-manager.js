@@ -1,147 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-  <style>
-    .password-field {
-      position: relative;
-    }
-    .password-toggle {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #6c757d;
-    }
-    .password-toggle:hover {
-      color: #495057;
-    }
-  </style>
-</head>
-<body class="bg-light">
-
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6 bg-white p-4 rounded shadow">
-      <h3 class="text-center mb-4">Login</h3>
-
-      <form id="loginForm">
-        <div class="mb-3">
-          <label for="username" class="form-label">Username or Email</label>
-          <input type="text" class="form-control" id="username" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <div class="password-field">
-            <input type="password" class="form-control" id="password" required>
-            <button type="button" class="password-toggle" onclick="togglePassword()">
-              <i class="bi bi-eye" id="passwordIcon"></i>
-            </button>
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-
-        <div class="text-center mt-3">
-          <p>Or login with</p>
-          <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger w-100">
-            <i class="bi bi-google"></i> Google
-          </a>
-        </div>
-
-        <div class="text-center mt-3">
-          <a href="/register">Don't have an account? Sign up</a><br>
-          <a href="/password-reset">Forgot password?</a>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<script>
-  function togglePassword() {
-    const passwordField = document.getElementById('password');
-    const passwordIcon = document.getElementById('passwordIcon');
-    
-    if (passwordField.type === 'password') {
-      passwordField.type = 'text';
-      passwordIcon.classList.remove('bi-eye');
-      passwordIcon.classList.add('bi-eye-slash');
-    } else {
-      passwordField.type = 'password';
-      passwordIcon.classList.remove('bi-eye-slash');
-      passwordIcon.classList.add('bi-eye');
-    }
-  }
-
-  const form = document.getElementById('loginForm');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = form.username.value;
-    const password = form.password.value;
-
-    const res = await fetch('/accounts/login/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-
-    const data = await res.json();
-    console.log('Login response:', data);
-    console.log('Response status:', res.status);
-    
-    if (res.ok) {
-      localStorage.setItem('access', data.access);
-      localStorage.setItem('refresh', data.refresh);
-      if (window.notificationManager) {
-        window.notificationManager.success('Login successful!');
-      } else {
-        alert('Login successful!');
-      }
-      window.location.href = '/';  
-    } else {
-      // Handle different types of error responses
-      let errorMessage = 'Login failed';
-      
-      if (data.detail) {
-        errorMessage = data.detail;
-      } else if (data.non_field_errors && data.non_field_errors.length > 0) {
-        errorMessage = data.non_field_errors[0];
-      } else if (data.username && data.username.length > 0) {
-        errorMessage = data.username[0];
-      } else if (data.password && data.password.length > 0) {
-        errorMessage = data.password[0];
-      } else if (typeof data === 'string') {
-        errorMessage = data;
-      }
-      
-      console.log('Error message:', errorMessage);
-      console.log('Notification manager available:', !!window.notificationManager);
-      
-      if (window.notificationManager) {
-        window.notificationManager.error(errorMessage);
-        // Add delay before redirect so notification can be shown
-        setTimeout(() => {
-          window.location.href = '/login/';
-        }, 3000);
-      } else {
-        alert(errorMessage);
-        window.location.href = '/login/';
-      }
-    }
-  });
-</script>
-
-<!-- Notification Manager -->
-<script>
 class NotificationManager {
     constructor() {
         this.notifications = [];
@@ -150,6 +6,7 @@ class NotificationManager {
     }
 
     init() {
+        // Create notification container
         this.container = document.createElement('div');
         this.container.id = 'notification-container';
         this.container.style.cssText = `
@@ -168,10 +25,12 @@ class NotificationManager {
         this.container.appendChild(notification);
         this.notifications.push(notification);
 
+        // Trigger entrance animation
         setTimeout(() => {
             notification.classList.add('show');
         }, 10);
 
+        // Auto remove after duration
         setTimeout(() => {
             this.remove(notification);
         }, duration);
@@ -188,14 +47,6 @@ class NotificationManager {
             error: 'fas fa-exclamation-circle',
             warning: 'fas fa-exclamation-triangle',
             info: 'fas fa-info-circle'
-        };
-        
-        // Fallback icons in case FontAwesome is not loaded
-        const fallbackIcons = {
-            success: '✓',
-            error: '✗',
-            warning: '⚠',
-            info: 'ℹ'
         };
 
         const colors = {
@@ -223,7 +74,7 @@ class NotificationManager {
         notification.innerHTML = `
             <div style="display: flex; align-items: flex-start; gap: 12px;">
                 <div style="flex-shrink: 0;">
-                    <span style="color: ${colors[type]}; font-size: 20px; font-weight: bold;">${fallbackIcons[type]}</span>
+                    <i class="${icons[type]}" style="color: ${colors[type]}; font-size: 20px;"></i>
                 </div>
                 <div style="flex-grow: 1; min-width: 0;">
                     <div style="font-weight: 500; color: #333; margin-bottom: 4px; font-size: 14px;">
@@ -244,7 +95,7 @@ class NotificationManager {
                     flex-shrink: 0;
                     transition: color 0.2s;
                 " onclick="this.parentElement.parentElement.remove()">
-                    ✕
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="notification-progress" style="
@@ -260,6 +111,22 @@ class NotificationManager {
             "></div>
         `;
 
+        // Add hover effects
+        notification.addEventListener('mouseenter', () => {
+            const progress = notification.querySelector('.notification-progress');
+            if (progress) {
+                progress.style.transition = 'none';
+            }
+        });
+
+        notification.addEventListener('mouseleave', () => {
+            const progress = notification.querySelector('.notification-progress');
+            if (progress) {
+                progress.style.transition = 'transform 4s linear';
+            }
+        });
+
+        // Add show class for animation
         setTimeout(() => {
             notification.classList.add('show');
             notification.style.transform = 'translateX(0)';
@@ -295,6 +162,13 @@ class NotificationManager {
         }
     }
 
+    clear() {
+        this.notifications.forEach(notification => {
+            this.remove(notification);
+        });
+    }
+
+    // Convenience methods
     success(message, duration = 4000) {
         return this.show(message, 'success', duration);
     }
@@ -310,14 +184,119 @@ class NotificationManager {
     info(message, duration = 4000) {
         return this.show(message, 'info', duration);
     }
+
+    // Custom confirmation dialog
+    confirm(message, onConfirm, onCancel) {
+        const notification = this.createConfirmationNotification(message, onConfirm, onCancel);
+        this.container.appendChild(notification);
+        this.notifications.push(notification);
+
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        return notification;
+    }
+
+    createConfirmationNotification(message, onConfirm, onCancel) {
+        const notification = document.createElement('div');
+        notification.className = 'notification notification-confirm';
+        
+        notification.style.cssText = `
+            background: white;
+            border-left: 4px solid #17a2b8;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;
+            padding: 20px;
+            transform: translateX(100%);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: auto;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+        `;
+
+        notification.innerHTML = `
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="flex-shrink: 0;">
+                    <span style="color: #17a2b8; font-size: 20px; font-weight: bold;">❓</span>
+                </div>
+                <div style="flex-grow: 1; min-width: 0;">
+                    <div style="font-weight: 500; color: #333; margin-bottom: 8px; font-size: 14px;">
+                        Confirmation
+                    </div>
+                    <div style="color: #666; font-size: 13px; line-height: 1.4; margin-bottom: 16px;">
+                        ${message}
+                    </div>
+                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                        <button class="btn-cancel" style="
+                            background: #6c757d;
+                            color: white;
+                            border: none;
+                            padding: 6px 12px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 12px;
+                            transition: background-color 0.2s;
+                        ">Cancel</button>
+                        <button class="btn-confirm" style="
+                            background: #dc3545;
+                            color: white;
+                            border: none;
+                            padding: 6px 12px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 12px;
+                            transition: background-color 0.2s;
+                        ">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add event listeners
+        const confirmBtn = notification.querySelector('.btn-confirm');
+        const cancelBtn = notification.querySelector('.btn-cancel');
+
+        confirmBtn.addEventListener('click', () => {
+            this.remove(notification);
+            if (onConfirm) onConfirm();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            this.remove(notification);
+            if (onCancel) onCancel();
+        });
+
+        // Add hover effects
+        confirmBtn.addEventListener('mouseenter', () => {
+            confirmBtn.style.backgroundColor = '#c82333';
+        });
+        confirmBtn.addEventListener('mouseleave', () => {
+            confirmBtn.style.backgroundColor = '#dc3545';
+        });
+
+        cancelBtn.addEventListener('mouseenter', () => {
+            cancelBtn.style.backgroundColor = '#5a6268';
+        });
+        cancelBtn.addEventListener('mouseleave', () => {
+            cancelBtn.style.backgroundColor = '#6c757d';
+        });
+
+        setTimeout(() => {
+            notification.classList.add('show');
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+
+        return notification;
+    }
 }
 
-// Initialize notification manager
+// Initialize notification manager globally
 window.notificationManager = new NotificationManager();
-console.log('Notification manager initialized:', !!window.notificationManager);
 
-
-// Add CSS for animations
+// Add CSS for better animations
 const style = document.createElement('style');
 style.textContent = `
     .notification {
@@ -343,6 +322,7 @@ style.textContent = `
         to { transform: scaleX(0); }
     }
     
+    /* Mobile responsiveness */
     @media (max-width: 768px) {
         #notification-container {
             top: 10px;
@@ -357,7 +337,4 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
-</script>
-</body>
-</html>
+document.head.appendChild(style); 

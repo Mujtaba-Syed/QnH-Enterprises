@@ -234,9 +234,9 @@
         button.style.pointerEvents = 'auto';
 
         if (data.message) {
-          alert(data.message);
+          window.notificationManager.success(data.message);
         } else {
-          alert('Product added to cart successfully!');
+          window.notificationManager.success('Product added to cart successfully!');
         }
         // Update cart badge after successful addition
         updateCartBadge();
@@ -247,10 +247,10 @@
         button.innerHTML = originalText;
         button.style.pointerEvents = 'auto';
         
-        alert('Failed to add product to cart. Please try again.');
+        window.notificationManager.error('Failed to add product to cart. Please try again.');
       });
     } else {
-      alert('Please log in to add items to your cart.');
+      window.notificationManager.warning('Please log in to add items to your cart.');
       setTimeout(() => {
         window.location.href = '/login/';
       }, 2000);

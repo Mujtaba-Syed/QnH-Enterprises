@@ -238,10 +238,29 @@ class CartManager {
     }
 
     async removeItem(productId) {
-        if (!confirm('Are you sure you want to remove this item from your cart?')) {
-            return;
+        // Use custom confirmation notification instead of browser alert
+        if (window.notificationManager) {
+            window.notificationManager.confirm(
+                'Are you sure you want to remove this item from your cart?',
+                async () => {
+                    // User confirmed - proceed with removal
+                    await this.performRemoveItem(productId);
+                },
+                () => {
+                    // User cancelled - do nothing
+                    console.log('Item removal cancelled by user');
+                }
+            );
+        } else {
+            // Fallback to browser confirm if notification manager is not available
+            if (!confirm('Are you sure you want to remove this item from your cart?')) {
+                return;
+            }
+            await this.performRemoveItem(productId);
         }
+    }
 
+    async performRemoveItem(productId) {
         try {
             const response = await fetch(`${this.baseUrl}remove/${productId}/`, {
                 method: 'DELETE',
@@ -262,10 +281,29 @@ class CartManager {
     }
 
     async clearCart() {
-        if (!confirm('Are you sure you want to clear your entire cart?')) {
-            return;
+        // Use custom confirmation notification instead of browser alert
+        if (window.notificationManager) {
+            window.notificationManager.confirm(
+                'Are you sure you want to clear your entire cart?',
+                async () => {
+                    // User confirmed - proceed with clearing
+                    await this.performClearCart();
+                },
+                () => {
+                    // User cancelled - do nothing
+                    console.log('Cart clearing cancelled by user');
+                }
+            );
+        } else {
+            // Fallback to browser confirm if notification manager is not available
+            if (!confirm('Are you sure you want to clear your entire cart?')) {
+                return;
+            }
+            await this.performClearCart();
         }
+    }
 
+    async performClearCart() {
         try {
             const response = await fetch(`${this.baseUrl}clear/`, {
                 method: 'DELETE',
@@ -315,22 +353,7 @@ class CartManager {
             window.notificationManager.show(message, type, 4000);
         } else {
             // Fallback to simple alert if notification system is not available
-            const toast = document.createElement('div');
-            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            toast.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.remove();
-                }
-            }, 3000);
+            alert(message);
         }
     }
 }
