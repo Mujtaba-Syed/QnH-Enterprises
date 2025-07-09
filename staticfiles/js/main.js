@@ -197,15 +197,73 @@
 })(jQuery);
 
 // Function to handle "Add to Cart" button click on index.html
-  function handleAddToCart() {
+  function handleAddToCart(event, productId) {
     event.preventDefault(); 
     const accessToken = localStorage.getItem('access');
 
     if (accessToken) {
-      window.location.href = '/cart/';
-      console.log("we found access token")
+      // Make API call to add product to cart
+      fetch('/api/cart/add/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          product_id: productId
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message);
+          // Update cart badge after successful addition
+          updateCartBadge();
+        } else {
+          alert('Product added to cart successfully!');
+          // Update cart badge after successful addition
+          updateCartBadge();
+        }
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+        alert('Failed to add product to cart. Please try again.');
+      });
     } else {
       alert('Please log in to add items to your cart.');
       window.location.href = '/login/';
+    }
+  }
+
+  // Function to update cart badge in navbar
+  async function updateCartBadge() {
+    const accessToken = localStorage.getItem('access');
+    const cartBadge = document.getElementById('cartBadge');
+    
+    if (!accessToken || !cartBadge) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cart/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const cartData = await response.json();
+        const totalQuantity = cartData.total_quantity || 0;
+        cartBadge.textContent = totalQuantity.toString();
+      } else if (response.status === 401) {
+        cartBadge.textContent = '0';
+      } else {
+        cartBadge.textContent = '0';
+      }
+    } catch (error) {
+      console.error('Error updating cart badge:', error);
+      cartBadge.textContent = '0';
     }
   }

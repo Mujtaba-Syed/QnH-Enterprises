@@ -262,13 +262,9 @@
                                                 <p class="flex-grow-1">{{ product.description }}</p>
                                             
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                    <a href="{% url 'cart' %}" class="btn  rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
-                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
-
-                                                    </a>
                                                 </div>
                                             
                                             </div>
@@ -298,9 +294,7 @@
                                                     <p class="flex-grow-1">{{ product.description }}</p>
                                                 
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                    <a href="{% url 'cart' %}" class="btn  rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
-                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
 
@@ -334,9 +328,7 @@
                                                     <p class="flex-grow-1">{{ product.description }}</p>
                                                 
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                    <a href="{% url 'cart' %}" class="btn rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
-                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
 
@@ -369,9 +361,7 @@
                                                     <p class="flex-grow-1">{{ product.description }}</p>
                                                 
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                    <a href="{% url 'cart' %}" class="btn rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
-                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
 
@@ -405,9 +395,7 @@
                                                     <p class="flex-grow-1">{{ product.description }}</p>
                                                 
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
-                                                    <a href="{% url 'cart' %}" class="btn rounded-pill text-primary" style="padding: 8px 16px;">
-                                                    <!-- <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart -->
-                                                     <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
 
@@ -482,7 +470,7 @@
                         <div style="text-align: center;">
                             <p class="text-dark fs-5 fw-bold mb-0">RS {{ product.price }}</p>
                           </div>
-                        <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                             <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                         </button>
                       </div>
@@ -577,7 +565,7 @@
                                         {% endif %}
                                     </div>
                                     <h4 class="mb-3">RS {{ product.price }}</h4>
-                                    <button onclick="handleAddToCart(event)" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                    <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                     </button>       
                                 </div>

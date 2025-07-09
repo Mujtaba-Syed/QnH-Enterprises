@@ -326,7 +326,9 @@
                                                     <p class="mb-3 flex-grow-1">{{ product.description|default:"Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt" }}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap align-items-center mt-auto">
                                                         <p class="text-dark fs-5 fw-bold mb-0">RS{{ product.price }}</p>
-                                                        <a href="{% url 'cart' %}" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="#" onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn" data-product-id="{{ product.id }}">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -55,10 +55,11 @@ class CartSerializer(serializers.ModelSerializer):
     subtotal = serializers.SerializerMethodField()
     total = serializers.SerializerMethodField()
     item_count = serializers.SerializerMethodField()
+    total_quantity = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
-        fields = ['id', 'created_at', 'items', 'subtotal', 'total', 'item_count']
+        fields = ['id', 'created_at', 'items', 'subtotal', 'total', 'item_count', 'total_quantity']
 
     def get_subtotal(self, obj):
         subtotal = sum(item.product.price * item.quantity for item in obj.items.all())
@@ -69,5 +70,9 @@ class CartSerializer(serializers.ModelSerializer):
         return f"{subtotal:.2f}"
 
     def get_item_count(self, obj):
-        """Get total number of items in cart"""
+        """Get total number of unique items in cart"""
         return obj.items.count()
+
+    def get_total_quantity(self, obj):
+        """Get total quantity of all items in cart (sum of all quantities)"""
+        return sum(item.quantity for item in obj.items.all())
