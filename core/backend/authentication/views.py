@@ -16,6 +16,12 @@ from .serializers import (
     UserProfileSerializer
 )
 from .email_helpers import send_verification_email
+from django.shortcuts import redirect
+from django.conf import settings
+from social_django.models import UserSocialAuth
+from social_core.exceptions import AuthForbidden, AuthTokenError
+import requests
+import json
 
 User = get_user_model()
 
@@ -142,3 +148,128 @@ class UserProfileView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class GoogleOAuthView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        """Handle Google OAuth callback and return JWT tokens"""
+        try:
+            # Get the authorization code from the request
+            code = request.GET.get('code')
+            if not code:
+                return Response({'detail': 'Authorization code not provided'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
+            
+            # Exchange code for access token
+            token_url = 'https://oauth2.googleapis.com/token'
+            token_data = {
+                'client_id': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+                'client_secret': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+                'code': code,
+                'grant_type': 'authorization_code',
+                'redirect_uri': f"{settings.BASE_URL}/accounts/google-oauth/"
+            }
+            
+            token_response = requests.post(token_url, data=token_data)
+            if not token_response.ok:
+                return Response({'detail': 'Failed to exchange code for token'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
+            
+            token_info = token_response.json()
+            access_token = token_info.get('access_token')
+            
+            # Get user info from Google
+            user_info_url = 'https://www.googleapis.com/oauth2/v2/userinfo'
+            headers = {'Authorization': f'Bearer {access_token}'}
+            user_response = requests.get(user_info_url, headers=headers)
+            
+            if not user_response.ok:
+                return Response({'detail': 'Failed to get user info from Google'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
+            
+            user_info = user_response.json()
+            email = user_info.get('email')
+            first_name = user_info.get('given_name', '')
+            last_name = user_info.get('family_name', '')
+            google_id = user_info.get('id')
+            
+            if not email:
+                return Response({'detail': 'Email not provided by Google'}, 
+                              status=status.HTTP_400_BAD_REQUEST)
+            
+            # Check if user exists, if not create one
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                # Create new user
+                username = email.split('@')[0]  # Use email prefix as username
+                # Ensure username is unique
+                base_username = username
+                counter = 1
+                while User.objects.filter(username=username).exists():
+                    username = f"{base_username}{counter}"
+                    counter += 1
+                
+                user = User.objects.create_user(
+                    username=username,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    password=None  # No password for OAuth users
+                )
+                
+                # Create social auth association
+                UserSocialAuth.objects.create(
+                    user=user,
+                    provider='google-oauth2',
+                    uid=google_id,
+                    extra_data=user_info
+                )
+            
+            # Generate JWT tokens
+            refresh = RefreshToken.for_user(user)
+            
+            # Redirect to a page that will handle the tokens
+            from django.shortcuts import redirect
+            from urllib.parse import urlencode
+            
+            # Create a redirect URL with tokens as query parameters
+            tokens_data = {
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+                'user_id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }
+            
+            redirect_url = f"{settings.BASE_URL}/oauth-success/?{urlencode(tokens_data)}"
+            return redirect(redirect_url)
+            
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class GoogleOAuthInitiateView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        """Redirect to Google OAuth authorization URL"""
+        google_auth_url = 'https://accounts.google.com/o/oauth2/v2/auth'
+        
+        # Use the redirect URI from settings
+        redirect_uri = f"{settings.BASE_URL}/accounts/google-oauth/"
+
+        
+        params = {
+            'client_id': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY,
+            'redirect_uri': redirect_uri,
+            'response_type': 'code',
+            'scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE),
+            'access_type': 'offline',
+            'prompt': 'consent'
+        }
+        
+        auth_url = f"{google_auth_url}?{'&'.join([f'{k}={v}' for k, v in params.items()])}"
+        return Response({'auth_url': auth_url}, status=status.HTTP_200_OK)

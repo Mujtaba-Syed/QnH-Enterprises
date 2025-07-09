@@ -37,9 +37,9 @@
 
         <div class="text-center mt-3">
           <p>Or sign up with</p>
-          <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-danger w-100">
+          <button type="button" id="googleLoginBtn" class="btn btn-danger w-100">
             <i class="bi bi-google"></i> Google
-          </a>
+          </button>
         </div>
 
         <div class="text-center mt-3">
@@ -52,6 +52,8 @@
 
 <script>
   const form = document.getElementById('registerForm');
+  const googleLoginBtn = document.getElementById('googleLoginBtn');
+  
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = form.username.value;
@@ -73,6 +75,27 @@
       alert(JSON.stringify(data));
     }
   });
+
+  // Google OAuth Login
+  googleLoginBtn.addEventListener('click', async () => {
+    try {
+      // Get the Google OAuth URL
+      const response = await fetch('/accounts/google-oauth-initiate/');
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Redirect to Google OAuth
+        window.location.href = data.auth_url;
+      } else {
+        alert('Failed to initiate Google login');
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      alert('Failed to initiate Google login');
+    }
+  });
+
+
 </script>
 </body>
 </html>
