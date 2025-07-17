@@ -16,7 +16,7 @@ python manage.py createsuperuser --noinput || true
 
 # Start development server
 echo "Django development server is running!"
-echo "Access your application at: https://www.qhenterprises.com"
+echo "Access your application at: http://www.qhenterprises.com"
 echo "Or use: http://localhost:8000 (for local development)"
 echo ""
 python manage.py runserver 0.0.0.0:8000 

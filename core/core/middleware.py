@@ -16,7 +16,7 @@ class ZeroZeroRedirectMiddleware:
             path = request.path
             query_string = request.GET.urlencode()
             
-            redirect_url = f"https://www.qhenterprises.com{path}"
+            redirect_url = f"http://www.qhenterprises.com{path}"
             if query_string:
                 redirect_url += f"?{query_string}"
             
