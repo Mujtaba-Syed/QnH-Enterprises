@@ -11,6 +11,21 @@ services:
     env_file:
       - .env
 
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./core/media:/app/core/media
+      - ./staticfiles:/app/staticfiles
+    restart: always
+
+
   # PostgreSQL Database (only for production)
   db:
     image: postgres:15
