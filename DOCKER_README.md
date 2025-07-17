@@ -47,8 +47,8 @@ ENVIRONMENT=development STARTUP_SCRIPT=./scripts/start-dev.sh docker-compose up 
 ```
 
 ### 3. Access the Application
-- **Web Application**: http://localhost:8000
-- **Admin Interface**: http://localhost:8000/admin
+- **Web Application**: https://www.qhenterprises.com
+- **Admin Interface**: https://www.qhenterprises.com/admin
 
 ### 4. Development Features
 - **Hot Reload**: Code changes are automatically reflected

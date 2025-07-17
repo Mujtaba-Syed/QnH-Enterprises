@@ -31,9 +31,9 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.qhenterprises.com', 'qhenterprises.com', '*']
 
-BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
+BASE_URL = os.getenv('BASE_URL', 'https://www.qhenterprises.com')
 
 # Application definition
 INSTALLED_APPS = [
@@ -76,7 +76,7 @@ MIDDLEWARE = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-FRONTEND_URL = 'http://localhost:8000' 
+FRONTEND_URL = 'https://www.qhenterprises.com' 
 
 ROOT_URLCONF = 'core.urls'
 
