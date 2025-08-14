@@ -42,6 +42,7 @@ class HomeView(TemplateView):
             'shirts': [product for product in products if product['product_type'] == 'shirt'],
             'mobile_accessories': [product for product in products if product['product_type'] == 'mobile_accessories'],
             'cars': [product for product in products if product['product_type'] == 'car'],
+            'watches': [product for product in products if product['product_type'] == 'watches'],
         }
 
         #to get featured products
