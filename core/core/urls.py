@@ -19,10 +19,18 @@ from django.urls import path, include
 from .views import( HomeView, PageNotFoundView, CartView, CheckoutView, 
         ContactView, ShopDetailView, ShopView, TestimonialView, 
             PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
-            LoginView, RegisterView, OAuthSuccessView,
+            LoginView, RegisterView, OAuthSuccessView, SitemapView
 )
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+from django.http import HttpResponse
+import os
+
+def google_verification(request):
+    """Serve Google Search Console verification file"""
+    verification_content = "google-site-verification: google76a61c0a0e658004.html"
+    return HttpResponse(verification_content, content_type='text/html')
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -46,6 +54,10 @@ urlpatterns = [
     path('api/cart/', include('backend.cart.urls')),
 
     path('oauth/', include('social_django.urls', namespace='social')),
+    path('sitemap.xml', SitemapView.as_view(), name='sitemap'),
+    
+    # Google Search Console verification
+    path('google76a61c0a0e658004.html', google_verification, name='google_verification'),
 
 
 ]

@@ -1,4 +1,12 @@
+from django.shortcuts import render
+from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.utils import timezone
+from django.contrib.sitemaps import Sitemap
+from django.contrib.sitemaps.views import sitemap
+from backend.products.models import Product
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
 import requests
 from django.conf import settings
 from urllib.parse import urljoin
@@ -242,4 +250,46 @@ class RegisterView(TemplateView):
 
 class OAuthSuccessView(TemplateView):
     template_name = 'oauth-success.html'
+
+class SitemapView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        # Create the XML structure
+        urlset = ET.Element('urlset')
+        urlset.set('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
+        
+        # Static pages
+        static_pages = [
+            {'loc': 'https://qnhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
+            {'loc': 'https://qnhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
+            {'loc': 'https://qnhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
+            {'loc': 'https://qnhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
+            {'loc': 'https://qnhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qnhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qnhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+        ]
+        
+        current_date = timezone.now().strftime('%Y-%m-%d')
+        
+        for page in static_pages:
+            url = ET.SubElement(urlset, 'url')
+            ET.SubElement(url, 'loc').text = page['loc']
+            ET.SubElement(url, 'lastmod').text = current_date
+            ET.SubElement(url, 'changefreq').text = page['changefreq']
+            ET.SubElement(url, 'priority').text = page['priority']
+        
+        # Add product pages (if you have individual product pages)
+        products = Product.objects.filter(is_active=True)
+        for product in products:
+            url = ET.SubElement(urlset, 'url')
+            ET.SubElement(url, 'loc').text = f"https://qnhenterprises.com/shop-detail/{product.id}/"
+            ET.SubElement(url, 'lastmod').text = product.updated_at.strftime('%Y-%m-%d') if hasattr(product, 'updated_at') else current_date
+            ET.SubElement(url, 'changefreq').text = 'weekly'
+            ET.SubElement(url, 'priority').text = '0.8'
+        
+        # Create pretty XML
+        rough_string = ET.tostring(urlset, 'unicode')
+        reparsed = minidom.parseString(rough_string)
+        pretty_xml = reparsed.toprettyxml(indent="  ")
+        
+        return HttpResponse(pretty_xml, content_type='application/xml')
 

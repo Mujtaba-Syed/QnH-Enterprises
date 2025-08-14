@@ -305,7 +305,7 @@ class CheckoutManager {
 
         // Format order details and open WhatsApp
         const orderDetails = this.formatOrderDetailsForWhatsApp();
-        const whatsappUrl = `https://wa.me/923009845333?text=${encodeURIComponent(orderDetails)}`;
+        const whatsappUrl = `https://wa.me/923147864467?text=${encodeURIComponent(orderDetails)}`;
         
         // Open WhatsApp in new tab
         window.open(whatsappUrl, '_blank');

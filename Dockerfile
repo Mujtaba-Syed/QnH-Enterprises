@@ -40,4 +40,4 @@ RUN find . -name "*.sh" -exec dos2unix {} \; && \
 EXPOSE 8000
 
 # Run the application (default to development)
-CMD ["/bin/bash", "scripts/start-dev.sh"]
+CMD ["/bin/bash", "scripts/start.sh"]
