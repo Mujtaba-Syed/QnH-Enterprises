@@ -27,25 +27,25 @@
             </div>
         </div>
         <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="footer-item">
                     <h4 class="text-light mb-3">Why People Like us!</h4>
                     <p class="mb-4">We’re your go-to for stylish shirts, long-lasting perfumes, and must-have car & mobile accessories — all in one place. Quality, variety, and trusted service keep our customers coming back..</p>
                     <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-light">Read More</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Shop Info</h4>
-                    <a class="btn-link" href="">About Us</a>
-                    <a class="btn-link" href="">Contact Us</a>
-                    <a class="btn-link" href="">Privacy Policy</a>
-                    <a class="btn-link" href="">Terms & Condition</a>
-                    <a class="btn-link" href="">Return Policy</a>
+                    <a class="btn-link" href="{% url 'about-us' %}">About Us</a>
+                    <a class="btn-link" href="{% url 'contact' %}">Contact Us</a>
+                    <a class="btn-link" href="{% url 'privacy-policy' %}">Privacy Policy</a>
+                    <a class="btn-link" href="{% url 'terms-of-use' %}">Terms & Condition</a>
+                    <a class="btn-link" href="{% url 'sales-and-refund-policy' %}">Return Policy</a>
                     <a class="btn-link" href="">FAQs & Help</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <!-- <div class="col-lg-3 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Account</h4>
                     <a class="btn-link" href="">My Account</a>
@@ -55,13 +55,13 @@
                     <a class="btn-link" href="">Order History</a>
                     <a class="btn-link" href="">International Orders</a>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
+            </div> -->
+            <div class="col-lg-4 col-md-6">
                 <div class="footer-item">
                     <h4 class="text-light mb-3">Contact</h4>
                     <p>Address: Ohad Center Mall Road, Lahore, Pakistan</p>
-                    <p>Email: qhenterprises2@gmail.com</p>
-                    <p>Phone: +923147864467</p>
+                    <p>Email: <a href="mailto:qhenterprises2@gmail.com" style="color: #ffb524;">qhenterprises2@gmail.com</a></p>
+                    <p>Phone: <a href="tel:+923147864467" style="color: #ffb524;">+923147864467</a></p>
                     <p>Payment Accepted</p>
                     <img src="{% static 'img/payment_new.png' %}" class="img-fluid" alt="">
                 </div>

@@ -19,7 +19,7 @@ from django.urls import path, include
 from .views import( HomeView, PageNotFoundView, CartView, CheckoutView, 
         ContactView, ShopDetailView, ShopView, TestimonialView, 
             PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
-            LoginView, RegisterView, OAuthSuccessView, SitemapView
+            LoginView, RegisterView, OAuthSuccessView, SitemapView, AboutUsView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -44,6 +44,7 @@ urlpatterns = [
     path('testimonial/', TestimonialView.as_view(), name='testimonial'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), name='privacy-policy'),
     path('terms-of-use/', TermsOfUseView.as_view(), name='terms-of-use'),
+    path('about-us/', AboutUsView.as_view(), name='about-us'),
     path('sales-and-refund-policy/', SalesAndRefundPolicyView.as_view(), name='sales-and-refund-policy'),
     path('login/', LoginView.as_view(), name='login-temp'),
     path('register/', RegisterView.as_view(), name='register-temp'),
