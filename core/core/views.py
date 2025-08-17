@@ -42,6 +42,7 @@ class HomeView(TemplateView):
             'shirts': [product for product in products if product['product_type'] == 'shirt'],
             'mobile_accessories': [product for product in products if product['product_type'] == 'mobile_accessories'],
             'cars': [product for product in products if product['product_type'] == 'car'],
+            'watches': [product for product in products if product['product_type'] == 'watches'],
         }
 
         #to get featured products
@@ -241,6 +242,8 @@ class TermsOfUseView(TemplateView):
 class SalesAndRefundPolicyView(TemplateView):
     template_name = 'sales-and-refund-policy.html'
 
+class AboutUsView(TemplateView):
+    template_name = 'about-us.html'
 
 class LoginView(TemplateView):
     template_name = 'login.html'
