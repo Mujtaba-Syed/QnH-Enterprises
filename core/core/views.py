@@ -140,32 +140,66 @@ class ShopView(TemplateView):
         page_size = self.request.GET.get('page_size', 6)  
         search = self.request.GET.get('search', '')
         category = self.request.GET.get('category', '')
+        min_price = self.request.GET.get('min_price', '')
+        max_price = self.request.GET.get('max_price', '')
         
-        # Build API parameters
+        # Build API parameters for filtering
         api_params = {
             'page': page,
             'page_size': page_size
         }
         
-        if search:
-            api_params['search'] = search
-        if category:
-            api_params['product_type'] = category
-        
-        # Fetch products with pagination and filters
-        response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/', params=api_params)
+        # Use the new filtering API if we have specific filters
+        if category or min_price or max_price:
+            filter_params = {}
+            if category:
+                filter_params['product_type'] = category
+            if min_price:
+                filter_params['min_price'] = min_price
+            if max_price:
+                filter_params['max_price'] = max_price
+            if search:
+                filter_params['search'] = search
+                
+            # Use the advanced filtering API
+            response = requests.get(f'{settings.BASE_URL}/api/products/filter-products/', params=filter_params)
+        else:
+            # Use the regular products API with search
+            if search:
+                api_params['search'] = search
+            
+            response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/', params=api_params)
         
         if response.status_code == 200:
             data = response.json()
-            products = data.get("results", [])
-            total_pages = data.get('pages', 0)
+            
+            # Handle different response formats
+            if 'results' in data:
+                products = data.get("results", [])
+                total_count = data.get('count', 0)
+                
+                # Calculate pagination for filtered results
+                if category or min_price or max_price:
+                    # For filtered results, we'll do client-side pagination
+                    start_idx = (int(page) - 1) * int(page_size)
+                    end_idx = start_idx + int(page_size)
+                    products = products[start_idx:end_idx]
+                    total_pages = (total_count + int(page_size) - 1) // int(page_size)
+                else:
+                    # For regular API, use server pagination
+                    total_pages = data.get('pages', 0)
+            else:
+                products = data
+                total_count = len(products)
+                total_pages = 1
+            
             current_page = int(page)
             
             # Generate page range for pagination
             page_range = list(range(1, total_pages + 1))
             
             pagination_info = {
-                'count': data.get('count', 0),
+                'count': total_count,
                 'pages': total_pages,
                 'current_page': current_page,
                 'has_next': current_page < total_pages,
@@ -198,7 +232,7 @@ class ShopView(TemplateView):
             else:
                 product['image'] = ''
 
-        # Get category filters
+        # Get category filters with counts
         response = requests.get(f'{settings.BASE_URL}/api/products/get-product-type-count/')
         if response.status_code == 200:
             side_cat_filters = response.json()
@@ -226,6 +260,8 @@ class ShopView(TemplateView):
         context['side_cat_filters'] = side_cat_filters
         context['current_search'] = search
         context['current_category'] = category
+        context['current_min_price'] = min_price
+        context['current_max_price'] = max_price
         context['featured_products'] = featured_products
 
         return context
