@@ -268,6 +268,25 @@ class ShopView(TemplateView):
 
 class TestimonialView(TemplateView):
     template_name = 'testimonial.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        response= requests.get(f'{settings.BASE_URL}/api/reviews/active-reviews/')
+        if response.status_code ==200:
+            client_review=response.json()
+        else:
+            client_review= []
+        for product in client_review:
+            if product['image']:
+                if not product['image'].startswith("http"):
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+                else:
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+            else:
+                product['image'] = ''
+       
+        context['client_review'] = client_review
+
+        return context
 
 class PrivacyPolicyView(TemplateView):
     template_name = 'privacy-policy.html'
