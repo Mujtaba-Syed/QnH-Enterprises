@@ -224,8 +224,20 @@ async function submitReview() {
 
     // Show loading state
     const submitBtn = document.querySelector('#reviewModal .btn-primary');
+    if (!submitBtn) {
+        console.error('Submit button not found');
+        window.notificationManager.error('Submit button not found. Please refresh the page.');
+        return;
+    }
+    
     const submitText = submitBtn.querySelector('.submit-text');
     const loadingText = submitBtn.querySelector('.loading-text');
+    
+    if (!submitText || !loadingText) {
+        console.error('Button text elements not found');
+        window.notificationManager.error('Button elements not found. Please refresh the page.');
+        return;
+    }
     
     submitText.style.display = 'none';
     loadingText.style.display = 'inline';
@@ -287,10 +299,12 @@ async function submitReview() {
         console.error('Error submitting review:', error);
         window.notificationManager.error('Network error. Please check your connection and try again.');
     } finally {
-        // Restore button state
-        submitText.style.display = 'inline';
-        loadingText.style.display = 'none';
-        submitBtn.disabled = false;
+        // Restore button state safely
+        if (submitBtn && submitText && loadingText) {
+            submitText.style.display = 'inline';
+            loadingText.style.display = 'none';
+            submitBtn.disabled = false;
+        }
     }
 }
 
