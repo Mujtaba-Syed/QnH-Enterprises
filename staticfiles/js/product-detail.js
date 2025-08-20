@@ -259,7 +259,16 @@ async function submitReview() {
 
         if (response.ok) {
             // Success
-            window.notificationManager.success('Review submitted successfully!');
+            if (data.message) {
+                window.notificationManager.success(data.message);
+            } else {
+                window.notificationManager.success('Review submitted successfully!');
+            }
+            
+            // Show additional info if product was activated
+            if (data.product_activated) {
+                window.notificationManager.info('Product has been activated and is now visible!');
+            }
             
             // Close modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
@@ -363,9 +372,7 @@ function renderRandomProducts(products) {
     const carousel = document.querySelector('.product-carousel');
     if (!carousel) return;
 
- 
-
-    carousel.innerHTML = activeProducts.map(product => `
+    carousel.innerHTML = products.map(product => `
         <div class="item">
             <div class="rounded position-relative fruite-item h-100">
                 <div class="fruite-img" style="height: 200px; overflow: hidden;">
@@ -381,8 +388,8 @@ function renderRandomProducts(products) {
                 <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column h-100">
                     <h4 class="mb-2">${product.name}</h4>
                     <p class="mb-3 flex-grow-1">${product.description || 'Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt'}</p>
-                    <div class="d-flex justify-content-between flex-lg-wrap align-items-center mt-auto">
-                        <p class="text-dark fs-5 fw-bold mb-0">Rs${product.price}</p>
+                    <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">Rs${product.price}</p>
+                    <div class="d-flex justify-content-center flex-lg-wrap align-items-center mt-auto mt-3">
                         <a href="/product-detail/${product.id}/" class="btn border border-secondary rounded-pill px-3 text-primary">
                             <i class="fa fa-eye me-2 text-primary"></i> View Details
                         </a>
