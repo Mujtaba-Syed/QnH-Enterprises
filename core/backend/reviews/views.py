@@ -7,7 +7,7 @@ from backend.products.models import Product
 from django.shortcuts import get_object_or_404
 
 class ProductReviewListAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, product_id):
         try:
@@ -20,20 +20,45 @@ class ProductReviewListAPIView(APIView):
 
 
 class AddReviewAPIView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, product_id):
         try:
             product = get_object_or_404(Product, id=product_id)
-            data = request.data.copy()
+            
+            data = {}
+            
+            if 'name' in request.data:
+                data['name'] = request.data['name']
+            if 'description' in request.data:
+                data['description'] = request.data['description']
+            if 'rating' in request.data:
+                data['rating'] = request.data['rating']
+            
+            if 'image' in request.FILES:
+                data['image'] = request.FILES['image']
+            if 'whtsapp_image' in request.FILES:
+                data['whtsapp_image'] = request.FILES['whtsapp_image']
+            
             data['product'] = product.id
+            
             serializer = ReviewSerializer(data=data)
             if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                review = serializer.save()
+                
+                if not product.is_active:
+                    product.is_active = True
+                    product.save()
+                
+                return Response({
+                    "message": "Review submitted successfully!",
+                    "review_id": review.id,
+                    "product_activated": not product.is_active
+                }, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({"error": "Unable to add review."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": f"Unable to add review: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ActiveReviewsApiView(APIView):

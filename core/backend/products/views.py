@@ -364,17 +364,13 @@ class RandomProductsAPIView(APIView):
     
     def get(self, request):
         try:
-            # Get all active products
             products = Product.objects.filter(is_active=True)
             
-            # Convert to list and shuffle to get random order
             product_list = list(products)
             random.shuffle(product_list)
             
-            # Take first 8 products (or less if not enough)
             random_products = product_list[:8]
             
-            # Serialize the products
             serializer = ProductSerializer(random_products, many=True)
             
             return Response(serializer.data)

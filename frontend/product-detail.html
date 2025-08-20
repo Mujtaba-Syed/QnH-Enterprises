@@ -241,6 +241,9 @@
                                     <button onclick="handleAddToCart(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                     </button>
+                                    <button onclick="handleAddReview(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                        <i class="fa fa-star me-2 text-primary"></i> Add a Review
+                                    </button>
                                 </div>
                             </div>
                             
@@ -305,46 +308,6 @@
                                                 <p class="text-muted">No reviews yet. Be the first to review this product!</p>
                                             {% endif %}
                                             
-
-                                                <!-- Random product slideshow -->
-                                            
-
-                                            <!-- Review Form -->
-                                            <!-- <form action="#" class="mt-4">
-                                                <h4 class="mb-5 fw-bold">Leave a Reply</h4>
-                                                <div class="row g-4">
-                                                    <div class="col-lg-6">
-                                                        <div class="border-bottom rounded">
-                                                            <input type="text" class="form-control border-0 me-4" placeholder="Your Name *">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="border-bottom rounded">
-                                                            <input type="email" class="form-control border-0" placeholder="Your Email *">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="border-bottom rounded my-4">
-                                                            <textarea name="" id="" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="d-flex justify-content-between py-3 mb-5">
-                                                            <div class="d-flex align-items-center">
-                                                                <p class="mb-0 me-3">Please rate:</p>
-                                                                <div class="d-flex align-items-center" style="font-size: 12px;">
-                                                                    <i class="fa fa-star text-muted"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                    <i class="fa fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3"> Post Comment</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form> -->
                                         </div>
                                     </div>
                                 </div>
@@ -437,6 +400,66 @@
                 }
             }, 1000);
         </script>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Add Your Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewName" class="form-label">Your Name *</label>
+                                <input type="text" class="form-control" id="reviewName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewRating" class="form-label">Rating *</label>
+                                <select class="form-select" id="reviewRating" required>
+                                    <option value="">Select Rating</option>
+                                    <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                                    <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                                    <option value="3">⭐⭐⭐ 3 - Good</option>
+                                    <option value="2">⭐⭐ 2 - Fair</option>
+                                    <option value="1">⭐ 1 - Poor</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reviewDescription" class="form-label">Review Description *</label>
+                            <textarea class="form-control" id="reviewDescription" rows="4" placeholder="Share your experience with this product..." required></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewImage" class="form-label">Product Image (Optional)</label>
+                                <input type="file" class="form-control" id="reviewImage" accept="image/*">
+                                <small class="text-muted">Upload a photo of the product or your experience</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="whtsappImage" class="form-label">WhatsApp Image (Optional)</label>
+                                <input type="file" class="form-control" id="whtsappImage" accept="image/*">
+                                <small class="text-muted">Image for WhatsApp sharing</small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn"  style="background-color: #e8f5e8; border-color: #198754; color: #198754; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#198754'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e8f5e8'; this.style.color='#198754';" onclick="submitReview()">
+                        <span class="submit-text">Submit Review</span>
+                        <span class="loading-text" style="display: none;">
+                            <i class="fa fa-spinner fa-spin me-2"></i>Submitting...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 
 </html>

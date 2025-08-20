@@ -181,6 +181,110 @@ function handleAddToCart(event, productId) {
     }
 }
 
+// Review Functions
+function handleAddReview(event, productId) {
+    event.preventDefault();
+    console.log('Opening review modal for product:', productId);
+    
+    // Store product ID for submission
+    window.currentProductId = productId;
+    
+    // Reset form
+    document.getElementById('reviewForm').reset();
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
+    modal.show();
+}
+
+async function submitReview() {
+    const productId = window.currentProductId;
+    if (!productId) {
+        window.notificationManager.error('Product ID not found. Please refresh the page.');
+        return;
+    }
+
+    // Get form data
+    const name = document.getElementById('reviewName').value.trim();
+    const description = document.getElementById('reviewDescription').value.trim();
+    const rating = document.getElementById('reviewRating').value;
+    const imageFile = document.getElementById('reviewImage').files[0];
+    const whtsappImageFile = document.getElementById('whtsappImage').files[0];
+
+    // Validate required fields
+    if (!name || !description || !rating) {
+        window.notificationManager.error('Please fill in all required fields.');
+        return;
+    }
+
+    if (rating < 1 || rating > 5) {
+        window.notificationManager.error('Please select a valid rating (1-5).');
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = document.querySelector('#reviewModal .btn-primary');
+    const submitText = submitBtn.querySelector('.submit-text');
+    const loadingText = submitBtn.querySelector('.loading-text');
+    
+    submitText.style.display = 'none';
+    loadingText.style.display = 'inline';
+    submitBtn.disabled = true;
+
+    try {
+        // Create FormData for file uploads
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('rating', rating);
+        
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+        
+        if (whtsappImageFile) {
+            formData.append('whtsapp_image', whtsappImageFile);
+        }
+
+        // Make API call
+        const response = await fetch(`/api/reviews/${productId}/reviews-add/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Success
+            window.notificationManager.success('Review submitted successfully!');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+            modal.hide();
+            
+            // Optionally refresh the page to show the new review
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            // Error
+            const errorMessage = data.error || data.message || 'Failed to submit review. Please try again.';
+            window.notificationManager.error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error submitting review:', error);
+        window.notificationManager.error('Network error. Please check your connection and try again.');
+    } finally {
+        // Restore button state
+        submitText.style.display = 'inline';
+        loadingText.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+}
+
 // Helper Functions
 function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');
@@ -259,7 +363,9 @@ function renderRandomProducts(products) {
     const carousel = document.querySelector('.product-carousel');
     if (!carousel) return;
 
-    carousel.innerHTML = products.map(product => `
+ 
+
+    carousel.innerHTML = activeProducts.map(product => `
         <div class="item">
             <div class="rounded position-relative fruite-item h-100">
                 <div class="fruite-img" style="height: 200px; overflow: hidden;">
@@ -321,3 +427,5 @@ function initializeProductCarousel() {
 window.handleAddToCart = handleAddToCart;
 window.updateQuantity = updateQuantity;
 window.switchMainImage = switchMainImage;
+window.handleAddReview = handleAddReview;
+window.submitReview = submitReview;

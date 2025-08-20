@@ -181,6 +181,119 @@ function handleAddToCart(event, productId) {
     }
 }
 
+// Review Functions
+function handleAddReview(event, productId) {
+    event.preventDefault();
+    console.log('Opening review modal for product:', productId);
+    
+    // Store product ID for submission
+    window.currentProductId = productId;
+    
+    // Reset form
+    document.getElementById('reviewForm').reset();
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
+    modal.show();
+}
+
+async function submitReview() {
+    const productId = window.currentProductId;
+    if (!productId) {
+        window.notificationManager.error('Product ID not found. Please refresh the page.');
+        return;
+    }
+
+    // Get form data
+    const name = document.getElementById('reviewName').value.trim();
+    const description = document.getElementById('reviewDescription').value.trim();
+    const rating = document.getElementById('reviewRating').value;
+    const imageFile = document.getElementById('reviewImage').files[0];
+    const whtsappImageFile = document.getElementById('whtsappImage').files[0];
+
+    // Validate required fields
+    if (!name || !description || !rating) {
+        window.notificationManager.error('Please fill in all required fields.');
+        return;
+    }
+
+    if (rating < 1 || rating > 5) {
+        window.notificationManager.error('Please select a valid rating (1-5).');
+        return;
+    }
+
+    // Show loading state
+    const submitBtn = document.querySelector('#reviewModal .btn-primary');
+    const submitText = submitBtn.querySelector('.submit-text');
+    const loadingText = submitBtn.querySelector('.loading-text');
+    
+    submitText.style.display = 'none';
+    loadingText.style.display = 'inline';
+    submitBtn.disabled = true;
+
+    try {
+        // Create FormData for file uploads
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('rating', rating);
+        
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+        
+        if (whtsappImageFile) {
+            formData.append('whtsapp_image', whtsappImageFile);
+        }
+
+        // Make API call
+        const response = await fetch(`/api/reviews/${productId}/reviews-add/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCSRFToken()
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Success
+            if (data.message) {
+                window.notificationManager.success(data.message);
+            } else {
+                window.notificationManager.success('Review submitted successfully!');
+            }
+            
+            // Show additional info if product was activated
+            if (data.product_activated) {
+                window.notificationManager.info('Product has been activated and is now visible!');
+            }
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+            modal.hide();
+            
+            // Optionally refresh the page to show the new review
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            // Error
+            const errorMessage = data.error || data.message || 'Failed to submit review. Please try again.';
+            window.notificationManager.error(errorMessage);
+        }
+    } catch (error) {
+        console.error('Error submitting review:', error);
+        window.notificationManager.error('Network error. Please check your connection and try again.');
+    } finally {
+        // Restore button state
+        submitText.style.display = 'inline';
+        loadingText.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+}
+
 // Helper Functions
 function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');
@@ -275,8 +388,8 @@ function renderRandomProducts(products) {
                 <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column h-100">
                     <h4 class="mb-2">${product.name}</h4>
                     <p class="mb-3 flex-grow-1">${product.description || 'Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt'}</p>
-                    <div class="d-flex justify-content-between flex-lg-wrap align-items-center mt-auto">
-                        <p class="text-dark fs-5 fw-bold mb-0">Rs${product.price}</p>
+                    <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">Rs${product.price}</p>
+                    <div class="d-flex justify-content-center flex-lg-wrap align-items-center mt-auto mt-3">
                         <a href="/product-detail/${product.id}/" class="btn border border-secondary rounded-pill px-3 text-primary">
                             <i class="fa fa-eye me-2 text-primary"></i> View Details
                         </a>
@@ -321,3 +434,5 @@ function initializeProductCarousel() {
 window.handleAddToCart = handleAddToCart;
 window.updateQuantity = updateQuantity;
 window.switchMainImage = switchMainImage;
+window.handleAddReview = handleAddReview;
+window.submitReview = submitReview;
