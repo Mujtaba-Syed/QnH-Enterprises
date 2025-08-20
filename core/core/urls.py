@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import( HomeView, PageNotFoundView, CartView, CheckoutView, 
-        ContactView, ShopDetailView, ShopView, TestimonialView, 
+        ContactView, ShopView, TestimonialView, 
             PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
-            LoginView, RegisterView, OAuthSuccessView, SitemapView, AboutUsView
+            LoginView, RegisterView, OAuthSuccessView, SitemapView, AboutUsView,
+            ProductDetailView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,7 +40,6 @@ urlpatterns = [
     path('cart/', CartView.as_view(), name='cart'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('contact/', ContactView.as_view(), name='contact'),
-    path('shop-detail/', ShopDetailView.as_view(), name='shop-detail'),
     path('shop/', ShopView.as_view(), name='shop'),
     path('testimonial/', TestimonialView.as_view(), name='testimonial'),
     path('privacy-policy/', PrivacyPolicyView.as_view(), name='privacy-policy'),
@@ -53,6 +53,7 @@ urlpatterns = [
     path('api/reviews/', include('backend.reviews.urls')),
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
+    path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
 
     path('oauth/', include('social_django.urls', namespace='social')),
     path('sitemap.xml', SitemapView.as_view(), name='sitemap'),
@@ -64,4 +65,4 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

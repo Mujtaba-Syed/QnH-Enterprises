@@ -127,8 +127,6 @@ class CheckoutView(TemplateView):
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
-class ShopDetailView(TemplateView):
-    template_name = 'shop-detail.html'
 
 class ShopView(TemplateView):
     template_name = 'shop.html'
@@ -351,3 +349,15 @@ class SitemapView(TemplateView):
         
         return HttpResponse(pretty_xml, content_type='application/xml')
 
+class ProductDetailView(TemplateView):
+    template_name = 'product-detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = self.kwargs.get('product_id')
+        response = requests.get(f'{settings.BASE_URL}/api/products/product-detail/{product_id}/')
+        if response.status_code == 200:
+            product = response.json()
+        else:
+            product = {}
+        context['product'] = product
+        return context

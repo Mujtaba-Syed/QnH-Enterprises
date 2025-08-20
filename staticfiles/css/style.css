@@ -503,3 +503,233 @@
 }
 /*** Footer End ***/
 
+/*** Product Detail Styles Start ***/
+.product-image-gallery {
+    position: relative;
+}
+
+.main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.thumbnail-images {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.thumbnail:hover {
+    border-color: #198754;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.thumbnail.active {
+    border-color: #198754;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.3);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.price-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #6c757d;
+    font-size: 1.1em;
+}
+
+.discounted-price {
+    color: #dc3545;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.savings {
+    color: #28a745;
+    font-size: 0.9em;
+}
+
+.reviews-section {
+    margin-top: 30px;
+}
+
+.review-item {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.rating-stars {
+    color: #ffc107;
+}
+
+.product-attributes {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.tab-content {
+    padding: 20px 0;
+}
+
+/* Fallback thumbnails styling */
+#fallbackThumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#fallbackThumbnails .thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#fallbackThumbnails .thumbnail:hover {
+    border-color: #198754;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#fallbackThumbnails .thumbnail.active {
+    border-color: #198754;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.3);
+}
+/*** Product Detail Styles End ***/
+
+
+/*** Product Carousel Styles Start ***/
+.product-carousel {
+    position: relative;
+}
+
+.product-carousel .item {
+    padding: 0 10px;
+}
+
+.product-carousel .fruite-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-carousel .fruite-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.product-carousel .fruite-img {
+    height: 200px !important;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-carousel .fruite-img img {
+    height: 100% !important;
+    object-fit: cover !important;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.product-carousel .fruite-item:hover .fruite-img img {
+    transform: scale(1.05);
+}
+
+/* Owl Carousel Navigation */
+.product-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    pointer-events: none;
+}
+
+.product-carousel .owl-prev,
+.product-carousel .owl-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--bs-secondary);
+    background: var(--bs-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    transition: 0.3s;
+}
+
+.product-carousel .owl-prev {
+    left: -24px;
+}
+
+.product-carousel .owl-next {
+    right: -24px;
+}
+
+.product-carousel .owl-prev:hover,
+.product-carousel .owl-next:hover {
+    background: var(--bs-secondary);
+    border-color: var(--bs-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-carousel .owl-prev {
+        left: 10px;
+    }
+    
+    .product-carousel .owl-next {
+        right: 10px;
+    }
+}
+/*** Product Carousel Styles End ***/
+

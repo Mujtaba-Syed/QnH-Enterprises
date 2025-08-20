@@ -264,12 +264,16 @@
         <!-- Modal Search End -->
 
 
+        <!-- CSRF Token for AJAX requests -->
+        {% csrf_token %}
+
+
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Shop</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop' %}">Pages</a></li>
                 <li class="breadcrumb-item active text-white">Shop</li>
             </ol>
         </div>
@@ -301,7 +305,7 @@
                             </div>
                             <div class="col-6"></div>
                             <!-- Sorting section dropdown -->
-                            <div class="col-xl-3">
+                            <!-- <div class="col-xl-3">
                                 <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                     <label for="fruits">Default Sorting:</label>
                                     <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
@@ -311,7 +315,7 @@
                                         <option value="audi">Fantastic</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- left sid bar section -->
                         <div class="row g-4">
@@ -321,7 +325,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <h4 class="mb-0">Categories</h4>
+                                                <h4 class="mb-2 mt-5 ">Categories</h4>
                                                 {% if current_category or current_min_price or current_max_price %}
                                                     <a href="{% url 'shop' %}{% if current_search %}?search={{ current_search }}{% endif %}" 
                                                        class="btn btn-outline-danger btn-sm clear-filters-btn">Clear Filters</a>
@@ -374,7 +378,7 @@
                                                     <input type="number" class="form-control ms-2" id="maxPrice" name="max_price" placeholder="Max" 
                                                            value="{{ current_max_price|default:'' }}" min="0" step="0.01">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary btn-sm w-100">Apply Price Filter</button>
+                                                <button type="submit" class="btn btn-sm w-100" style="background-color: #e8f5e8; border-color: #198754; color: #198754; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#198754'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e8f5e8'; this.style.color='#198754';">Apply Price Filter</button>
                                             </form>
                                             
                                             <!-- Quick price range buttons -->
@@ -390,32 +394,7 @@
                                         </div>
                                     </div>
                                     
-                                    <!-- addition Section -->
-                                    <!-- <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <h4>Additional</h4>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="Beverages">
-                                                <label for="Categories-1"> Organic</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-2" name="Categories-1" value="Beverages">
-                                                <label for="Categories-2"> Fresh</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-3" name="Categories-1" value="Beverages">
-                                                <label for="Categories-3"> Sales</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-4" name="Categories-1" value="Beverages">
-                                                <label for="Categories-4"> Discount</label>
-                                            </div>
-                                            <div class="mb-2">
-                                                <input type="radio" class="me-2" id="Categories-5" name="Categories-1" value="Beverages">
-                                                <label for="Categories-5"> Expired</label>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                       
 
                                     <!-- Featured Products Section -->
                                     <div class="col-lg-12">
@@ -543,11 +522,17 @@
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column h-100">
                                                     <h4 class="mb-2">{{ product.name }}</h4>
                                                     <p class="mb-3 flex-grow-1">{{ product.description|default:"Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt" }}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap align-items-center mt-auto">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">RS{{ product.price }}</p>
-                                                        <a href="#" onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn" data-product-id="{{ product.id }}">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                                        </a>
+                                                    <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">RS{{ product.price }}</p>
+
+                                                        <!-- View Details button -->
+                                                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-2" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                            <i class="fa fa-eye me-1 text-primary"></i> View Details
+                                                        </button>
+
+                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                            <i class="fa fa-shopping-bag me-1 text-primary"></i> Add to Cart
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -642,69 +627,11 @@
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
     
-    <!-- Filtering JavaScript -->
-    <script>
-        // Function to set price range from quick buttons
-        function setPriceRange(min, max) {
-            document.getElementById('minPrice').value = min;
-            if (max === 1000) {
-                document.getElementById('maxPrice').value = ''; // No upper limit for Rs500+
-            } else {
-                document.getElementById('maxPrice').value = max;
-            }
-            // Auto-submit the form
-            document.getElementById('priceFilterForm').submit();
-        }
-        
-        // Function to clear all filters
-        function clearAllFilters() {
-            window.location.href = "{% url 'shop' %}";
-        }
-        
-        // Function to preserve filters in pagination links
-        function updatePaginationLinks() {
-            const currentUrl = new URL(window.location);
-            const searchParams = currentUrl.searchParams;
-            
-            // Get current filter values
-            const search = searchParams.get('search') || '';
-            const category = searchParams.get('category') || '';
-            const minPrice = searchParams.get('min_price') || '';
-            const maxPrice = searchParams.get('max_price') || '';
-            
-            // Update all pagination links to preserve filters
-            const paginationLinks = document.querySelectorAll('.pagination a');
-            paginationLinks.forEach(link => {
-                const linkUrl = new URL(link.href);
-                if (search) linkUrl.searchParams.set('search', search);
-                if (category) linkUrl.searchParams.set('category', category);
-                if (minPrice) linkUrl.searchParams.set('min_price', minPrice);
-                if (maxPrice) linkUrl.searchParams.set('max_price', maxPrice);
-                link.href = linkUrl.toString();
-            });
-        }
-        
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            updatePaginationLinks();
-            
-            // Add event listeners for price filter form
-            const priceForm = document.getElementById('priceFilterForm');
-            if (priceForm) {
-                priceForm.addEventListener('submit', function(e) {
-                    // Validate price inputs
-                    const minPrice = document.getElementById('minPrice').value;
-                    const maxPrice = document.getElementById('maxPrice').value;
-                    
-                    if (minPrice && maxPrice && parseFloat(minPrice) > parseFloat(maxPrice)) {
-                        e.preventDefault();
-                        alert('Minimum price cannot be greater than maximum price');
-                        return false;
-                    }
-                });
-            }
-        });
-    </script>
+    <!-- Notification Manager -->
+    <script src="{% static 'js/notification-manager.js' %}"></script>
+    
+    <!-- Shop Page JavaScript -->
+    <script src="{% static 'js/shop.js' %}"></script>
     </body>
 
 </html>

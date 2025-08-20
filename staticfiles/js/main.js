@@ -47,7 +47,8 @@
     // Testimonial carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
-        smartSpeed: 2000,
+        autoplayTimeout: 2000,
+        smartSpeed: 1000,
         center: false,
         dots: true,
         loop: true,
@@ -234,9 +235,9 @@
         button.style.pointerEvents = 'auto';
 
         if (data.message) {
-          alert(data.message);
+          window.notificationManager.success(data.message);
         } else {
-          alert('Product added to cart successfully!');
+          window.notificationManager.success('Product added to cart successfully!');
         }
         // Update cart badge after successful addition
         updateCartBadge();
@@ -247,16 +248,23 @@
         button.innerHTML = originalText;
         button.style.pointerEvents = 'auto';
         
-        alert('Failed to add product to cart. Please try again.');
+        window.notificationManager.error('Failed to add product to cart. Please try again.');
       });
     } else {
-      alert('Please log in to add items to your cart.');
+      window.notificationManager.warning('Please log in to add items to your cart.');
       setTimeout(() => {
         window.location.href = '/login/';
       }, 2000);
     }
   }
 
+   // Function to handle "View Details" button click on index.html
+   function handleViewDetails(event, productId) {
+    event.preventDefault();
+    console.log('handleViewDetails called with productId:', productId);
+    window.location.href = `/product-detail/${productId}/`;
+  }
+  
   // Helper function to get CSRF token
   function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');
