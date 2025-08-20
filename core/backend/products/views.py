@@ -1,4 +1,4 @@
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Avg
 from django_filters import rest_framework as filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,13 +7,15 @@ from .serializers import (ProductSerializer,
                           FeaturedProductsSerializer, 
                           NewlyAddedProductsSerializer, 
                           BestSellerProductsSerializer,
-                          ProductTypeCountSerializer
+                          ProductTypeCountSerializer,
+                          ProductDetailSerializer
                           )
 
 
 from rest_framework import status, pagination, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound, APIException
+import random
 
 
 class ProductFilter(filters.FilterSet):
@@ -270,3 +272,115 @@ class ProductTypeCountAPIView(APIView):
 
         serializer = ProductTypeCountSerializer(full_data, many=True)
         return Response(serializer.data)
+
+
+class ProductDetailAPIView(APIView):
+    """API for getting detailed product information including all images."""
+    permission_classes = [AllowAny]
+    
+    def get(self, request, product_id):
+        try:
+            product = Product.objects.get(id=product_id, is_active=True)
+            
+            # Get product reviews
+            try:
+                reviews = product.reviews.filter(is_active=True).order_by('-created_at')
+            except Exception as e:
+                # If there's an issue with reviews, continue without them
+                reviews = []
+                print(f"Warning: Could not fetch reviews for product {product_id}: {e}")
+            
+            # Serialize product with all details
+            try:
+                product_serializer = ProductDetailSerializer(product)
+                product_data = product_serializer.data
+            except Exception as e:
+                return Response(
+                    {'error': f'Failed to serialize product: {str(e)}'}, 
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )
+            
+            # Prepare response data
+            response_data = {
+                'product': product_data,
+                'reviews': {
+                    'count': len(reviews) if reviews else 0,
+                    'average_rating': 0,
+                    'reviews': []
+                }
+            }
+            
+            # Calculate average rating if reviews exist
+            if reviews:
+                try:
+                    avg_rating = reviews.aggregate(avg_rating=Avg('rating'))['avg_rating'] or 0
+                    response_data['reviews']['average_rating'] = avg_rating
+                except Exception as e:
+                    print(f"Warning: Could not calculate average rating: {e}")
+                    response_data['reviews']['average_rating'] = 0
+            
+            # Add review details if needed
+            if reviews:
+                for review in reviews[:10]:  # Limit to 10 most recent reviews
+                    try:
+                        review_data = {
+                            'id': review.id,
+                            'name': review.name,
+                            'rating': review.rating,
+                            'description': review.description,
+                            'image': None,
+                            'created_at': review.created_at
+                        }
+                        
+                        # Safely get image URL
+                        if review.image:
+                            try:
+                                review_data['image'] = review.image.url
+                            except Exception:
+                                review_data['image'] = None
+                        
+                        response_data['reviews']['reviews'].append(review_data)
+                    except Exception as e:
+                        print(f"Warning: Could not serialize review {review.id}: {e}")
+                        continue
+            
+            return Response(response_data)
+            
+        except Product.DoesNotExist:
+            return Response(
+                {'error': 'Product not found or inactive'}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to fetch product details: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class RandomProductsAPIView(APIView):
+    """API for getting random products for product slider."""
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        try:
+            # Get all active products
+            products = Product.objects.filter(is_active=True)
+            
+            # Convert to list and shuffle to get random order
+            product_list = list(products)
+            random.shuffle(product_list)
+            
+            # Take first 8 products (or less if not enough)
+            random_products = product_list[:8]
+            
+            # Serialize the products
+            serializer = ProductSerializer(random_products, many=True)
+            
+            return Response(serializer.data)
+            
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to fetch random products: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

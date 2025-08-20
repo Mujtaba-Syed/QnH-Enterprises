@@ -6,7 +6,9 @@ from .views import (ProductView,
                     ProductTypeCountAPIView,
                     FilteredProductsAPIView,
                     ProductsByTypeAPIView,
-                    ProductsByPriceRangeAPIView
+                    ProductsByPriceRangeAPIView,
+                    ProductDetailAPIView,
+                    RandomProductsAPIView
 ) 
 
 urlpatterns = [
@@ -20,4 +22,10 @@ urlpatterns = [
     path('filter-products/', FilteredProductsAPIView.as_view(), name='filter-products'),
     path('products-by-type/<str:product_type>/', ProductsByTypeAPIView.as_view(), name='products-by-type'),
     path('products-by-price/', ProductsByPriceRangeAPIView.as_view(), name='products-by-price'),
+    
+    # Product detail endpoint
+    path('product-detail/<int:product_id>/', ProductDetailAPIView.as_view(), name='product-detail'),
+    
+    # Random products for slider
+    path('random/', RandomProductsAPIView.as_view(), name='random-products'),
 ]

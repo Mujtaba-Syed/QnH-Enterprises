@@ -257,6 +257,13 @@
     }
   }
 
+   // Function to handle "View Details" button click on index.html
+   function handleViewDetails(event, productId) {
+    event.preventDefault();
+    console.log('handleViewDetails called with productId:', productId);
+    window.location.href = `/product-detail/${productId}/`;
+  }
+  
   // Helper function to get CSRF token
   function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');

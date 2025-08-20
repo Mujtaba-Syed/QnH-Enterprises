@@ -475,9 +475,14 @@
                                                 <p class="flex-grow-1">{{ product.description }}</p>
                                             
                                                     <p class="text-dark fs-5 fw-bold me-2 pt-2">RS {{ product.price }}</p>
+
+                                                    <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                                        <i class="fa fa-eye me-2 text-primary"></i> View Details
+                                                    </button>
                                                     <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                                     </button>
+                                                    
                                                 </div>
                                             
                                             </div>
