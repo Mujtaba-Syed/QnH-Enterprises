@@ -3,31 +3,107 @@
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Product detail page loaded');
+    console.log('Testing if functions are available...');
+    console.log('loadRandomProducts function:', typeof loadRandomProducts);
+    console.log('setupImageGallery function:', typeof setupImageGallery);
+    
     setupImageGallery();
     loadRandomProducts();
+    
+    // Test API endpoint accessibility
+    testAPIEndpoint();
+    
+    // Setup fallback thumbnails if main setup fails
+    setTimeout(() => {
+        if (document.querySelectorAll('#thumbnailContainer .thumbnail').length === 0) {
+            console.log('Main setup failed, using fallback thumbnails');
+            setupFallbackThumbnails();
+        }
+    }, 2000);
 });
+
+// Fallback thumbnail setup
+function setupFallbackThumbnails() {
+    const fallbackContainer = document.getElementById('fallbackThumbnails');
+    const mainContainer = document.getElementById('thumbnailContainer');
+    
+    if (fallbackContainer && mainContainer) {
+        // Move fallback thumbnails to main container
+        const thumbnails = fallbackContainer.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+            const newThumb = thumb.cloneNode(true);
+            newThumb.addEventListener('click', function() {
+                const imageSrc = this.getAttribute('data-image');
+                const index = parseInt(this.getAttribute('data-index'));
+                switchMainImage(imageSrc, index);
+            });
+            mainContainer.appendChild(newThumb);
+        });
+        
+        // Hide fallback container
+        fallbackContainer.style.display = 'none';
+        console.log('Fallback thumbnails setup complete');
+    }
+}
+
+// Test function to check if API endpoint is accessible
+async function testAPIEndpoint() {
+    console.log('Testing API endpoint...');
+    try {
+        const response = await fetch('/api/products/random/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log('API test response status:', response.status);
+        console.log('API test response headers:', response.headers);
+    } catch (error) {
+        console.error('API test error:', error);
+    }
+}
 
 // Image Gallery Functions
 function setupImageGallery() {
+    console.log('Setting up image gallery');
     const mainImage = document.getElementById('mainImage');
     const thumbnailContainer = document.getElementById('thumbnailContainer');
     
-    if (!mainImage || !thumbnailContainer) return;
+    if (!mainImage || !thumbnailContainer) {
+        console.log('Image gallery elements not found');
+        return;
+    }
 
     // Get all images from the product data
-    const allImages = JSON.parse(document.getElementById('productImagesData').textContent);
-    
-    if (!allImages || allImages.length === 0) return;
+    const productImagesData = document.getElementById('productImagesData');
+    if (!productImagesData) {
+        console.log('Product images data element not found');
+        return;
+    }
 
-    // Create thumbnails
-    allImages.forEach((img, index) => {
-        const thumbnail = document.createElement('img');
-        thumbnail.src = img.image;
-        thumbnail.alt = `Product Image ${img.order}`;
-        thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
-        thumbnail.onclick = () => switchMainImage(img.image, index);
-        thumbnailContainer.appendChild(thumbnail);
-    });
+    try {
+        const allImages = JSON.parse(productImagesData.textContent);
+        console.log('Parsed images:', allImages);
+        
+        if (!allImages || allImages.length === 0) {
+            console.log('No images found');
+            return;
+        }
+
+        // Create thumbnails
+        allImages.forEach((img, index) => {
+            const thumbnail = document.createElement('img');
+            thumbnail.src = img.image;
+            thumbnail.alt = `Product Image ${img.order}`;
+            thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+            thumbnail.onclick = () => switchMainImage(img.image, index);
+            thumbnailContainer.appendChild(thumbnail);
+        });
+        console.log('Image gallery setup complete');
+    } catch (error) {
+        console.error('Error setting up image gallery:', error);
+    }
 }
 
 function switchMainImage(imageSrc, index) {
@@ -153,6 +229,7 @@ function updateQuantity(change) {
 
 // Random Products Slider Functions
 async function loadRandomProducts() {
+    console.log('Loading random products...');
     try {
         const response = await fetch('/api/products/random/', {
             method: 'GET',
@@ -160,13 +237,18 @@ async function loadRandomProducts() {
                 'Content-Type': 'application/json'
             }
         });
-
+        
+        console.log('API response status:', response.status);
+        
         if (response.ok) {
             const products = await response.json();
+            console.log('Random products received:', products);
             renderRandomProducts(products);
             initializeProductCarousel();
         } else {
-            console.error('Failed to load random products');
+            console.error('Failed to load random products. Status:', response.status);
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
         }
     } catch (error) {
         console.error('Error loading random products:', error);

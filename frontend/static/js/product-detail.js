@@ -13,7 +13,39 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Test API endpoint accessibility
     testAPIEndpoint();
+    
+    // Setup fallback thumbnails if main setup fails
+    setTimeout(() => {
+        if (document.querySelectorAll('#thumbnailContainer .thumbnail').length === 0) {
+            console.log('Main setup failed, using fallback thumbnails');
+            setupFallbackThumbnails();
+        }
+    }, 2000);
 });
+
+// Fallback thumbnail setup
+function setupFallbackThumbnails() {
+    const fallbackContainer = document.getElementById('fallbackThumbnails');
+    const mainContainer = document.getElementById('thumbnailContainer');
+    
+    if (fallbackContainer && mainContainer) {
+        // Move fallback thumbnails to main container
+        const thumbnails = fallbackContainer.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+            const newThumb = thumb.cloneNode(true);
+            newThumb.addEventListener('click', function() {
+                const imageSrc = this.getAttribute('data-image');
+                const index = parseInt(this.getAttribute('data-index'));
+                switchMainImage(imageSrc, index);
+            });
+            mainContainer.appendChild(newThumb);
+        });
+        
+        // Hide fallback container
+        fallbackContainer.style.display = 'none';
+        console.log('Fallback thumbnails setup complete');
+    }
+}
 
 // Test function to check if API endpoint is accessible
 async function testAPIEndpoint() {
