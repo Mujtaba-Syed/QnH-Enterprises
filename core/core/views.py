@@ -118,6 +118,10 @@ class HomeView(TemplateView):
 class PageNotFoundView(TemplateView):
     template_name = '404.html'
 
+def custom_404(request, exception):
+    """Custom 404 handler for all non-existent URLs"""
+    return render(request, '404.html', status=404)
+
 class CartView(TemplateView):
     template_name = 'cart.html'
 
