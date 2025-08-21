@@ -319,13 +319,13 @@ class SitemapView(TemplateView):
         
         # Static pages
         static_pages = [
-            {'loc': 'https://qnhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
-            {'loc': 'https://qnhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
-            {'loc': 'https://qnhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
-            {'loc': 'https://qnhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
-            {'loc': 'https://qnhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
-            {'loc': 'https://qnhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
-            {'loc': 'https://qnhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+                    {'loc': 'https://qhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
+        {'loc': 'https://qhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
+        {'loc': 'https://qhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
+        {'loc': 'https://qhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
+        {'loc': 'https://qhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': 'https://qhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': 'https://qhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
         ]
         
         current_date = timezone.now().strftime('%Y-%m-%d')
@@ -341,7 +341,7 @@ class SitemapView(TemplateView):
         products = Product.objects.filter(is_active=True)
         for product in products:
             url = ET.SubElement(urlset, 'url')
-            ET.SubElement(url, 'loc').text = f"https://qnhenterprises.com/shop-detail/{product.id}/"
+            ET.SubElement(url, 'loc').text = f"https://qhenterprises.com/shop-detail/{product.id}/"
             ET.SubElement(url, 'lastmod').text = product.updated_at.strftime('%Y-%m-%d') if hasattr(product, 'updated_at') else current_date
             ET.SubElement(url, 'changefreq').text = 'weekly'
             ET.SubElement(url, 'priority').text = '0.8'
