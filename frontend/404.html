@@ -4,7 +4,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Fruitables - Vegetable Website Template</title>
+        <title>Q & H Enterprises - 404 Page Not Found</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -29,6 +29,11 @@
         <!-- Template Stylesheet -->
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="{% static 'img/qh-favicon.ico' %}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     </head>
 
     <body>
@@ -49,9 +54,8 @@
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">404 Error</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">404</li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active text-white">404 Page Not Found</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
