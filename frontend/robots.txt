@@ -1,0 +1,50 @@
+# ==========================================
+# Q&H Enterprises - Robots.txt
+# ==========================================
+
+User-agent: *
+Allow: /
+
+# Disallow admin and sensitive areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /logs/
+Disallow: /backup/
+Disallow: /cgi-bin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+Disallow: /wp-content/uploads/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/backup-db/
+Disallow: /wp-content/backups/
+Disallow: /wp-content/blogs.dir/
+Disallow: /wp-content/upgrade/
+Disallow: /wp-content/uploads/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/backup-db/
+Disallow: /wp-content/backups/
+Disallow: /wp-content/blogs.dir/
+Disallow: /wp-content/upgrade/
+Disallow: /wp-content/uploads/
+Disallow: /wp-content/cache/
+Disallow: /wp-content/backup-db/
+Disallow: /wp-content/backups/
+Disallow: /wp-content/blogs.dir/
+Disallow: /wp-content/upgrade/
+
+# Allow important pages
+Allow: /shop/
+Allow: /about-us/
+Allow: /contact/
+Allow: /cart/
+Allow: /products/
+Allow: /categories/
+
+# Sitemap location
+Sitemap: https://www.qhenterprises.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to server)
+Crawl-delay: 1
