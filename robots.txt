@@ -25,6 +25,18 @@ Allow: /terms-of-use/
 Allow: /sales-and-refund-policy/
 Allow: /about-us/
 Allow: /product-detail/
+Allow: /cart/
+Allow: /checkout/
+
+# Product category pages
+Allow: /solar-powerbanks/
+Allow: /cheap-perfumes/
+Allow: /online-perfumes/
+Allow: /polo-shirts-lahore/
+Allow: /cheap-t-shirts/
+Allow: /brand-shirts/
+Allow: /die-cast-car-models/
+Allow: /mobile-accessories/
 
 # Allow static assets
 Allow: /static/
