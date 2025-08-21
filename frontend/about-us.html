@@ -80,7 +80,7 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
+        
         <!-- Libraries Stylesheet -->
         <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
         <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
@@ -121,11 +121,11 @@
             <div class="row g-5">
                 <div class="col-lg-6">
                     <div class="position-relative h-100">
-                        <img class="w-100 h-100 rounded" src="{% static 'img/banner_img_index_image-Photoroom.png' %}" style="object-fit: cover;">
+                        <img loading="lazy" width="300" height="200" class="w-100 h-100 rounded about-us-image" src="{% static 'img/banner_img_index_image-Photoroom.png' %}" alt="Q&H Enterprises Office and Team">
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="mb-4">Who We Are</h1>
+                    <h2 class="mb-4">Who We Are</h2>
                     <p class="mb-4">Q & H Enterprises is a dynamic and innovative company dedicated to providing exceptional products and services to businesses and individuals alike. We specialize in white labeling, customization, bulk wholesale, and comprehensive web solutions.</p>
                     <p class="mb-4">Our mission is to be your trusted partner in bringing your ideas to life, whether it's creating custom products with your brand, developing cutting-edge websites, or providing high-quality products at wholesale prices.</p>
                     <div class="row g-4 mb-4">
@@ -161,8 +161,8 @@
 
         <!-- Services Start -->
         <div class="container py-5">
-            <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                <h1 class="mb-3">Our Services</h1>
+            <div class="text-center mx-auto mb-5 section-header-container">
+                <h2 class="mb-3">Our Services</h2>
                 <p class="mb-0">Discover the comprehensive range of services we offer to help your business grow and succeed</p>
             </div>
             
@@ -170,7 +170,7 @@
                 <!-- White Labeling -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-tags fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">White Labeling</h4>
@@ -182,7 +182,7 @@
                 <!-- Customized Products -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-palette fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">Customized Products</h4>
@@ -194,7 +194,7 @@
                 <!-- Bulk Wholesale -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-boxes fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">Bulk Wholesale</h4>
@@ -206,7 +206,7 @@
                 <!-- Die Cast Models -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-car fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">Die Cast Car Models</h4>
@@ -218,7 +218,7 @@
                 <!-- Web Solutions -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-laptop-code fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">Web Solutions</h4>
@@ -230,7 +230,7 @@
                 <!-- And Bridal Dresses -->
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item bg-light rounded p-4 text-center h-100">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4" style="width: 80px; height: 80px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4 service-icon-container-small">
                             <i class="fa fa-plus fa-2x text-primary"></i>
                         </div>
                         <h4 class="mb-3">Bridal Dresses</h4>
@@ -244,15 +244,15 @@
 
         <!-- Why Choose Us Start -->
         <div class="container py-5">
-            <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                <h1 class="mb-3">Why Choose Q & H Enterprises?</h1>
+            <div class="text-center mx-auto mb-5 section-header-container">
+                <h2 class="mb-3">Why Choose Q & H Enterprises?</h2>
                 <p class="mb-0">We stand out from the competition with our commitment to quality, innovation, and customer satisfaction</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-lg-3 col-md-6">
                     <div class="text-center">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4" style="width: 100px; height: 100px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4 service-icon-container-large">
                             <i class="fa fa-award fa-3x text-primary"></i>
                         </div>
                         <h4>Quality First</h4>
@@ -261,7 +261,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="text-center">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4" style="width: 100px; height: 100px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4 service-icon-container-large">
                             <i class="fa fa-users fa-3x text-primary"></i>
                         </div>
                         <h4>Expert Team</h4>
@@ -270,7 +270,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="text-center">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4" style="width: 100px; height: 100px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4 service-icon-container-large">
                             <i class="fa fa-clock fa-3x text-primary"></i>
                         </div>
                         <h4>Timely Delivery</h4>
@@ -279,7 +279,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <div class="text-center">
-                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4" style="width: 100px; height: 100px;">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4 service-icon-container-large">
                             <i class="fa fa-headset fa-3x text-primary"></i>
                         </div>
                         <h4>24/7 Support</h4>
@@ -292,11 +292,11 @@
 
         <!-- Contact CTA Start -->
         <div class="container py-5">
-            <div class="rounded p-5" style="background-color: #1f3327 ">
+            <div class="rounded p-5 contact-cta-background">
                 <div class="row align-items-center">
                     <div class="col-lg-8">
                         <h2 class="text-white mb-3">Ready to Get Started?</h2>
-                        <p class="mb-4" style="color: #ffb524">Let's discuss how we can help bring your vision to life. Contact us today for a free consultation and quote.</p>
+                        <p class="mb-4 contact-cta-text">Let's discuss how we can help bring your vision to life. Contact us today for a free consultation and quote.</p>
                     </div>
                     <div class="col-lg-4 text-lg-end">
                         <a class="btn btn-light py-3 px-5" href="{% url 'contact' %}">Contact Us Now</a>

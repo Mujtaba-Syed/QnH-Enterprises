@@ -5,10 +5,10 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Shop - Q & H Enterprises | Browse All Products & Categories</title>
+        <title>Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises</title> 
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, shop, online store, browse products, product categories, Q&H Enterprises, perfumes, accessories, shirts, diecast cars, wholesale, cheap products, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
-        <meta content="Browse our complete product catalog at Q & H Enterprises. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories. Filter by category, price, and features. Free shipping on orders over 3000 PKR." name="description">
+        <meta content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping. Browse categories & filter by price." name="description">
         
         <!-- SEO Meta Tags -->
         <meta name="author" content="Q & H Enterprises">
@@ -19,8 +19,8 @@
         <meta name="rating" content="general">
         
         <!-- Open Graph Meta Tags for Social Media -->
-        <meta property="og:title" content="Shop - Q & H Enterprises">
-        <meta property="og:description" content="Browse our complete product catalog. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories. Filter by category, price, and features.">
+        <meta property="og:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">    
+        <meta property="og:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://qhenterprises.com/shop">
         <meta property="og:site_name" content="Q & H Enterprises">
@@ -31,8 +31,8 @@
         
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Shop - Q & H Enterprises">
-        <meta name="twitter:description" content="Browse our complete product catalog. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories.">
+        <meta name="twitter:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">
+        <meta name="twitter:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
         <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         
         <!-- Additional SEO Meta Tags -->
@@ -87,7 +87,7 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
+        
         <!-- Libraries Stylesheet -->
         <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
         <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
@@ -270,7 +270,7 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Shop</h1>
+            <h1 class="text-center text-white display-6">Shop </h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'shop' %}">Pages</a></li>
@@ -283,7 +283,7 @@
         <!-- Shop Start-->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <h1 class="mb-4">Store Inventory</h1>
+                <h2 class="mb-4">Store Inventory</h2>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -325,7 +325,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <h4 class="mb-2 mt-5 ">Categories</h4>
+                                                <h3 class="mb-2 mt-5 ">Categories</h3>
                                                 {% if current_category or current_min_price or current_max_price %}
                                                     <a href="{% url 'shop' %}{% if current_search %}?search={{ current_search }}{% endif %}" 
                                                        class="btn btn-outline-danger btn-sm clear-filters-btn">Clear Filters</a>
@@ -361,7 +361,7 @@
                                     <!-- price filter -->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <h4 class="mb-2">Price</h4>
+                                            <h3 class="mb-2">Price</h3>
                                             <form id="priceFilterForm" method="GET" action="{% url 'shop' %}" class="price-filter-form">
                                                 <!-- Preserve existing filters -->
                                                 {% if current_search %}
@@ -378,7 +378,7 @@
                                                     <input type="number" class="form-control ms-2" id="maxPrice" name="max_price" placeholder="Max" 
                                                            value="{{ current_max_price|default:'' }}" min="0" step="0.01">
                                                 </div>
-                                                <button type="submit" class="btn btn-sm w-100" style="background-color: #e8f5e8; border-color: #198754; color: #198754; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#198754'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e8f5e8'; this.style.color='#198754';">Apply Price Filter</button>
+                                                <button type="submit" class="btn btn-sm w-100 price-filter-btn">Apply Price Filter</button>
                                             </form>
                                             
                                             <!-- Quick price range buttons -->
@@ -398,13 +398,13 @@
 
                                     <!-- Featured Products Section -->
                                     <div class="col-lg-12">
-                                        <h4 class="mb-3">Featured products</h4>
+                                        <h3 class="mb-3">Featured products</h3>
                                         <div class="featured-products-container">
                                             <div class="featured-products-wrapper">
                                                 {% for product in featured_products %}
                                                 <div class="featured-product-item">
                                                     <div class="d-flex align-items-center justify-content-start">
-                                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
+                                                        <div class="rounded me-4 featured-product-img-container">
                                                             {% if product.product_image %}
                                                                 <img src="{{ product.product_image }}" class="img-fluid rounded" alt="{{ product.product_name }}">
                                                             {% else %}
@@ -432,7 +432,7 @@
                                                     </div>
                                                 </div>
                                                 {% empty %}
-                                                <div class="featured-product-item d-flex align-items-center justify-content-center" style="height: 200px;">
+                                                <div class="featured-product-item d-flex align-items-center justify-content-center no-featured-products-container">
                                                     <div class="text-center">
                                                         <i class="fas fa-star fa-2x text-muted mb-3"></i>
                                                         <h6 class="text-muted mb-2">No Featured Products</h6>
@@ -450,7 +450,7 @@
                                     <!-- Banner Section -->
                                     <div class="col-lg-12">
                                         <div class="position-relative">
-                                            <div class="card text-center border-0 shadow-sm" style="background-color: #ffb524;">
+                                            <div class="card text-center border-0 shadow-sm business-promotion-banner">
                                                 <div class="card-body py-4">
                                                     <h5 class="card-title text-dark mb-3 fw-bold">Promote Your Business with Q&H Enterprises</h5>
                                                     <p class="card-text text-dark mb-3">Place your ad here and reach thousands of customers!</p>
@@ -511,14 +511,14 @@
                                         {% for product in products %}
                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                             <div class="rounded position-relative fruite-item h-100">
-                                                <div class="fruite-img" style="height: 200px; overflow: hidden;">
+                                                <div class="fruite-img product-img-container">
                                                     {% if product.image %}
-                                                        <img src="{{ product.image }}" class="img-fluid w-100 rounded-top" style="height: 100%; object-fit: cover;" alt="{{ product.name }}">
+                                                        <img src="{{ product.image }}" class="img-fluid w-100 rounded-top product-img" alt="{{ product.name }}" loading="lazy" width="300" height="200">
                                                     {% else %}
-                                                        <img src="{% static 'img/fruite-item-1.jpg' %}" class="img-fluid w-100 rounded-top" style="height: 100%; object-fit: cover;" alt="{{ product.name }}">
+                                                        <img src="{% static 'img/fruite-item-1.jpg' %}" class="img-fluid w-100 rounded-top product-img" alt="{{ product.name }}" loading="lazy" width="300" height="200">
                                                     {% endif %}
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{ product.product_type|title }}</div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute product-type-badge">{{ product.product_type|title }}</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column h-100">
                                                     <h4 class="mb-2">{{ product.name }}</h4>
                                                     <p class="mb-3 flex-grow-1">{{ product.description|default:"Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt" }}</p>
@@ -526,11 +526,11 @@
 
                                                         <!-- View Details button -->
                                                     <div class="d-flex justify-content-between align-items-center mt-auto">
-                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-2" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-2 action-btn">
                                                             <i class="fa fa-eye me-1 text-primary"></i> View Details
                                                         </button>
 
-                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn">
                                                             <i class="fa fa-shopping-bag me-1 text-primary"></i> Add to Cart
                                                         </button>
                                                     </div>
