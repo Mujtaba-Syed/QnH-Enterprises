@@ -41,13 +41,11 @@ services:
     profiles:
       - production
 
-  # Redis for caching (optional, for production)
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
-    profiles:
-      - production
+    
 
 volumes:
   postgres_data: 
