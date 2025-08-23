@@ -101,6 +101,27 @@
         
         <!-- Custom Filtering Styles -->
         <style>
+
+            /* Horizontal Scrolling Fix */
+            @media (prefers-reduced-motion: no-preference) {
+                :root {
+                    scroll-behavior: smooth;
+                    overflow-x: hidden;
+                }
+            }
+
+            /* Global overflow fix for body and html */
+            html, body {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            /* Ensure containers don't cause horizontal scroll */
+            .container, .container-fluid, .row, .col, [class*="col-"] {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
             .fruite-categorie .fruite-name a {
                 text-decoration: none;
                 color: #666;
