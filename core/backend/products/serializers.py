@@ -1,10 +1,50 @@
 from rest_framework import serializers
-from .models import Product, FeaturedProducts
+from .models import Product, FeaturedProducts, ProductImage
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    """Serializer for ProductImage model."""
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image', 'alt_text', 'order', 'is_active']
+
 
 class ProductSerializer(serializers.ModelSerializer):
+    additional_images = ProductImageSerializer(many=True, read_only=True)
+    discounted_price = serializers.ReadOnlyField()
+    has_discount = serializers.ReadOnlyField()
+    all_images = serializers.SerializerMethodField()
+    
     class Meta:
         model = Product
         fields = '__all__'
+    
+    def get_all_images(self, obj):
+        """Get all images including main image and additional images."""
+        return obj.get_all_images()
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for product detail page."""
+    additional_images = ProductImageSerializer(many=True, read_only=True)
+    discounted_price = serializers.ReadOnlyField()
+    has_discount = serializers.ReadOnlyField()
+    all_images = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Product
+        fields = [
+            'id', 'name', 'description', 'product_type', 'sku', 'price', 
+            'brand', 'image', 'additional_images', 'all_images',
+            'attributes', 'is_active', 'newly_added', 'best_seller', 
+            'rating', 'discount_percentage', 'discount_text', 
+            'discounted_price', 'has_discount', 'number_of_sales'
+        ]
+    
+    def get_all_images(self, obj):
+        """Get all images including main image and additional images."""
+        return obj.get_all_images()
+
 
 class FeaturedProductsSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name')

@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'backend.authentication',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
     'backend.orders',
     'backend.products',
     'backend.customers',

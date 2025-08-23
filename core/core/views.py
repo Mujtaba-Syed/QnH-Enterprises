@@ -42,6 +42,7 @@ class HomeView(TemplateView):
             'shirts': [product for product in products if product['product_type'] == 'shirt'],
             'mobile_accessories': [product for product in products if product['product_type'] == 'mobile_accessories'],
             'cars': [product for product in products if product['product_type'] == 'car'],
+            'watches': [product for product in products if product['product_type'] == 'watches'],
         }
 
         #to get featured products
@@ -117,6 +118,10 @@ class HomeView(TemplateView):
 class PageNotFoundView(TemplateView):
     template_name = '404.html'
 
+def custom_404(request, exception):
+    """Custom 404 handler for all non-existent URLs"""
+    return render(request, '404.html', status=404)
+
 class CartView(TemplateView):
     template_name = 'cart.html'
 
@@ -126,8 +131,6 @@ class CheckoutView(TemplateView):
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
-class ShopDetailView(TemplateView):
-    template_name = 'shop-detail.html'
 
 class ShopView(TemplateView):
     template_name = 'shop.html'
@@ -139,32 +142,66 @@ class ShopView(TemplateView):
         page_size = self.request.GET.get('page_size', 6)  
         search = self.request.GET.get('search', '')
         category = self.request.GET.get('category', '')
+        min_price = self.request.GET.get('min_price', '')
+        max_price = self.request.GET.get('max_price', '')
         
-        # Build API parameters
+        # Build API parameters for filtering
         api_params = {
             'page': page,
             'page_size': page_size
         }
         
-        if search:
-            api_params['search'] = search
-        if category:
-            api_params['product_type'] = category
-        
-        # Fetch products with pagination and filters
-        response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/', params=api_params)
+        # Use the new filtering API if we have specific filters
+        if category or min_price or max_price:
+            filter_params = {}
+            if category:
+                filter_params['product_type'] = category
+            if min_price:
+                filter_params['min_price'] = min_price
+            if max_price:
+                filter_params['max_price'] = max_price
+            if search:
+                filter_params['search'] = search
+                
+            # Use the advanced filtering API
+            response = requests.get(f'{settings.BASE_URL}/api/products/filter-products/', params=filter_params)
+        else:
+            # Use the regular products API with search
+            if search:
+                api_params['search'] = search
+            
+            response = requests.get(f'{settings.BASE_URL}/api/products/get-all-products/', params=api_params)
         
         if response.status_code == 200:
             data = response.json()
-            products = data.get("results", [])
-            total_pages = data.get('pages', 0)
+            
+            # Handle different response formats
+            if 'results' in data:
+                products = data.get("results", [])
+                total_count = data.get('count', 0)
+                
+                # Calculate pagination for filtered results
+                if category or min_price or max_price:
+                    # For filtered results, we'll do client-side pagination
+                    start_idx = (int(page) - 1) * int(page_size)
+                    end_idx = start_idx + int(page_size)
+                    products = products[start_idx:end_idx]
+                    total_pages = (total_count + int(page_size) - 1) // int(page_size)
+                else:
+                    # For regular API, use server pagination
+                    total_pages = data.get('pages', 0)
+            else:
+                products = data
+                total_count = len(products)
+                total_pages = 1
+            
             current_page = int(page)
             
             # Generate page range for pagination
             page_range = list(range(1, total_pages + 1))
             
             pagination_info = {
-                'count': data.get('count', 0),
+                'count': total_count,
                 'pages': total_pages,
                 'current_page': current_page,
                 'has_next': current_page < total_pages,
@@ -197,7 +234,7 @@ class ShopView(TemplateView):
             else:
                 product['image'] = ''
 
-        # Get category filters
+        # Get category filters with counts
         response = requests.get(f'{settings.BASE_URL}/api/products/get-product-type-count/')
         if response.status_code == 200:
             side_cat_filters = response.json()
@@ -225,12 +262,33 @@ class ShopView(TemplateView):
         context['side_cat_filters'] = side_cat_filters
         context['current_search'] = search
         context['current_category'] = category
+        context['current_min_price'] = min_price
+        context['current_max_price'] = max_price
         context['featured_products'] = featured_products
 
         return context
 
 class TestimonialView(TemplateView):
     template_name = 'testimonial.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        response= requests.get(f'{settings.BASE_URL}/api/reviews/active-reviews/')
+        if response.status_code ==200:
+            client_review=response.json()
+        else:
+            client_review= []
+        for product in client_review:
+            if product['image']:
+                if not product['image'].startswith("http"):
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+                else:
+                    product['image'] = f'{settings.BASE_URL}{product["image"]}'
+            else:
+                product['image'] = ''
+       
+        context['client_review'] = client_review
+
+        return context
 
 class PrivacyPolicyView(TemplateView):
     template_name = 'privacy-policy.html'
@@ -241,6 +299,8 @@ class TermsOfUseView(TemplateView):
 class SalesAndRefundPolicyView(TemplateView):
     template_name = 'sales-and-refund-policy.html'
 
+class AboutUsView(TemplateView):
+    template_name = 'about-us.html'
 
 class LoginView(TemplateView):
     template_name = 'login.html'
@@ -259,13 +319,13 @@ class SitemapView(TemplateView):
         
         # Static pages
         static_pages = [
-            {'loc': 'https://qnhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
-            {'loc': 'https://qnhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
-            {'loc': 'https://qnhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
-            {'loc': 'https://qnhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
-            {'loc': 'https://qnhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
-            {'loc': 'https://qnhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
-            {'loc': 'https://qnhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+                    {'loc': 'https://qhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
+        {'loc': 'https://qhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
+        {'loc': 'https://qhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
+        {'loc': 'https://qhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
+        {'loc': 'https://qhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': 'https://qhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
+        {'loc': 'https://qhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
         ]
         
         current_date = timezone.now().strftime('%Y-%m-%d')
@@ -281,7 +341,7 @@ class SitemapView(TemplateView):
         products = Product.objects.filter(is_active=True)
         for product in products:
             url = ET.SubElement(urlset, 'url')
-            ET.SubElement(url, 'loc').text = f"https://qnhenterprises.com/shop-detail/{product.id}/"
+            ET.SubElement(url, 'loc').text = f"https://qhenterprises.com/shop-detail/{product.id}/"
             ET.SubElement(url, 'lastmod').text = product.updated_at.strftime('%Y-%m-%d') if hasattr(product, 'updated_at') else current_date
             ET.SubElement(url, 'changefreq').text = 'weekly'
             ET.SubElement(url, 'priority').text = '0.8'
@@ -293,3 +353,15 @@ class SitemapView(TemplateView):
         
         return HttpResponse(pretty_xml, content_type='application/xml')
 
+class ProductDetailView(TemplateView):
+    template_name = 'product-detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = self.kwargs.get('product_id')
+        response = requests.get(f'{settings.BASE_URL}/api/products/product-detail/{product_id}/')
+        if response.status_code == 200:
+            product = response.json()
+        else:
+            product = {}
+        context['product'] = product
+        return context

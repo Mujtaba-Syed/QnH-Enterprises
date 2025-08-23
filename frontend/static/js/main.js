@@ -47,7 +47,8 @@
     // Testimonial carousel
     $(".testimonial-carousel").owlCarousel({
         autoplay: true,
-        smartSpeed: 2000,
+        autoplayTimeout: 2000,
+        smartSpeed: 1000,
         center: false,
         dots: true,
         loop: true,
@@ -257,6 +258,13 @@
     }
   }
 
+   // Function to handle "View Details" button click on index.html
+   function handleViewDetails(event, productId) {
+    event.preventDefault();
+    console.log('handleViewDetails called with productId:', productId);
+    window.location.href = `/product-detail/${productId}/`;
+  }
+  
   // Helper function to get CSRF token
   function getCSRFToken() {
     const token = document.querySelector('[name=csrfmiddlewaretoken]');
