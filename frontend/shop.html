@@ -265,6 +265,60 @@
                 border-bottom: none;
             }
             
+            /* Mobile Layout (Image on top, text below) */
+            .featured-product-mobile {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .featured-product-img-container-mobile {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                border-radius: 8px;
+            }
+            
+            .featured-product-img-container-mobile img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+            
+            .featured-product-content-mobile h6 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                color: #333;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 200px;
+            }
+            
+            .featured-product-content-mobile .featured-product-stars {
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .featured-product-content-mobile .featured-product-discount {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            /* Desktop Layout (Image left, text right) */
+            .featured-product-desktop {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+            }
+            
             .featured-product-img-container {
                 width: 60px;
                 height: 60px;
@@ -330,7 +384,7 @@
                 font-size: 0.75rem;
             }
             
-            /* Responsive adjustments */
+            /* Responsive breakpoints */
             @media (max-width: 768px) {
                 .featured-products-container {
                     max-height: 350px;
@@ -342,13 +396,24 @@
                     padding: 12px;
                 }
                 
-                .featured-product-img-container {
-                    width: 50px;
-                    height: 50px;
+                /* Show mobile layout, hide desktop */
+                .featured-product-mobile {
+                    display: flex;
                 }
                 
-                .featured-product-content h6 {
+                .featured-product-desktop {
+                    display: none;
+                }
+                
+                .featured-product-img-container-mobile {
+                    width: 70px;
+                    height: 70px;
+                    margin-bottom: 10px;
+                }
+                
+                .featured-product-content-mobile h6 {
                     font-size: 0.85rem;
+                    max-width: 180px;
                 }
                 
                 .featured-product-discount h5 {
@@ -367,19 +432,32 @@
                     padding: 10px;
                 }
                 
-                .featured-product-img-container {
-                    width: 45px;
-                    height: 45px;
+                .featured-product-img-container-mobile {
+                    width: 60px;
+                    height: 60px;
+                    margin-bottom: 8px;
                 }
                 
-                .featured-product-content h6 {
+                .featured-product-content-mobile h6 {
                     font-size: 0.8rem;
+                    max-width: 160px;
                 }
                 
-                .featured-product-discount {
+                .featured-product-content-mobile .featured-product-discount {
                     flex-direction: column;
-                    align-items: flex-start;
+                    align-items: center;
                     gap: 0.25rem;
+                }
+            }
+            
+            /* Desktop styles (768px and above) */
+            @media (min-width: 769px) {
+                .featured-product-mobile {
+                    display: none;
+                }
+                
+                .featured-product-desktop {
+                    display: flex;
                 }
             }
             
@@ -622,7 +700,37 @@
                                             <div class="featured-products-wrapper">
                                                 {% for product in featured_products %}
                                                 <div class="featured-product-item">
-                                                    <div class="d-flex align-items-center justify-content-start">
+                                                    <div class="featured-product-mobile">
+                                                        <!-- Mobile layout: Image on top, text below -->
+                                                        <div class="featured-product-img-container-mobile">
+                                                            {% if product.product_image %}
+                                                                <img src="{{ product.product_image }}" class="img-fluid rounded" alt="{{ product.product_name }}">
+                                                            {% else %}
+                                                                <img src="{% static 'img/featur-1.jpg' %}" class="img-fluid rounded" alt="{{ product.product_name }}">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="featured-product-content-mobile">
+                                                            <h6 class="mb-2">{{ product.product_name }}</h6>
+                                                            <div class="d-flex mb-2 featured-product-stars">
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="d-flex mb-2 featured-product-discount">
+                                                                {% if product.discount_percentage %}
+                                                                    <h5 class="fw-bold me-2 discount-badge">{{ product.discount_percentage }}% OFF</h5>
+                                                                {% endif %}
+                                                                {% if product.discount_text %}
+                                                                    <h5 class="text-danger original-price">{{ product.discount_text }}</h5>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Desktop layout: Image left, text right -->
+                                                    <div class="featured-product-desktop">
                                                         <div class="rounded me-4 featured-product-img-container">
                                                             {% if product.product_image %}
                                                                 <img src="{{ product.product_image }}" class="img-fluid rounded" alt="{{ product.product_name }}">
