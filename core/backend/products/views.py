@@ -16,6 +16,9 @@ from rest_framework import status, pagination, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound, APIException
 import random
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 class ProductFilter(filters.FilterSet):
@@ -54,7 +57,15 @@ class ProductView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         try:
-            queryset = Product.objects.filter(is_active=True)
+            # Cache key based on request parameters
+            cache_key = f"products_active_{hash(str(self.request.query_params))}"
+            queryset = cache.get(cache_key)
+            
+            if queryset is None:
+                queryset = Product.objects.filter(is_active=True).select_related('product_type').prefetch_related('images')
+                # Cache for 5 minutes
+                cache.set(cache_key, queryset, 300)
+            
             if not queryset.exists():
                 raise NotFound(detail="No active products found.")
             return queryset
@@ -68,13 +79,29 @@ class FilteredProductsAPIView(APIView):
     
     def get(self, request):
         try:
+            # Create cache key from request parameters
+            cache_params = [
+                request.query_params.get('product_type', ''),
+                request.query_params.get('min_price', ''),
+                request.query_params.get('max_price', ''),
+                request.query_params.get('brand', ''),
+                request.query_params.get('rating', ''),
+                request.query_params.get('page', '1')
+            ]
+            cache_key = f"filtered_products_{hash(str(cache_params))}"
+            
+            # Try to get from cache first
+            cached_result = cache.get(cache_key)
+            if cached_result:
+                return Response(cached_result)
+            
             product_type = request.query_params.get('product_type')
             min_price = request.query_params.get('min_price')
             max_price = request.query_params.get('max_price')
             brand = request.query_params.get('brand')
             rating = request.query_params.get('rating')
             
-            queryset = Product.objects.filter(is_active=True)
+            queryset = Product.objects.filter(is_active=True).select_related('product_type').prefetch_related('images')
             
             if product_type:
                 queryset = queryset.filter(product_type=product_type)
