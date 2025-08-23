@@ -541,6 +541,157 @@
                     height: 190px !important;
                 }
             }
+            
+            /* Responsive Pagination Styles */
+            .pagination-container {
+                width: 100%;
+                overflow-x: auto;
+                padding: 0 10px;
+            }
+            
+            .pagination-responsive {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 40px;
+                height: 40px;
+                padding: 8px 12px;
+                text-decoration: none;
+                color: #198754;
+                background-color: #fff;
+                border: 2px solid #198754;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                text-align: center;
+                line-height: 1;
+            }
+            
+            .page-link:hover {
+                background-color: #198754;
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+            }
+            
+            .page-link.active {
+                background-color: #198754;
+                color: #fff;
+                border-color: #198754;
+                font-weight: 600;
+            }
+            
+            .page-nav {
+                min-width: 80px;
+                gap: 6px;
+            }
+            
+            .page-number {
+                min-width: 40px;
+                font-size: 0.95rem;
+            }
+            
+            .page-text {
+                font-size: 0.9rem;
+            }
+            
+            /* Mobile Responsive Adjustments */
+            @media (max-width: 576px) {
+                .pagination-responsive {
+                    gap: 6px;
+                }
+                
+                .page-link {
+                    min-width: 36px;
+                    height: 36px;
+                    padding: 6px 10px;
+                    font-size: 0.85rem;
+                }
+                
+                .page-nav {
+                    min-width: 70px;
+                    padding: 6px 8px;
+                }
+                
+                .page-text {
+                    font-size: 0.8rem;
+                }
+                
+                .page-number {
+                    min-width: 36px;
+                    font-size: 0.85rem;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .pagination-responsive {
+                    gap: 4px;
+                }
+                
+                .page-link {
+                    min-width: 32px;
+                    height: 32px;
+                    padding: 4px 8px;
+                    font-size: 0.8rem;
+                }
+                
+                .page-nav {
+                    min-width: 60px;
+                    padding: 4px 6px;
+                }
+                
+                .page-text {
+                    font-size: 0.75rem;
+                }
+                
+                .page-number {
+                    min-width: 32px;
+                    font-size: 0.8rem;
+                }
+            }
+            
+            /* Tablet Responsive Adjustments */
+            @media (min-width: 577px) and (max-width: 768px) {
+                .pagination-responsive {
+                    gap: 10px;
+                }
+                
+                .page-link {
+                    min-width: 44px;
+                    height: 44px;
+                    padding: 10px 14px;
+                    font-size: 1rem;
+                }
+                
+                .page-nav {
+                    min-width: 90px;
+                    padding: 10px 12px;
+                }
+                
+                .page-text {
+                    font-size: 0.95rem;
+                }
+                
+                .page-number {
+                    min-width: 44px;
+                    font-size: 1rem;
+                }
+            }
+            
+            /* Hover effects for larger screens */
+            @media (min-width: 769px) {
+                .page-link:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 12px rgba(25, 135, 84, 0.4);
+                }
+            }
         </style>
     </head>
 
@@ -899,22 +1050,30 @@
                                         <!-- Pagination -->
                                         {% if pagination_info.pages > 1 %}
                                         <div class="col-12">
-                                            <div class="pagination d-flex justify-content-center mt-5">
-                                                {% if pagination_info.has_previous %}
-                                                    <a href="?page={{ pagination_info.previous_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">&laquo;</a>
-                                                {% endif %}
-                                                
-                                                {% for page_num in pagination_info.page_range %}
-                                                    {% if page_num == pagination_info.current_page %}
-                                                        <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="active rounded">{{ page_num }}</a>
-                                                    {% else %}
-                                                        <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">{{ page_num }}</a>
+                                            <div class="pagination-container d-flex justify-content-center mt-5">
+                                                <div class="pagination pagination-responsive">
+                                                    {% if pagination_info.has_previous %}
+                                                        <a href="?page={{ pagination_info.previous_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-nav rounded">
+                                                            <i class="fas fa-chevron-left"></i>
+                                                            <span class="page-text">Previous</span>
+                                                        </a>
                                                     {% endif %}
-                                                {% endfor %}
-                                                
-                                                {% if pagination_info.has_next %}
-                                                    <a href="?page={{ pagination_info.next_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">&raquo;</a>
-                                                {% endif %}
+                                                    
+                                                    {% for page_num in pagination_info.page_range %}
+                                                        {% if page_num == pagination_info.current_page %}
+                                                            <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-number active rounded">{{ page_num }}</a>
+                                                        {% else %}
+                                                            <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-number rounded">{{ page_num }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    
+                                                    {% if pagination_info.has_next %}
+                                                        <a href="?page={{ pagination_info.next_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-nav rounded">
+                                                            <span class="page-text">Next</span>
+                                                            <i class="fas fa-chevron-right"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </div>
                                         {% endif %}
