@@ -65,9 +65,11 @@ class BestSellerProductsSerializer(serializers.ModelSerializer):
 
 
 class ProductTypeCountSerializer(serializers.Serializer):
+    product_type = serializers.CharField()
     name = serializers.SerializerMethodField()
     count = serializers.IntegerField()
     icon_class = serializers.SerializerMethodField()
+    
     def get_name(self, obj):
         type_dict = dict(Product.TYPE_CHOICES)
         return type_dict.get(obj['product_type'], obj['product_type'])
@@ -78,5 +80,6 @@ class ProductTypeCountSerializer(serializers.Serializer):
             'shirt': 'fas fa-tshirt',
             'car': 'fas fa-car',
             'mobile_accessories': 'fas fa-mobile-alt',
+            'watches': 'fas fa-clock',
         }
         return icon_map.get(obj['product_type'], 'fas fa-box-open') 

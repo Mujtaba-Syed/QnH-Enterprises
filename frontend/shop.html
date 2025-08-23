@@ -344,8 +344,8 @@
                                                 {% for item in side_cat_filters %}
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="{% url 'shop' %}?category={{ item.name|lower }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" 
-                                                               class="{% if current_category == item.name|lower %}fw-bold text-primary{% endif %}">
+                                                            <a href="{% url 'shop' %}?category={{ item.product_type }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" 
+                                                               class="{% if current_category == item.product_type %}fw-bold text-primary{% endif %}">
                                                                 <i class="{{ item.icon_class }} me-2"></i>{{ item.name }}
                                                             </a>
                                                             <span>({{ item.count }})</span>
