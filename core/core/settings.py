@@ -170,6 +170,9 @@ else:
         }
     }
 
+print("is production environment: ", PRODUCTION)
+print("database configuration: ", DATABASES)
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
