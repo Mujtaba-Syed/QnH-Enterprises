@@ -212,28 +212,185 @@
         <style>
             .featured-products-container {
                 position: relative;
-                height: 400px;
-                overflow: hidden;
+                max-height: 400px;
+                min-height: 200px;
+                overflow-y: auto;
+                overflow-x: hidden;
                 border: 1px solid #e9ecef;
                 border-radius: 8px;
                 background: #fff;
+                scrollbar-width: thin;
+                scrollbar-color: #198754 #f8f9fa;
+            }
+            
+            /* Custom scrollbar for webkit browsers */
+            .featured-products-container::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-track {
+                background: #f8f9fa;
+                border-radius: 3px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-thumb {
+                background: #198754;
+                border-radius: 3px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-thumb:hover {
+                background: #146c43;
             }
             
             .featured-products-wrapper {
-                transition: transform 0.5s ease-in-out;
-                height: 100%;
+                transition: transform 0.3s ease-in-out;
+                min-height: 100%;
             }
             
             .featured-product-item {
-                height: 133px;
+                min-height: 120px;
                 padding: 15px;
                 border-bottom: 1px solid #f8f9fa;
                 display: flex;
                 align-items: center;
+                transition: all 0.3s ease;
+            }
+            
+            .featured-product-item:hover {
+                background-color: #f8f9fa;
+                transform: translateX(5px);
             }
             
             .featured-product-item:last-child {
                 border-bottom: none;
+            }
+            
+            .featured-product-img-container {
+                width: 60px;
+                height: 60px;
+                flex-shrink: 0;
+                overflow: hidden;
+            }
+            
+            .featured-product-img-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+            
+            .featured-product-content {
+                flex: 1;
+                min-width: 0; /* Prevents flex item from overflowing */
+            }
+            
+            .featured-product-content h6 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                color: #333;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            .featured-product-stars {
+                margin-bottom: 0.5rem;
+            }
+            
+            .featured-product-stars i {
+                font-size: 0.7rem;
+                color: #ffc107;
+            }
+            
+            .featured-product-discount {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .featured-product-discount h5 {
+                font-size: 0.8rem;
+                margin: 0;
+            }
+            
+            .discount-badge {
+                background: #198754;
+                color: white;
+                padding: 0.2rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.7rem;
+                font-weight: bold;
+            }
+            
+            .original-price {
+                color: #dc3545;
+                text-decoration: line-through;
+                font-size: 0.75rem;
+            }
+            
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .featured-products-container {
+                    max-height: 350px;
+                    min-height: 180px;
+                }
+                
+                .featured-product-item {
+                    min-height: 110px;
+                    padding: 12px;
+                }
+                
+                .featured-product-img-container {
+                    width: 50px;
+                    height: 50px;
+                }
+                
+                .featured-product-content h6 {
+                    font-size: 0.85rem;
+                }
+                
+                .featured-product-discount h5 {
+                    font-size: 0.75rem;
+                }
+            }
+            
+            @media (max-width: 576px) {
+                .featured-products-container {
+                    max-height: 300px;
+                    min-height: 160px;
+                }
+                
+                .featured-product-item {
+                    min-height: 100px;
+                    padding: 10px;
+                }
+                
+                .featured-product-img-container {
+                    width: 45px;
+                    height: 45px;
+                }
+                
+                .featured-product-content h6 {
+                    font-size: 0.8rem;
+                }
+                
+                .featured-product-discount {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.25rem;
+                }
+            }
+            
+            /* Empty state styling */
+            .no-featured-products-container {
+                height: 200px;
+                color: #6c757d;
+            }
+            
+            .no-featured-products-container i {
+                color: #dee2e6;
             }
             
             /* Product Card Styles */
@@ -266,7 +423,18 @@
                 transform: scale(1.05);
             }
             
-            /* Responsive adjustments */
+            /* Product Action Buttons Responsive */
+            .action-btn {
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+            }
+            
+            .action-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+            
+            /* Responsive adjustments for product cards */
             @media (max-width: 576px) {
                 .fruite-img {
                     height: 180px !important;
@@ -283,41 +451,16 @@
                 .fruite-item p {
                     font-size: 0.9rem;
                 }
+                
+                .action-btn {
+                    font-size: 0.85rem;
+                    padding: 0.5rem 1rem !important;
+                }
             }
             
             @media (max-width: 768px) {
                 .fruite-img {
                     height: 190px !important;
-                }
-            }
-            
-            /* Product Action Buttons Responsive */
-            .action-btn {
-                transition: all 0.3s ease;
-                font-size: 0.9rem;
-            }
-            
-            .action-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            }
-            
-            @media (max-width: 576px) {
-                .action-btn {
-                    font-size: 0.85rem;
-                    padding: 0.5rem 1rem !important;
-                }
-                
-                .fruite-item .p-4 {
-                    padding: 1rem !important;
-                }
-                
-                .fruite-item h4 {
-                    font-size: 1.1rem;
-                }
-                
-                .fruite-item p {
-                    font-size: 0.9rem;
                 }
             }
         </style>
@@ -487,21 +630,21 @@
                                                                 <img src="{% static 'img/featur-1.jpg' %}" class="img-fluid rounded" alt="{{ product.product_name }}">
                                                             {% endif %}
                                                         </div>
-                                                        <div>
+                                                        <div class="featured-product-content">
                                                             <h6 class="mb-2">{{ product.product_name }}</h6>
-                                                            <div class="d-flex mb-2">
+                                                            <div class="d-flex mb-2 featured-product-stars">
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star"></i>
                                                             </div>
-                                                            <div class="d-flex mb-2">
+                                                            <div class="d-flex mb-2 featured-product-discount">
                                                                 {% if product.discount_percentage %}
-                                                                    <h5 class="fw-bold me-2">{{ product.discount_percentage }}% OFF</h5>
+                                                                    <h5 class="fw-bold me-2 discount-badge">{{ product.discount_percentage }}% OFF</h5>
                                                                 {% endif %}
                                                                 {% if product.discount_text %}
-                                                                    <h5 class="text-danger text-decoration-line-through">{{ product.discount_text }}</h5>
+                                                                    <h5 class="text-danger original-price">{{ product.discount_text }}</h5>
                                                                 {% endif %}
                                                             </div>
                                                         </div>
