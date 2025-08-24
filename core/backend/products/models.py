@@ -1,5 +1,9 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from PIL import Image
+from io import BytesIO
+import os
+from django.core.files.base import ContentFile
 
 class Product(models.Model):
     """Stores all product details."""
@@ -16,20 +20,225 @@ class Product(models.Model):
     sku = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     brand = models.CharField(max_length=100, blank=True, null=True)
-    image = models.ImageField(upload_to="product_images/", blank=True, null=True)
+    image = models.ImageField(upload_to="product_images/", blank=True, null=True, help_text="Main product image (thumbnail)")
     attributes = models.JSONField(default=dict, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     newly_added = models.BooleanField(default=False)
     best_seller = models.BooleanField(default=False)
-    rating= models.PositiveIntegerField(default=0, null=True, blank=True)
+    rating = models.PositiveIntegerField(default=0, null=True, blank=True)
+    discount_percentage = models.PositiveIntegerField(default=0, help_text="Discount percentage (e.g., 10 for 10% off)")
+    discount_text = models.CharField(max_length=100, blank=True, null=True, help_text="Custom discount text (e.g., 'Limited Time Offer')")
+    number_of_sales = models.PositiveIntegerField(default=0, help_text="Number of times this product has been sold")
 
     def clean(self):
-        if self.rating > 5:
+        if self.rating and self.rating > 5:
             raise ValidationError("Rating must be between 0 and 5")
+        if self.discount_percentage > 100:
+            raise ValidationError("Discount percentage cannot exceed 100%")
 
     def __str__(self):
-        return f"{self.name} - {self.product_type}"
-
+        return f"{self.id} - {self.name} - {self.product_type}"
+    
+    @property
+    def discounted_price(self):
+        """Calculate the discounted price."""
+        if self.discount_percentage > 0:
+            discount_amount = (self.price * self.discount_percentage) / 100
+            return self.price - discount_amount
+        return self.price
+    
+    @property
+    def has_discount(self):
+        """Check if product has any discount."""
+        return self.discount_percentage > 0
+    
+    def get_all_images(self):
+        """Get all images for this product including main image."""
+        images = []
+        if self.image:
+            try:
+                images.append({
+                    'image': self.image.url if self.image else None,
+                    'is_primary': True,
+                    'order': 0
+                })
+            except Exception:
+                # Skip image if there's an error
+                pass
+        
+        # Add additional images
+        try:
+            additional_images = self.additional_images.all().order_by('order')
+            for img in additional_images:
+                try:
+                    images.append({
+                        'image': img.image.url if img.image else None,
+                        'is_primary': False,
+                        'order': img.order
+                    })
+                except Exception:
+                    # Skip individual image if there's an error
+                    continue
+        except Exception:
+            # Skip additional images if there's an error
+            pass
+        
+        return images
+    
+    def get_image_size(self):
+        """Get image file size in MB."""
+        if not self.image:
+            return 0
+            
+        try:
+            if hasattr(self.image, 'path') and os.path.exists(self.image.path):
+                if hasattr(self.image, 'size'):
+                    return round(self.image.size / (1024 * 1024), 2)
+                else:
+                    return 0
+            else:
+                return 0
+        except (OSError, FileNotFoundError, AttributeError, Exception):
+            return 0
+    
+    def get_image_dimensions(self):
+        """Get image dimensions as a tuple (width, height)."""
+        if not self.image:
+            return None
+            
+        try:
+            if hasattr(self.image, 'path') and os.path.exists(self.image.path):
+                img = Image.open(self.image.path)
+                return img.size
+            return None
+        except Exception:
+            return None
+    
+    def get_optimization_info(self):
+        """Get image optimization information."""
+        if not self.image:
+            return None
+            
+        current_size = self.get_image_size()
+        
+        original_size = getattr(self, '_original_image_size', None)
+        
+        if original_size and original_size > 0:
+            savings = ((original_size - current_size) / original_size) * 100
+            return {
+                'current_size': current_size,
+                'original_size': original_size,
+                'savings_mb': round(original_size - current_size, 2),
+                'savings_percent': round(savings, 1)
+            }
+        
+        return {
+            'current_size': current_size,
+            'original_size': 'Unknown',
+            'savings_mb': 'Unknown',
+            'savings_percent': 'Unknown'
+        }
+    
+    def clean_orphaned_image(self):
+        """Clean up orphaned image reference if file doesn't exist."""
+        try:
+            if self.image and hasattr(self.image, 'path'):
+                if not os.path.exists(self.image.path):
+                    self.image = None
+                    self.save(update_fields=['image'])
+                    return True
+            return False
+        except Exception:
+            return False
+    
+    @classmethod
+    def cleanup_all_orphaned_images(cls):
+        """Clean up all products with orphaned image references."""
+        cleaned_count = 0
+        products = cls.objects.filter(image__isnull=False)
+        
+        for product in products:
+            if product.clean_orphaned_image():
+                cleaned_count += 1
+        
+        return cleaned_count
+    
+    def optimize_image(self):
+        """Optimize the product image to reduce file size."""
+        if not self.image:
+            return False
+            
+        try:
+            original_size = self.get_image_size()
+            self._original_image_size = original_size
+            
+            img = Image.open(self.image)
+            
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            original_width, original_height = img.size
+            
+            max_width = 1200
+            max_height = 1200
+            
+            if original_width > max_width or original_height > max_height:
+                ratio = min(max_width / original_width, max_height / original_height)
+                new_width = int(original_width * ratio)
+                new_height = int(original_height * ratio)
+                
+                img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            
+            buffer = BytesIO()
+            
+            quality = 85
+            max_size_mb = 1.0 
+            
+            while quality > 30: 
+                buffer.seek(0)
+                buffer.truncate(0)
+                
+                img.save(buffer, format='JPEG', quality=quality, optimize=True)
+                
+                buffer.seek(0)
+                file_size_mb = len(buffer.getvalue()) / (1024 * 1024)
+                
+                if file_size_mb <= max_size_mb:
+                    break
+                
+                quality -= 10  
+            
+            buffer.seek(0)
+            
+            file_name = f'{self.name}_{self.id}_optimized.jpg'
+            
+            self.image.save(file_name, ContentFile(buffer.read()), save=False)
+            buffer.close()
+            
+            return True
+            
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Image optimization failed for product {self.id}: {str(e)}")
+            return False
+    
+    def save(self, *args, **kwargs):
+        is_new_image = False
+        if self.pk:  
+            try:
+                old_product = Product.objects.get(pk=self.pk)
+                is_new_image = (old_product.image != self.image)
+            except Product.DoesNotExist:
+                is_new_image = True
+        else:
+            is_new_image = bool(self.image)
+        
+        super().save(*args, **kwargs)
+        
+        if is_new_image and self.image:
+            self.optimize_image()
+            super().save(update_fields=['image'])
 
 class FeaturedProducts(models.Model):
     """Stores all featured products."""
@@ -39,3 +248,115 @@ class FeaturedProducts(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.discount_percentage}"
+
+class ProductImage(models.Model):
+    """Stores additional images for products."""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='additional_images')
+    image = models.ImageField(upload_to="product_images/")
+    alt_text = models.CharField(max_length=255, blank=True, null=True, help_text="Alt text for accessibility")
+    order = models.PositiveIntegerField(default=0, help_text="Order of image display")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['order']
+        unique_together = ['product', 'order']
+    
+    def __str__(self):
+        return f"{self.product.name} - Image {self.order}"
+    
+    def save(self, *args, **kwargs):
+        # Auto-assign order if not provided
+        if not self.order:
+            max_order = ProductImage.objects.filter(product=self.product).aggregate(
+                models.Max('order'))['order__max'] or 0
+            self.order = max_order + 1
+        super().save(*args, **kwargs)
+    
+    def get_image_size(self):
+        """Get image file size in MB."""
+        if not self.image:
+            return 0
+            
+        try:
+            if hasattr(self.image, 'path') and os.path.exists(self.image.path):
+                if hasattr(self.image, 'size'):
+                    return round(self.image.size / (1024 * 1024), 2)
+                else:
+                    return 0
+            else:
+                return 0
+        except (OSError, FileNotFoundError, AttributeError, Exception):
+            return 0
+    
+    def get_image_dimensions(self):
+        """Get image dimensions as a tuple (width, height)."""
+        if not self.image:
+            return None
+            
+        try:
+            if hasattr(self.image, 'path') and os.path.exists(self.image.path):
+                img = Image.open(self.image.path)
+                return img.size
+            return None
+        except Exception:
+            return None
+    
+    def optimize_image(self):
+        """Optimize the product image to reduce file size."""
+        if not self.image:
+            return False
+            
+        try:
+            original_size = self.get_image_size()
+            
+            img = Image.open(self.image)
+            
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            original_width, original_height = img.size
+            
+            max_width = 1200
+            max_height = 1200
+            
+            if original_width > max_width or original_height > max_height:
+                ratio = min(max_width / original_width, max_height / original_height)
+                new_width = int(original_width * ratio)
+                new_height = int(original_height * ratio)
+                
+                img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            
+            buffer = BytesIO()
+            
+            quality = 85
+            max_size_mb = 1.0 
+            
+            while quality > 30: 
+                buffer.seek(0)
+                buffer.truncate(0)
+                
+                img.save(buffer, format='JPEG', quality=quality, optimize=True)
+                
+                buffer.seek(0)
+                file_size_mb = len(buffer.getvalue()) / (1024 * 1024)
+                
+                if file_size_mb <= max_size_mb:
+                    break
+                
+                quality -= 10  
+            
+            buffer.seek(0)
+            
+            file_name = f'{self.product.name}_{self.product.id}_additional_{self.order}_optimized.jpg'
+            
+            self.image.save(file_name, ContentFile(buffer.read()), save=False)
+            buffer.close()
+            
+            return True
+            
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"Image optimization failed for product image {self.id}: {str(e)}")
+            return False

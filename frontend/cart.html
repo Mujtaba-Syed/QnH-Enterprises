@@ -7,8 +7,8 @@
         <meta charset="utf-8">
         <title>Shopping Cart - Q & H Enterprises | Secure Checkout & Payment</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="shopping cart, online cart, secure checkout, payment, Q&H Enterprises, perfumes, accessories, shirts, diecast cars, wholesale" name="keywords">
-        <meta content="View and manage your shopping cart at Q & H Enterprises. Secure checkout with multiple payment options including Jazzcash, bank transfer, and WhatsApp. Free shipping on orders over $300." name="description">
+        <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, shopping cart, online cart, secure checkout, payment, Q&H Enterprises, perfumes, accessories, shirts, diecast cars, wholesale, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
+        <meta content="View and manage your shopping cart at Q & H Enterprises. Secure checkout with multiple payment options including Jazzcash, bank transfer, and WhatsApp. Free shipping on orders over 3000 PKR for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories." name="description">
         
         <!-- SEO Meta Tags -->
         <meta name="author" content="Q & H Enterprises">
@@ -20,9 +20,9 @@
         
         <!-- Open Graph Meta Tags for Social Media -->
         <meta property="og:title" content="Shopping Cart - Q & H Enterprises">
-        <meta property="og:description" content="View and manage your shopping cart. Secure checkout with multiple payment options including Jazzcash, bank transfer, and WhatsApp.">
+        <meta property="og:description" content="View and manage your shopping cart. Secure checkout with multiple payment options including Jazzcash, bank transfer, and WhatsApp for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories.">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://qnhenterprises.com/cart">
+        <meta property="og:url" content="https://www.qhenterprises.com/cart">
         <meta property="og:site_name" content="Q & H Enterprises">
         <meta property="og:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         <meta property="og:image:width" content="1200">
@@ -32,7 +32,7 @@
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Shopping Cart - Q & H Enterprises">
-        <meta name="twitter:description" content="View and manage your shopping cart. Secure checkout with multiple payment options.">
+        <meta name="twitter:description" content="View and manage your shopping cart. Secure checkout with multiple payment options for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories.">
         <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         
         <!-- Additional SEO Meta Tags -->
@@ -43,10 +43,10 @@
         <meta name="apple-mobile-web-app-title" content="Q & H Enterprises">
         
         <!-- Canonical URL -->
-        <link rel="canonical" href="https://qnhenterprises.com/cart">
+        <link rel="canonical" href="https://www.qhenterprises.com/cart">
         
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'img/qh-favicon.ico' %}">
         <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
         <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
         <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
@@ -57,8 +57,8 @@
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Shopping Cart",
-            "description": "View and manage your shopping cart at Q & H Enterprises",
-            "url": "https://qnhenterprises.com/cart",
+            "description": "View and manage your shopping cart at Q & H Enterprises including solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories",
+            "url": "https://www.qhenterprises.com/cart",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [
@@ -66,13 +66,13 @@
                         "@type": "ListItem",
                         "position": 1,
                         "name": "Home",
-                        "item": "https://qnhenterprises.com"
+                        "item": "https://www.qhenterprises.com"
                     },
                     {
                         "@type": "ListItem",
                         "position": 2,
                         "name": "Cart",
-                        "item": "https://qnhenterprises.com/cart"
+                        "item": "https://www.qhenterprises.com/cart"
                     }
                 ]
             }
@@ -87,7 +87,7 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
+        
         <!-- Libraries Stylesheet -->
         <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
         <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
@@ -120,10 +120,10 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Cart</h1>
+            <h1 class="text-center text-white display-6">Shopping Cart</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop' %}">Pages</a></li>
                 <li class="breadcrumb-item active text-white">Cart</li>
             </ol>
         </div>
@@ -173,10 +173,10 @@
                     <div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
                         <div class="bg-light rounded">
                             <div class="p-4">
-                                <h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
+                                <h2 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h2>
                                 <div class="d-flex justify-content-between mb-4">
                                     <h5 class="mb-0 me-4">Subtotal:</h5>
-                                    <p class="mb-0 subtotal-value">$0.00</p>
+                                    <p class="mb-0 subtotal-value">Rs.0.00</p>
                                 </div>
                                 <!-- <div class="d-flex justify-content-between">
                                     <h5 class="mb-0 me-4">Shipping</h5>
@@ -188,7 +188,7 @@
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                <p class="mb-0 pe-4 total-value">$0.00</p>
+                                <p class="mb-0 pe-4 total-value">Rs.0.00</p>
                             </div>
                             <button id="checkout-button" class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
                         </div>

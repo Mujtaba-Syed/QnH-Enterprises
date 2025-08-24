@@ -6,46 +6,46 @@
             <div class="row g-4">
                 <div class="col-lg-3">
                     <a href="#">
-                        <h1 class="text-light mb-0">Q & H Enterprises</h1>
+                        <h2 class="text-light mb-0">Q & H Enterprises</h2>
                         <p class=" mb-0" style="color: #ffb524;">Everything under single roof</p>
                     </a>
                 </div>
                 <div class="col-lg-6">
-                    <div class="position-relative mx-auto">
+                    <!-- <div class="position-relative mx-auto">
                         <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
                         <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-lg-3">
                     <div class="d-flex justify-content-end pt-3">
-                        <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-snapchat"></i></a>
+                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="https://www.facebook.com/share/1B5o6nhXhy/"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href="https://www.instagram.com/qhenterprises?igsh=NXNtZHdnbDR4b2Y4"><i class="fab fa-instagram"></i></a>
+                        <!-- <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a> -->
                     </div>
                 </div>
             </div>
         </div>
         <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="footer-item">
                     <h4 class="text-light mb-3">Why People Like us!</h4>
                     <p class="mb-4">We’re your go-to for stylish shirts, long-lasting perfumes, and must-have car & mobile accessories — all in one place. Quality, variety, and trusted service keep our customers coming back..</p>
                     <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-light">Read More</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Shop Info</h4>
-                    <a class="btn-link" href="">About Us</a>
-                    <a class="btn-link" href="">Contact Us</a>
-                    <a class="btn-link" href="">Privacy Policy</a>
-                    <a class="btn-link" href="">Terms & Condition</a>
-                    <a class="btn-link" href="">Return Policy</a>
+                    <a class="btn-link" href="{% url 'about-us' %}">About Us</a>
+                    <a class="btn-link" href="{% url 'contact' %}">Contact Us</a>
+                    <a class="btn-link" href="{% url 'privacy-policy' %}">Privacy Policy</a>
+                    <a class="btn-link" href="{% url 'terms-of-use' %}">Terms & Condition</a>
+                    <a class="btn-link" href="{% url 'sales-and-refund-policy' %}">Return Policy</a>
                     <a class="btn-link" href="">FAQs & Help</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <!-- <div class="col-lg-3 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Account</h4>
                     <a class="btn-link" href="">My Account</a>
@@ -55,15 +55,15 @@
                     <a class="btn-link" href="">Order History</a>
                     <a class="btn-link" href="">International Orders</a>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
+            </div> -->
+            <div class="col-lg-4 col-md-6">
                 <div class="footer-item">
                     <h4 class="text-light mb-3">Contact</h4>
                     <p>Address: Ohad Center Mall Road, Lahore, Pakistan</p>
-                    <p>Email: qhenterprises2@gmail.com</p>
-                    <p>Phone: +923147864467</p>
+                    <p>Email: <a href="mailto:qhenterprises2@gmail.com" style="color: #ffb524;">qhenterprises2@gmail.com</a></p>
+                    <p>Phone: <a href="tel:+923147864467" style="color: #ffb524;">+923147864467</a></p>
                     <p>Payment Accepted</p>
-                    <img src="{% static 'img/payment_new.png' %}" class="img-fluid" alt="">
+                    <img src="{% static 'img/payment_new.png' %}" class="img-fluid" alt="Secure Payment Methods - Credit Cards, Debit Cards, Digital Wallets for Online Shopping at Q&H Enterprises">
                 </div>
             </div>
         </div>

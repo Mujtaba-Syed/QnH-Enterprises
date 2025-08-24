@@ -1,0 +1,465 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Product Details - Q & H Enterprises | Product Information & Reviews</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, product details, product information, product reviews, Q&H Enterprises, product specifications, customer reviews, product images, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
+        <meta content="View detailed product information, specifications, customer reviews, and high-quality images at Q & H Enterprises. Get comprehensive product details for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories before making your purchase." name="description">
+        
+        <!-- SEO Meta Tags -->
+        <meta name="author" content="Q & H Enterprises">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
+        <meta name="revisit-after" content="7 days">
+        <meta name="distribution" content="global">
+        <meta name="rating" content="general">
+        
+        <!-- Open Graph Meta Tags for Social Media -->
+        <meta property="og:title" content="Product Details - Q & H Enterprises">
+        <meta property="og:description" content="View detailed product information, specifications, customer reviews, and high-quality images. Get comprehensive product details for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories before making your purchase.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://qhenterprises.com/shop-detail">
+        <meta property="og:site_name" content="Q & H Enterprises">
+        <meta property="og:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:locale" content="en_US">
+        
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Product Details - Q & H Enterprises">
+        <meta name="twitter:description" content="View detailed product information, specifications, customer reviews, and high-quality images. Get comprehensive product details for solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories.">
+        <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
+        
+        <!-- Additional SEO Meta Tags -->
+        <meta name="theme-color" content="#198754">
+        <meta name="msapplication-TileColor" content="#198754">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="Q & H Enterprises">
+        
+        <!-- Canonical URL -->
+        <link rel="canonical" href="https://qhenterprises.com/shop-detail">
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="{% static 'img/qh-favicon.ico' %}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+        
+        <!-- Structured Data for Rich Snippets -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Product Details",
+            "description": "Detailed product information and reviews at Q & H Enterprises including solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories",
+            "url": "https://qhenterprises.com/shop-detail",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://qhenterprises.com"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Product Details",
+                        "item": "https://qhenterprises.com/shop-detail"
+                    }
+                ]
+            }
+        }
+        </script>
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
+        
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        {% include 'spinner.html' %}
+        <!-- Spinner End -->
+
+
+        <!-- Navbar start -->
+        {% include 'navbar.html' %}
+        <!-- Navbar End -->
+
+
+        <!-- Modal Search Start -->
+        {% include 'modal-search.html' %}
+        <!-- Modal Search End -->
+
+
+        <!-- CSRF Token for AJAX requests -->
+        {% csrf_token %}
+
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Product Detail</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'shop' %}">Pages</a></li>
+                <li class="breadcrumb-item active text-white">Product Detail</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+
+        <!-- Single Product Start -->
+        <div class="container-fluid py-5 mt-5">
+            <div class="container py-5">
+                {% if product.product %}
+                    <div class="row g-4 mb-5">
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="row g-4">
+                                <!-- Product Images -->
+                                <div class="col-lg-6">
+                                    <div class="product-image-gallery">
+                                        <div id="mainImageContainer" class="position-relative">
+                                            <img id="mainImage" src="{{ product.product.image }}" alt="Product Image" class="main-image">
+                                            {% if product.product.has_discount %}
+                                                <div class="discount-badge">{{ product.product.discount_percentage }}% OFF</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="thumbnail-images" id="thumbnailContainer">
+                                            <!-- Thumbnails will be populated here -->
+                                        </div>
+                                        
+                                        <!-- Fallback thumbnails if JavaScript fails -->
+                                        <div id="fallbackThumbnails">
+                                            {% if product.product.all_images %}
+                                                {% for img in product.product.all_images %}
+                                                    <img src="{{ img.image }}" 
+                                                         alt="Product Image {{ img.order }}" 
+                                                         class="thumbnail" 
+                                                         data-image="{{ img.image }}" 
+                                                         data-index="{{ forloop.counter0 }}">
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Product Information -->
+                                <div class="col-lg-6">
+                                    <h4 class="fw-bold mb-3">{{ product.product.name }}</h4>
+                                    <p class="mb-3">Category: {{ product.product.product_type|title }}</p>
+                                    
+                                    <!-- Price Section -->
+                                    <div class="price-section">
+                                        <div class="d-flex align-items-center gap-3 mb-2">
+                                            {% if product.product.has_discount %}
+                                                <span class="original-price">Rs{{ product.product.price }}</span>
+                                                <span class="discounted-price">Rs{{ product.product.discounted_price }}</span>
+                                            {% else %}
+                                                <span class="discounted-price">Rs{{ product.product.price }}</span>
+                                            {% endif %}
+                                        </div>
+                                        {% if product.product.has_discount %}
+                                            <div class="savings">Save Rs{{ product.product.price|floatformat:2|add:"-"|add:product.product.discounted_price|floatformat:2 }}</div>
+                                            <div class="text-success fw-bold">{{ product.product.discount_text|default:product.product.discount_percentage|add:"% OFF" }}</div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Rating -->
+                                    <div class="d-flex mb-4">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= product.product.rating %}
+                                                <i class="fa fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="fa fa-star text-secondary"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <span class="ms-2">({{ product.reviews.count }} reviews)</span>
+                                    </div>
+
+                                    <!-- Product Details -->
+                                    <div class="product-attributes">
+                                        <h5>Product Details</h5>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <strong>Brand:</strong> <span>{{ product.product.brand|default:"N/A" }}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>SKU:</strong> <span>{{ product.product.sku }}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>Type:</strong> <span>{{ product.product.product_type|title }}</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>Sales:</strong> <span>{{ product.product.number_of_sales }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="mb-4">{{ product.product.description }}</p>
+                                    
+                                    <div class="input-group quantity mb-5" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" onclick="updateQuantity(-1)">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-center border-0" value="1">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border" onclick="updateQuantity(1)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <button onclick="handleAddToCart(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                    </button>
+                                    <button onclick="handleAddReview(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                        <i class="fa fa-star me-2 text-primary"></i> Add a Review
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Hidden data for JavaScript -->
+                            <div id="productImagesData" style="display: none;">{{ product.product.all_images|safe }}</div>
+                         
+                            
+                            <!-- Tabs Section -->
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <nav>
+                                        <div class="nav nav-tabs mb-3">
+                                            <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                                id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                                aria-controls="nav-about" aria-selected="true">Description</button>
+                                            <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                                id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                                aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                        </div>
+                                    </nav>
+                                    
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                            <h4>Product Description</h4>
+                                            <p>{{ product.product.description }}</p>
+                                            
+                                            {% if product.product.attributes %}
+                                                <h5>Additional Features</h5>
+                                                <ul>
+                                                    {% for key, value in product.product.attributes.items %}
+                                                        <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <div class="tab-pane fade" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                            <h4>Customer Reviews</h4>
+                                            {% if product.reviews.reviews %}
+                                                {% for review in product.reviews.reviews %}
+                                                    <div class="review-item">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="rating-stars">
+                                                                {% for i in "12345" %}
+                                                                    {% if forloop.counter <= review.rating %}
+                                                                        <i class="fas fa-star"></i>
+                                                                    {% else %}
+                                                                        <i class="far fa-star"></i>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                            <strong>{{ review.name }}</strong>
+                                                            <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+                                                        </div>
+                                                        <p class="mb-2">{{ review.description }}</p>
+                                                        {% if review.image %}
+                                                            <img src="{{ review.image }}" alt="Review Image" style="max-width: 100px; height: auto;">
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+                                            {% endif %}
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        <h4>Product Not Found</h4>
+                        <p>The requested product could not be found or is no longer available.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Single Product End -->
+
+
+        <!-- Random Products Slider Start -->
+        <div class="container-fluid py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto mb-5" style="max-width: 700px;">
+                    <h1 class="display-4">You May Also Like</h1>
+                    <p class="text-primary fs-5 fw-bold">Discover More Amazing Products</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="owl-carousel product-carousel">
+                            <!-- Random products will be loaded here via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Random Products Slider End -->
+
+
+        <!-- Footer Start -->
+        {% include 'footer.html' %}
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        {% include 'copyright.html' %}
+        <!-- Copyright End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+        
+        <!-- Notification Manager -->
+        <script src="{% static 'js/notification-manager.js' %}"></script>
+        
+        <!-- Product Detail JavaScript -->
+        <script src="{% static 'js/product-detail.js' %}"></script>
+        
+        <!-- Test script to verify loading -->
+        <script>
+            console.log('HTML template loaded');
+            console.log('Testing if product-detail.js loaded...');
+            setTimeout(() => {
+                if (typeof loadRandomProducts === 'function') {
+                    console.log(' product-detail.js loaded successfully');
+                } else {
+                    console.log('product-detail.js failed to load');
+                    
+                    console.log('Trying direct API call...');
+                    fetch('/api/products/random/')
+                        .then(response => {
+                            console.log('Direct API call status:', response.status);
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Direct API call data:', data);
+                        })
+                        .catch(error => {
+                            console.error('Direct API call error:', error);
+                        });
+                }
+            }, 1000);
+        </script>
+
+    <!-- Review Modal -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Add Your Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reviewForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewName" class="form-label">Your Name *</label>
+                                <input type="text" class="form-control" id="reviewName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewRating" class="form-label">Rating *</label>
+                                <select class="form-select" id="reviewRating" required>
+                                    <option value="">Select Rating</option>
+                                    <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                                    <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                                    <option value="3">⭐⭐⭐ 3 - Good</option>
+                                    <option value="2">⭐⭐ 2 - Fair</option>
+                                    <option value="1">⭐ 1 - Poor</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reviewDescription" class="form-label">Review Description *</label>
+                            <textarea class="form-control" id="reviewDescription" rows="4" placeholder="Share your experience with this product..." required></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewImage" class="form-label">Product Image (Optional)</label>
+                                <input type="file" class="form-control" id="reviewImage" accept="image/*">
+                                <small class="text-muted">Upload a photo of the product or your experience</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="whtsappImage" class="form-label">WhatsApp Image (Optional)</label>
+                                <input type="file" class="form-control" id="whtsappImage" accept="image/*">
+                                <small class="text-muted">Image for WhatsApp sharing</small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary"  style="background-color: #e8f5e8; border-color: #198754; color: #198754; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#198754'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e8f5e8'; this.style.color='#198754';" onclick="submitReview()">
+                        <span class="submit-text">Submit Review</span>
+                        <span class="loading-text" style="display: none;">
+                            <i class="fa fa-spinner fa-spin me-2"></i>Submitting...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+
+</html>

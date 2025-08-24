@@ -2,13 +2,19 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://qnhenterprises.com/sitemap.xml
+Sitemap: https://qhenterprises.com/sitemap.xml
 
 # Disallow admin and API endpoints
 Disallow: /admin/
 Disallow: /api/
 Disallow: /accounts/
 Disallow: /oauth/
+Disallow: /staticfiles/
+Disallow: /media/
+Disallow: /venv/
+Disallow: /*.py$
+Disallow: /*.sqlite3$
+Disallow: /*.env$
 
 # Allow important pages
 Allow: /shop/
@@ -17,6 +23,36 @@ Allow: /testimonial/
 Allow: /privacy-policy/
 Allow: /terms-of-use/
 Allow: /sales-and-refund-policy/
+Allow: /about-us/
+Allow: /product-detail/
+Allow: /cart/
+Allow: /checkout/
+
+# Product category pages
+Allow: /solar-powerbanks/
+Allow: /cheap-perfumes/
+Allow: /online-perfumes/
+Allow: /polo-shirts-lahore/
+Allow: /cheap-t-shirts/
+Allow: /brand-shirts/
+Allow: /die-cast-car-models/
+Allow: /mobile-accessories/
+
+# Allow static assets
+Allow: /static/
+Allow: /img/
+Allow: /css/
+Allow: /js/
 
 # Crawl delay (optional)
-Crawl-delay: 1 
+Crawl-delay: 1
+
+# Additional SEO directives
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: / 

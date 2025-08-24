@@ -14,7 +14,7 @@
     </div>
     <div class="container px-0">
         <nav class="navbar custom-navbar bg-white navbar-expand-xl ">
-            <a href="{% url 'home' %}" class="navbar-brand custom-text-color"><h1 class="text-primary display-6">Q & H Enterprises</h1></a>
+            <a href="{% url 'home' %}" class="navbar-brand custom-text-color"><span class="text-primary display-6 fw-bold">Q & H Enterprises</span></a>
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars custom-icon-color"></span>
             </button>
@@ -22,14 +22,13 @@
                 <div class="navbar-nav mx-auto">
                     <a href="{% url 'home' %}" class="nav-item nav-link custom-text-color">Home</a>
                     <a href="{% url 'shop' %}" class="nav-item nav-link custom-text-color">Shop</a>
-                    <!-- <a href="{% url 'shop-detail' %}" class="nav-item nav-link custom-text-color">Shop Detail</a> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle custom-text-color active" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0 custom-dropdown-bg rounded-0">
                             <a href="{% url 'cart' %}" class="dropdown-item custom-text-color">Cart</a>
-                            <a href="{% url 'checkout' %}" class="dropdown-item custom-text-color">checkout</a>
+                            <a href="{% url 'checkout' %}" class="dropdown-item custom-text-color">Checkout</a>
                             <a href="{% url 'testimonial' %}" class="dropdown-item custom-text-color">Testimonial</a>
-                            <a href="{% url '404' %}" class="dropdown-item custom-text-color">404 Page</a>
+                            <!-- <a href="{% url '404' %}" class="dropdown-item custom-text-color">404 Page</a> -->
                         </div>
                     </div>
                     <a href="{% url 'contact' %}" class="nav-item nav-link custom-text-color">Contact</a>
