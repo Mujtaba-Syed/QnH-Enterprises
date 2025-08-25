@@ -5,10 +5,10 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Shop - Q & H Enterprises | Browse All Products & Categories</title>
+        <title>Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises</title> 
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, shop, online store, browse products, product categories, Q&H Enterprises, perfumes, accessories, shirts, diecast cars, wholesale, cheap products, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
-        <meta content="Browse our complete product catalog at Q & H Enterprises. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories. Filter by category, price, and features. Free shipping on orders over 3000 PKR." name="description">
+        <meta content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping. Browse categories & filter by price." name="description">
         
         <!-- SEO Meta Tags -->
         <meta name="author" content="Q & H Enterprises">
@@ -19,8 +19,8 @@
         <meta name="rating" content="general">
         
         <!-- Open Graph Meta Tags for Social Media -->
-        <meta property="og:title" content="Shop - Q & H Enterprises">
-        <meta property="og:description" content="Browse our complete product catalog. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories. Filter by category, price, and features.">
+        <meta property="og:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">    
+        <meta property="og:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://qhenterprises.com/shop">
         <meta property="og:site_name" content="Q & H Enterprises">
@@ -31,8 +31,8 @@
         
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Shop - Q & H Enterprises">
-        <meta name="twitter:description" content="Browse our complete product catalog. Shop solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories.">
+        <meta name="twitter:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">
+        <meta name="twitter:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
         <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         
         <!-- Additional SEO Meta Tags -->
@@ -43,7 +43,7 @@
         <meta name="apple-mobile-web-app-title" content="Q & H Enterprises">
         
         <!-- Canonical URL -->
-        <link rel="canonical" href="https://qhenterprises.com/shop">
+        <link rel="canonical" href="https://www.qhenterprises.com/shop">
         
         <!-- Favicon -->
         <link rel="icon" type="image/x-icon" href="{% static 'img/qh-favicon.ico' %}">
@@ -58,7 +58,7 @@
             "@type": "CollectionPage",
             "name": "Shop",
             "description": "Browse all products and categories at Q & H Enterprises including solar powerbanks, cheap perfumes, online perfumes, polo shirts in Lahore, cheap t-shirts, brand shirts, die cast car models, best mobile accessories, and cheap mobile accessories",
-            "url": "https://qhenterprises.com/shop",
+            "url": "https://www.qhenterprises.com/shop",
             "breadcrumb": {
                 "@type": "BreadcrumbList",
                 "itemListElement": [
@@ -66,13 +66,13 @@
                         "@type": "ListItem",
                         "position": 1,
                         "name": "Home",
-                        "item": "https://qhenterprises.com"
+                                                 "item": "https://www.qhenterprises.com"
                     },
                     {
                         "@type": "ListItem",
                         "position": 2,
                         "name": "Shop",
-                        "item": "https://qhenterprises.com/shop"
+                                                 "item": "https://www.qhenterprises.com/shop"
                     }
                 ]
             }
@@ -87,7 +87,7 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
+        
         <!-- Libraries Stylesheet -->
         <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
         <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
@@ -101,6 +101,27 @@
         
         <!-- Custom Filtering Styles -->
         <style>
+
+            /* Horizontal Scrolling Fix */
+            @media (prefers-reduced-motion: no-preference) {
+                :root {
+                    scroll-behavior: smooth;
+                    overflow-x: hidden;
+                }
+            }
+
+            /* Global overflow fix for body and html */
+            html, body {
+                overflow-x: hidden;
+                max-width: 100%;
+            }
+
+            /* Ensure containers don't cause horizontal scroll */
+            .container, .container-fluid, .row, .col, [class*="col-"] {
+                max-width: 100%;
+                /* overflow-x: hidden; */
+            }
+
             .fruite-categorie .fruite-name a {
                 text-decoration: none;
                 color: #666;
@@ -159,6 +180,31 @@
                 transform: translateY(-1px);
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
+            
+            /* Business Promotion Banner Responsive */
+            .business-promotion-banner .badge {
+                font-size: 0.8rem;
+                white-space: nowrap;
+            }
+            
+            @media (max-width: 576px) {
+                .business-promotion-banner .badge {
+                    font-size: 0.75rem;
+                    padding: 0.5rem 1rem !important;
+                }
+                
+                .business-promotion-banner .card-body {
+                    padding: 1.5rem 1rem !important;
+                }
+                
+                .business-promotion-banner h5 {
+                    font-size: 1.1rem;
+                }
+                
+                .business-promotion-banner p {
+                    font-size: 0.9rem;
+                }
+            }
         </style>
         <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
         
@@ -166,28 +212,263 @@
         <style>
             .featured-products-container {
                 position: relative;
-                height: 400px;
-                overflow: hidden;
+                max-height: 400px;
+                min-height: 200px;
+                overflow-y: auto;
+                overflow-x: hidden;
                 border: 1px solid #e9ecef;
                 border-radius: 8px;
                 background: #fff;
+                scrollbar-width: thin;
+                scrollbar-color: #198754 #f8f9fa;
+            }
+            
+            /* Custom scrollbar for webkit browsers */
+            .featured-products-container::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-track {
+                background: #f8f9fa;
+                border-radius: 3px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-thumb {
+                background: #198754;
+                border-radius: 3px;
+            }
+            
+            .featured-products-container::-webkit-scrollbar-thumb:hover {
+                background: #146c43;
             }
             
             .featured-products-wrapper {
-                transition: transform 0.5s ease-in-out;
-                height: 100%;
+                transition: transform 0.3s ease-in-out;
+                min-height: 100%;
             }
             
             .featured-product-item {
-                height: 133px;
+                min-height: 120px;
                 padding: 15px;
                 border-bottom: 1px solid #f8f9fa;
                 display: flex;
                 align-items: center;
+                transition: all 0.3s ease;
+            }
+            
+            .featured-product-item:hover {
+                background-color: #f8f9fa;
+                transform: translateX(5px);
             }
             
             .featured-product-item:last-child {
                 border-bottom: none;
+            }
+            
+            /* Mobile Layout (Image on top, text below) */
+            .featured-product-mobile {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .featured-product-img-container-mobile {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                border-radius: 8px;
+            }
+            
+            .featured-product-img-container-mobile img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+            
+            .featured-product-content-mobile h6 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                color: #333;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 200px;
+            }
+            
+            .featured-product-content-mobile .featured-product-stars {
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .featured-product-content-mobile .featured-product-discount {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            /* Desktop Layout (Image left, text right) */
+            .featured-product-desktop {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+            }
+            
+            .featured-product-img-container {
+                width: 60px;
+                height: 60px;
+                flex-shrink: 0;
+                overflow: hidden;
+            }
+            
+            .featured-product-img-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+            
+            .featured-product-content {
+                flex: 1;
+                min-width: 0; /* Prevents flex item from overflowing */
+            }
+            
+            .featured-product-content h6 {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                color: #333;
+                line-height: 1.2;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            .featured-product-stars {
+                margin-bottom: 0.5rem;
+            }
+            
+            .featured-product-stars i {
+                font-size: 0.7rem;
+                color: #ffc107;
+            }
+            
+            .featured-product-discount {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .featured-product-discount h5 {
+                font-size: 0.8rem;
+                margin: 0;
+            }
+            
+            .discount-badge {
+                background: #198754;
+                color: white;
+                padding: 0.2rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.7rem;
+                font-weight: bold;
+            }
+            
+            .original-price {
+                color: #dc3545;
+                text-decoration: line-through;
+                font-size: 0.75rem;
+            }
+            
+            /* Responsive breakpoints */
+            @media (max-width: 768px) {
+                .featured-products-container {
+                    max-height: 350px;
+                    min-height: 180px;
+                }
+                
+                .featured-product-item {
+                    min-height: 110px;
+                    padding: 12px;
+                }
+                
+                /* Show mobile layout, hide desktop */
+                .featured-product-mobile {
+                    display: flex;
+                }
+                
+                .featured-product-desktop {
+                    display: none;
+                }
+                
+                .featured-product-img-container-mobile {
+                    width: 70px;
+                    height: 70px;
+                    margin-bottom: 10px;
+                }
+                
+                .featured-product-content-mobile h6 {
+                    font-size: 0.85rem;
+                    max-width: 180px;
+                }
+                
+                .featured-product-discount h5 {
+                    font-size: 0.75rem;
+                }
+            }
+            
+            @media (max-width: 576px) {
+                .featured-products-container {
+                    max-height: 300px;
+                    min-height: 160px;
+                }
+                
+                .featured-product-item {
+                    min-height: 100px;
+                    padding: 10px;
+                }
+                
+                .featured-product-img-container-mobile {
+                    width: 60px;
+                    height: 60px;
+                    margin-bottom: 8px;
+                }
+                
+                .featured-product-content-mobile h6 {
+                    font-size: 0.8rem;
+                    max-width: 160px;
+                }
+                
+                .featured-product-content-mobile .featured-product-discount {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.25rem;
+                }
+            }
+            
+            /* Desktop styles (768px and above) */
+            @media (min-width: 769px) {
+                .featured-product-mobile {
+                    display: none;
+                }
+                
+                .featured-product-desktop {
+                    display: flex;
+                }
+            }
+            
+            /* Empty state styling */
+            .no-featured-products-container {
+                height: 200px;
+                color: #6c757d;
+            }
+            
+            .no-featured-products-container i {
+                color: #dee2e6;
             }
             
             /* Product Card Styles */
@@ -220,7 +501,18 @@
                 transform: scale(1.05);
             }
             
-            /* Responsive adjustments */
+            /* Product Action Buttons Responsive */
+            .action-btn {
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+            }
+            
+            .action-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+            
+            /* Responsive adjustments for product cards */
             @media (max-width: 576px) {
                 .fruite-img {
                     height: 180px !important;
@@ -237,11 +529,167 @@
                 .fruite-item p {
                     font-size: 0.9rem;
                 }
+                
+                .action-btn {
+                    font-size: 0.85rem;
+                    padding: 0.5rem 1rem !important;
+                }
             }
             
             @media (max-width: 768px) {
                 .fruite-img {
                     height: 190px !important;
+                }
+            }
+            
+            /* Responsive Pagination Styles */
+            .pagination-container {
+                width: 100%;
+                overflow-x: auto;
+                padding: 0 10px;
+            }
+            
+            .pagination-responsive {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 40px;
+                height: 40px;
+                padding: 8px 12px;
+                text-decoration: none;
+                color: #198754;
+                background-color: #fff;
+                border: 2px solid #198754;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                text-align: center;
+                line-height: 1;
+            }
+            
+            .page-link:hover {
+                background-color: #198754;
+                color: #fff;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+            }
+            
+            .page-link.active {
+                background-color: #198754;
+                color: #fff;
+                border-color: #198754;
+                font-weight: 600;
+            }
+            
+            .page-nav {
+                min-width: 80px;
+                gap: 6px;
+            }
+            
+            .page-number {
+                min-width: 40px;
+                font-size: 0.95rem;
+            }
+            
+            .page-text {
+                font-size: 0.9rem;
+            }
+            
+            /* Mobile Responsive Adjustments */
+            @media (max-width: 576px) {
+                .pagination-responsive {
+                    gap: 6px;
+                }
+                
+                .page-link {
+                    min-width: 36px;
+                    height: 36px;
+                    padding: 6px 10px;
+                    font-size: 0.85rem;
+                }
+                
+                .page-nav {
+                    min-width: 70px;
+                    padding: 6px 8px;
+                }
+                
+                .page-text {
+                    font-size: 0.8rem;
+                }
+                
+                .page-number {
+                    min-width: 36px;
+                    font-size: 0.85rem;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .pagination-responsive {
+                    gap: 4px;
+                }
+                
+                .page-link {
+                    min-width: 32px;
+                    height: 32px;
+                    padding: 4px 8px;
+                    font-size: 0.8rem;
+                }
+                
+                .page-nav {
+                    min-width: 60px;
+                    padding: 4px 6px;
+                }
+                
+                .page-text {
+                    font-size: 0.75rem;
+                }
+                
+                .page-number {
+                    min-width: 32px;
+                    font-size: 0.8rem;
+                }
+            }
+            
+            /* Tablet Responsive Adjustments */
+            @media (min-width: 577px) and (max-width: 768px) {
+                .pagination-responsive {
+                    gap: 10px;
+                }
+                
+                .page-link {
+                    min-width: 44px;
+                    height: 44px;
+                    padding: 10px 14px;
+                    font-size: 1rem;
+                }
+                
+                .page-nav {
+                    min-width: 90px;
+                    padding: 10px 12px;
+                }
+                
+                .page-text {
+                    font-size: 0.95rem;
+                }
+                
+                .page-number {
+                    min-width: 44px;
+                    font-size: 1rem;
+                }
+            }
+            
+            /* Hover effects for larger screens */
+            @media (min-width: 769px) {
+                .page-link:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 6px 12px rgba(25, 135, 84, 0.4);
                 }
             }
         </style>
@@ -270,7 +718,7 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Shop</h1>
+            <h1 class="text-center text-white display-6">Shop </h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{% url 'shop' %}">Pages</a></li>
@@ -282,8 +730,8 @@
 
         <!-- Shop Start-->
         <div class="container-fluid fruite py-5">
-            <div class="container py-5">
-                <h1 class="mb-4">Store Inventory</h1>
+            <div class="container py-5" style="margin: 35px">
+                <h2 class="mb-4">Store Inventory</h2>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -325,7 +773,7 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <h4 class="mb-2 mt-5 ">Categories</h4>
+                                                <h3 class="mb-2 mt-5 ">Categories</h3>
                                                 {% if current_category or current_min_price or current_max_price %}
                                                     <a href="{% url 'shop' %}{% if current_search %}?search={{ current_search }}{% endif %}" 
                                                        class="btn btn-outline-danger btn-sm clear-filters-btn">Clear Filters</a>
@@ -361,7 +809,7 @@
                                     <!-- price filter -->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <h4 class="mb-2">Price</h4>
+                                            <h3 class="mb-2">Price</h3>
                                             <form id="priceFilterForm" method="GET" action="{% url 'shop' %}" class="price-filter-form">
                                                 <!-- Preserve existing filters -->
                                                 {% if current_search %}
@@ -378,7 +826,7 @@
                                                     <input type="number" class="form-control ms-2" id="maxPrice" name="max_price" placeholder="Max" 
                                                            value="{{ current_max_price|default:'' }}" min="0" step="0.01">
                                                 </div>
-                                                <button type="submit" class="btn btn-sm w-100" style="background-color: #e8f5e8; border-color: #198754; color: #198754; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#198754'; this.style.color='white';" onmouseout="this.style.backgroundColor='#e8f5e8'; this.style.color='#198754';">Apply Price Filter</button>
+                                                <button type="submit" class="btn btn-sm w-100 price-filter-btn">Apply Price Filter</button>
                                             </form>
                                             
                                             <!-- Quick price range buttons -->
@@ -398,41 +846,71 @@
 
                                     <!-- Featured Products Section -->
                                     <div class="col-lg-12">
-                                        <h4 class="mb-3">Featured products</h4>
+                                        <h3 class="mb-3">Featured products</h3>
                                         <div class="featured-products-container">
                                             <div class="featured-products-wrapper">
                                                 {% for product in featured_products %}
                                                 <div class="featured-product-item">
-                                                    <div class="d-flex align-items-center justify-content-start">
-                                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
+                                                    <div class="featured-product-mobile">
+                                                        <!-- Mobile layout: Image on top, text below -->
+                                                        <div class="featured-product-img-container-mobile">
                                                             {% if product.product_image %}
                                                                 <img src="{{ product.product_image }}" class="img-fluid rounded" alt="{{ product.product_name }}">
                                                             {% else %}
                                                                 <img src="{% static 'img/featur-1.jpg' %}" class="img-fluid rounded" alt="{{ product.product_name }}">
                                                             {% endif %}
                                                         </div>
-                                                        <div>
+                                                        <div class="featured-product-content-mobile">
                                                             <h6 class="mb-2">{{ product.product_name }}</h6>
-                                                            <div class="d-flex mb-2">
+                                                            <div class="d-flex mb-2 featured-product-stars">
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star text-secondary"></i>
                                                                 <i class="fa fa-star"></i>
                                                             </div>
-                                                            <div class="d-flex mb-2">
+                                                            <div class="d-flex mb-2 featured-product-discount">
                                                                 {% if product.discount_percentage %}
-                                                                    <h5 class="fw-bold me-2">{{ product.discount_percentage }}% OFF</h5>
+                                                                    <h5 class="fw-bold me-2 discount-badge">{{ product.discount_percentage }}% OFF</h5>
                                                                 {% endif %}
                                                                 {% if product.discount_text %}
-                                                                    <h5 class="text-danger text-decoration-line-through">{{ product.discount_text }}</h5>
+                                                                    <h5 class="text-danger original-price">{{ product.discount_text }}</h5>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Desktop layout: Image left, text right -->
+                                                    <div class="featured-product-desktop">
+                                                        <div class="rounded me-4 featured-product-img-container">
+                                                            {% if product.product_image %}
+                                                                <img src="{{ product.product_image }}" class="img-fluid rounded" alt="{{ product.product_name }}">
+                                                            {% else %}
+                                                                <img src="{% static 'img/featur-1.jpg' %}" class="img-fluid rounded" alt="{{ product.product_name }}">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="featured-product-content">
+                                                            <h6 class="mb-2">{{ product.product_name }}</h6>
+                                                            <div class="d-flex mb-2 featured-product-stars">
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star text-secondary"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="d-flex mb-2 featured-product-discount">
+                                                                {% if product.discount_percentage %}
+                                                                    <h5 class="fw-bold me-2 discount-badge">{{ product.discount_percentage }}% OFF</h5>
+                                                                {% endif %}
+                                                                {% if product.discount_text %}
+                                                                    <h5 class="text-danger original-price">{{ product.discount_text }}</h5>
                                                                 {% endif %}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 {% empty %}
-                                                <div class="featured-product-item d-flex align-items-center justify-content-center" style="height: 200px;">
+                                                <div class="featured-product-item d-flex align-items-center justify-content-center no-featured-products-container">
                                                     <div class="text-center">
                                                         <i class="fas fa-star fa-2x text-muted mb-3"></i>
                                                         <h6 class="text-muted mb-2">No Featured Products</h6>
@@ -450,12 +928,12 @@
                                     <!-- Banner Section -->
                                     <div class="col-lg-12">
                                         <div class="position-relative">
-                                            <div class="card text-center border-0 shadow-sm" style="background-color: #ffb524;">
+                                            <div class="card text-center border-0 shadow-sm business-promotion-banner">
                                                 <div class="card-body py-4">
                                                     <h5 class="card-title text-dark mb-3 fw-bold">Promote Your Business with Q&H Enterprises</h5>
                                                     <p class="card-text text-dark mb-3">Place your ad here and reach thousands of customers!</p>
-                                                    <div class="d-flex justify-content-center align-items-center">
-                                                        <span class="badge bg-dark text-light px-3 py-2 me-2">Business Promotion</span>
+                                                    <div class="d-flex justify-content-center align-items-center flex-column flex-sm-row">
+                                                        <span class="badge bg-dark text-light px-3 py-2 me-0 me-sm-2 mb-2 mb-sm-0">Business Promotion</span>
                                                         <span class="badge bg-dark text-light px-3 py-2">Advertising</span>
                                                     </div>
                                                     <div class="mt-3">
@@ -511,26 +989,26 @@
                                         {% for product in products %}
                                         <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                             <div class="rounded position-relative fruite-item h-100">
-                                                <div class="fruite-img" style="height: 200px; overflow: hidden;">
+                                                <div class="fruite-img product-img-container">
                                                     {% if product.image %}
-                                                        <img src="{{ product.image }}" class="img-fluid w-100 rounded-top" style="height: 100%; object-fit: cover;" alt="{{ product.name }}">
+                                                        <img src="{{ product.image }}" class="img-fluid w-100 rounded-top product-img" alt="{{ product.name }}" loading="lazy" width="300" height="200">
                                                     {% else %}
-                                                        <img src="{% static 'img/fruite-item-1.jpg' %}" class="img-fluid w-100 rounded-top" style="height: 100%; object-fit: cover;" alt="{{ product.name }}">
+                                                        <img src="{% static 'img/fruite-item-1.jpg' %}" class="img-fluid w-100 rounded-top product-img" alt="{{ product.name }}" loading="lazy" width="300" height="200">
                                                     {% endif %}
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{ product.product_type|title }}</div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute product-type-badge">{{ product.product_type|title }}</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column h-100">
                                                     <h4 class="mb-2">{{ product.name }}</h4>
                                                     <p class="mb-3 flex-grow-1">{{ product.description|default:"Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt" }}</p>
                                                     <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">RS{{ product.price }}</p>
 
                                                         <!-- View Details button -->
-                                                    <div class="d-flex justify-content-between align-items-center mt-auto">
-                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-2" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                    <div class="d-flex justify-content-between align-items-center mt-auto flex-column flex-sm-row">
+                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-0 me-sm-2 mb-2 mb-sm-0 action-btn w-100 w-sm-auto">
                                                             <i class="fa fa-eye me-1 text-primary"></i> View Details
                                                         </button>
 
-                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 6px 12px; font-size: 12px; white-space: nowrap;">
+                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn w-100 w-sm-auto">
                                                             <i class="fa fa-shopping-bag me-1 text-primary"></i> Add to Cart
                                                         </button>
                                                     </div>
@@ -572,22 +1050,30 @@
                                         <!-- Pagination -->
                                         {% if pagination_info.pages > 1 %}
                                         <div class="col-12">
-                                            <div class="pagination d-flex justify-content-center mt-5">
-                                                {% if pagination_info.has_previous %}
-                                                    <a href="?page={{ pagination_info.previous_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">&laquo;</a>
-                                                {% endif %}
-                                                
-                                                {% for page_num in pagination_info.page_range %}
-                                                    {% if page_num == pagination_info.current_page %}
-                                                        <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="active rounded">{{ page_num }}</a>
-                                                    {% else %}
-                                                        <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">{{ page_num }}</a>
+                                            <div class="pagination-container d-flex justify-content-center mt-5">
+                                                <div class="pagination pagination-responsive">
+                                                    {% if pagination_info.has_previous %}
+                                                        <a href="?page={{ pagination_info.previous_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-nav rounded">
+                                                            <i class="fas fa-chevron-left"></i>
+                                                            <span class="page-text">Previous</span>
+                                                        </a>
                                                     {% endif %}
-                                                {% endfor %}
-                                                
-                                                {% if pagination_info.has_next %}
-                                                    <a href="?page={{ pagination_info.next_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="rounded">&raquo;</a>
-                                                {% endif %}
+                                                    
+                                                    {% for page_num in pagination_info.page_range %}
+                                                        {% if page_num == pagination_info.current_page %}
+                                                            <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-number active rounded">{{ page_num }}</a>
+                                                        {% else %}
+                                                            <a href="?page={{ page_num }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-number rounded">{{ page_num }}</a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    
+                                                    {% if pagination_info.has_next %}
+                                                        <a href="?page={{ pagination_info.next_page }}{% if current_search %}&search={{ current_search }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}{% if current_min_price %}&min_price={{ current_min_price }}{% endif %}{% if current_max_price %}&max_price={{ current_max_price }}{% endif %}" class="page-link page-nav rounded">
+                                                            <span class="page-text">Next</span>
+                                                            <i class="fas fa-chevron-right"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </div>
                                         {% endif %}

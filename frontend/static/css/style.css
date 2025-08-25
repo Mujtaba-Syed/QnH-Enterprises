@@ -733,3 +733,208 @@
 }
 /*** Product Carousel Styles End ***/
 
+
+/*** Shop Page Specific Styles Start ***/
+/* Price Filter Button */
+.price-filter-btn {
+    background-color: #e8f5e8;
+    border-color: #198754;
+    color: #198754;
+    transition: all 0.3s ease;
+}
+
+.price-filter-btn:hover {
+    background-color: #198754;
+    color: white;
+}
+
+/* Featured Product Image Container */
+.featured-product-img-container {
+    width: 100px;
+    height: 100px;
+}
+
+/* No Featured Products Container */
+.no-featured-products-container {
+    height: 200px;
+}
+
+/* Business Promotion Banner */
+.business-promotion-banner {
+    background-color: #ffb524;
+}
+
+/* Product Image Container */
+.product-img-container {
+    height: 200px;
+    overflow: hidden;
+}
+
+/* Product Image */
+.product-img {
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Product Type Badge */
+.product-type-badge {
+    top: 10px;
+    left: 10px;
+}
+
+/* Action Buttons */
+.action-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Responsive adjustments for shop page */
+@media (max-width: 576px) {
+    .product-img-container {
+        height: 180px;
+    }
+    
+    .action-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-img-container {
+        height: 190px;
+    }
+}
+/*** Shop Page Specific Styles End ***/
+
+
+/*** About Us Page Specific Styles Start ***/
+/* About Us Image */
+.about-us-image {
+    object-fit: cover;
+}
+
+/* Section Header Container */
+.section-header-container {
+    max-width: 700px;
+}
+
+/* Service Icon Container - Small */
+.service-icon-container-small {
+    width: 80px;
+    height: 80px;
+}
+
+/* Service Icon Container - Large */
+.service-icon-container-large {
+    width: 100px;
+    height: 100px;
+}
+
+/* Contact CTA Background */
+.contact-cta-background {
+    background-color: #1f3327;
+}
+
+/* Contact CTA Text */
+.contact-cta-text {
+    color: #ffb524;
+}
+
+/* Responsive adjustments for about us page */
+@media (max-width: 768px) {
+    .section-header-container {
+        max-width: 100%;
+    }
+    
+    .service-icon-container-small,
+    .service-icon-container-large {
+        width: 60px;
+        height: 60px;
+    }
+}
+/*** About Us Page Specific Styles End ***/
+
+
+/*** Index Page Specific Styles Start ***/
+/* Product Type Badge */
+.product-type-badge {
+    top: 10px;
+    left: 10px;
+}
+
+/* Action Button */
+.action-button {
+    padding: 8px 16px;
+}
+
+/* Category Filter Span */
+.category-filter-span {
+    width: 130px;
+}
+
+.category-filter-span-wide {
+    width: 175px;
+}
+
+/* Product Item Height */
+.product-item-tall {
+    height: 500px;
+    margin: 10px;
+}
+
+/* Banner Background */
+.banner-background {
+    background: #1a1919;
+    background: linear-gradient(180deg, rgba(26, 25, 25, 1) 0%, rgba(29, 87, 29, 1) 50%, rgba(41, 41, 41, 1) 100%);
+}
+
+/* Circle Position Absolute */
+.circle-position-absolute {
+    width: 140px;
+    height: 140px;
+    top: 0;
+    left: 0;
+}
+
+/* Section Header Container */
+.section-header-container {
+    max-width: 700px;
+}
+
+/* Quote Icon Position */
+.quote-icon-position {
+    bottom: 30px;
+    right: 0;
+}
+
+/* Review Image Size */
+.review-image-size {
+    width: 100px;
+    height: 100px;
+}
+
+/* Text Center */
+.text-center-custom {
+    text-align: center;
+}
+
+/* Responsive adjustments for index page */
+@media (max-width: 768px) {
+    .section-header-container {
+        max-width: 100%;
+    }
+    
+    .category-filter-span,
+    .category-filter-span-wide {
+        width: auto;
+    }
+    
+    .product-item-tall {
+        height: auto;
+        margin: 5px;
+    }
+}
+/*** Index Page Specific Styles End ***/
+
