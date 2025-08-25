@@ -987,7 +987,7 @@
                                 <div class="row g-4 justify-content-center">
                                     <div class="row g-4 gy-5">
                                         {% for product in products %}
-                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-0 p-md-3">
                                             <div class="rounded position-relative fruite-item h-100">
                                                 <div class="fruite-img product-img-container">
                                                     {% if product.image %}
@@ -1003,12 +1003,12 @@
                                                     <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">RS{{ product.price }}</p>
 
                                                         <!-- View Details button -->
-                                                    <div class="d-flex justify-content-between align-items-center mt-auto flex-column flex-sm-row">
-                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-0 me-sm-2 mb-2 mb-sm-0 action-btn w-100 w-sm-auto">
+                                                    <div class="d-flex justify-content-between align-items-center mt-auto flex-column flex-sm-row flex-md-column">
+                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-0 me-sm-2 mb-2 mb-sm-0 mb-md-2 action-btn w-100 w-sm-auto w-md-100">
                                                             <i class="fa fa-eye me-1 text-primary"></i> View Details
                                                         </button>
 
-                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn w-100 w-sm-auto">
+                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn w-100 w-sm-auto w-md-100">
                                                             <i class="fa fa-shopping-bag me-1 text-primary"></i> Add to Cart
                                                         </button>
                                                     </div>
