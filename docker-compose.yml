@@ -24,6 +24,8 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./core/media:/app/core/media
       - ./staticfiles:/app/staticfiles
+      - ./robots.txt:/app/robots.txt:ro
+      - ./sitemap.xml:/app/sitemap.xml:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro 
       - /var/lib/letsencrypt:/var/lib/letsencrypt
     restart: always

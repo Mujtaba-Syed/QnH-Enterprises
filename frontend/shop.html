@@ -5,10 +5,10 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises</title> 
+        <title>Shop Die Cast Cars, Shirts, Perfumes & Mobile Accessories</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, shop, online store, browse products, product categories, Q&H Enterprises, perfumes, accessories, shirts, diecast cars, wholesale, cheap products, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
-        <meta content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping. Browse categories & filter by price." name="description">
+        <meta name="description" content="Shop online for solar powerbanks, affordable perfumes, polo shirts, die cast car models, and mobile accessories." />
         
         <!-- SEO Meta Tags -->
         <meta name="author" content="Q & H Enterprises">
@@ -19,8 +19,8 @@
         <meta name="rating" content="general">
         
         <!-- Open Graph Meta Tags for Social Media -->
-        <meta property="og:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">    
-        <meta property="og:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
+        <meta property="og:title" content="Shop Die Cast Cars, Shirts, Perfumes & Mobile Accessories">    
+        <meta property="og:description" content="Shop online for solar powerbanks, affordable perfumes, polo shirts, die cast car models, and mobile accessories.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://qhenterprises.com/shop">
         <meta property="og:site_name" content="Q & H Enterprises">
@@ -31,8 +31,8 @@
         
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Shop Online - Die Cast Cars, Shirts, Perfumes & Mobile Accessories | Q&H Enterprises">
-        <meta name="twitter:description" content="Shop online for solar powerbanks, cheap perfumes, polo shirts in Lahore, die cast car models & mobile accessories. Free shipping over Rs3000. Browse categories & filter by price.">
+        <meta name="twitter:title" content="Shop Die Cast Cars, Shirts, Perfumes & Mobile Accessories">
+        <meta name="twitter:description" content="Shop online for solar powerbanks, affordable perfumes, polo shirts, die cast car models, and mobile accessories.">
         <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         
         <!-- Additional SEO Meta Tags -->
@@ -987,7 +987,7 @@
                                 <div class="row g-4 justify-content-center">
                                     <div class="row g-4 gy-5">
                                         {% for product in products %}
-                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-0 p-md-3">
                                             <div class="rounded position-relative fruite-item h-100">
                                                 <div class="fruite-img product-img-container">
                                                     {% if product.image %}
@@ -1003,12 +1003,12 @@
                                                     <p class="text-dark fs-5 fw-bold mb-0 text-center mb-3">RS{{ product.price }}</p>
 
                                                         <!-- View Details button -->
-                                                    <div class="d-flex justify-content-between align-items-center mt-auto flex-column flex-sm-row">
-                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-0 me-sm-2 mb-2 mb-sm-0 action-btn w-100 w-sm-auto">
+                                                    <div class="d-flex justify-content-between align-items-center mt-auto flex-column flex-sm-row flex-md-column">
+                                                        <button onclick="handleViewDetails(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary me-0 me-sm-2 mb-2 mb-sm-0 mb-md-2 action-btn w-100 w-sm-auto w-md-100">
                                                             <i class="fa fa-eye me-1 text-primary"></i> View Details
                                                         </button>
 
-                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn w-100 w-sm-auto">
+                                                        <button onclick="handleAddToCart(event, '{{ product.id }}')" class="btn border border-secondary rounded-pill text-primary action-btn w-100 w-sm-auto w-md-100">
                                                             <i class="fa fa-shopping-bag me-1 text-primary"></i> Add to Cart
                                                         </button>
                                                     </div>
