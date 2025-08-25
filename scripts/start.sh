@@ -9,6 +9,7 @@ cd /app/core
 python manage.py migrate
 
 # Collect static files (commented out as requested)
+rm -rf staticfiles/
 python manage.py collectstatic --noinput
 
 # Start production server with uvicorn
