@@ -892,21 +892,7 @@
                                     <div class="col-lg-12">
                                         <h3 class="mb-3">Featured products</h3>
                                         <div class="featured-products-container">
-                                            <script>
-                                                console.log('=== FEATURED PRODUCTS DEBUG ===');
-                                                console.log('Featured Products Data:', {{ featured_products|safe }});
-                                                console.log('Total Featured Products:', {{ featured_products|length }});
-                                                {% for product in featured_products %}
-                                                console.log('Product {{ forloop.counter }}:', {
-                                                    featured_id: '{{ product.id }}',
-                                                    product_id: '{{ product.product_id }}',
-                                                    name: '{{ product.product_name }}',
-                                                    image: '{{ product.product_image }}',
-                                                    discount: '{{ product.discount_percentage }}'
-                                                });
-                                                {% endfor %}
-                                                console.log('=== END DEBUG ===');
-                                            </script>
+                                          
                                             <div class="featured-products-wrapper">
                                                 {% for product in featured_products %}
                                                 
