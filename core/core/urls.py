@@ -33,6 +33,13 @@ def google_verification(request):
     verification_content = "google-site-verification: google76a61c0a0e658004.html"
     return HttpResponse(verification_content, content_type='text/html')
 
+def test_cache(request):
+    """Simple endpoint for testing nginx caching"""
+    import time
+    current_time = time.strftime('%Y-%m-%d %H:%M:%S')
+    return HttpResponse(f"Cache test endpoint - Current time: {current_time}", content_type='text/plain')
+
+
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
@@ -57,6 +64,9 @@ urlpatterns = [
 
     path('oauth/', include('social_django.urls', namespace='social')),
     path('sitemap.xml', SitemapView.as_view(), name='sitemap'),
+    
+    # Test endpoint for nginx caching
+    path('test-cache/', test_cache, name='test_cache'),
     
     # Google Search Console verification
     path('google76a61c0a0e658004.html', google_verification, name='google_verification'),
