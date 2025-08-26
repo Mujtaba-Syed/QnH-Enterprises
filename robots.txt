@@ -44,6 +44,11 @@ Allow: /img/
 Allow: /css/
 Allow: /js/
 
+# Allow favicon files
+Allow: /qh-favicon.ico
+Allow: /*.ico
+Allow: /*.png
+
 # Crawl delay (optional)
 Crawl-delay: 1
 
