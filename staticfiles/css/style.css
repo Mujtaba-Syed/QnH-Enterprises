@@ -705,14 +705,15 @@
     justify-content: center;
     pointer-events: auto;
     transition: 0.3s;
+    z-index: 10;
 }
 
 .product-carousel .owl-prev {
-    left: -24px;
+    left: -44px;
 }
 
 .product-carousel .owl-next {
-    right: -24px;
+    right: -44px;
 }
 
 .product-carousel .owl-prev:hover,
@@ -724,11 +725,93 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .product-carousel .owl-prev {
-        left: 10px;
+        left: -40px;
     }
     
     .product-carousel .owl-next {
         right: 10px;
+    }
+}
+
+/* Medium screens - adjust positioning and size */
+@media (max-width: 576px) {
+    .product-carousel .owl-prev,
+    .product-carousel .owl-next {
+        width: 40px;
+        height: 40px;
+        border-radius: 40px;
+        font-size: 14px;
+    }
+    
+    .product-carousel .owl-prev {
+        left: 5px;
+    }
+    
+    .product-carousel .owl-next {
+        right: 5px;
+    }
+}
+
+/* Small screens - adjust positioning and size for better mobile experience */
+@media (max-width: 480px) {
+    .product-carousel .owl-prev,
+    .product-carousel .owl-next {
+        width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        font-size: 12px;
+    }
+    
+    .product-carousel .owl-prev {
+        left: -34px;
+    }
+    
+    .product-carousel .owl-next {
+        right: 45px;
+    }
+}
+
+/* Extra small screens - keep arrows visible but compact */
+@media (max-width: 375px) {
+    .product-carousel .owl-prev,
+    .product-carousel .owl-next {
+        width: 32px;
+        height: 32px;
+        border-radius: 32px;
+        font-size: 11px;
+    }
+    
+    .product-carousel .owl-prev {
+        left: -28px;
+    }
+    
+    .product-carousel .owl-next {
+        right: 42px;
+    }
+}
+
+/* Ensure carousel container is responsive */
+@media (max-width: 768px) {
+    .product-carousel {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-carousel {
+        padding: 0 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-carousel {
+        padding: 0 40px;
+    }
+}
+
+@media (max-width: 375px) {
+    .product-carousel {
+        padding: 0 35px;
     }
 }
 /*** Product Carousel Styles End ***/

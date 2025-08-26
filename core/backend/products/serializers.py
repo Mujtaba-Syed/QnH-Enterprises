@@ -49,9 +49,10 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 class FeaturedProductsSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name')
     product_image = serializers.ImageField(source='product.image')
+    product_id = serializers.IntegerField(source='product.id')
     class Meta:
         model = FeaturedProducts
-        fields = ['id', 'product_name', 'product_image', 'discount_percentage', 'discount_text']
+        fields = ['id', 'product_name', 'product_image', 'product_id', 'discount_percentage', 'discount_text']
 
 class NewlyAddedProductsSerializer(serializers.ModelSerializer):
     class Meta:
