@@ -39,15 +39,6 @@ def test_cache(request):
     current_time = time.strftime('%Y-%m-%d %H:%M:%S')
     return HttpResponse(f"Cache test endpoint - Current time: {current_time}", content_type='text/plain')
 
-def favicon_view(request):
-    """Serve favicon directly"""
-    from django.conf import settings
-    import os
-    favicon_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'static', 'img', 'qh-favicon.ico')
-    if os.path.exists(favicon_path):
-        with open(favicon_path, 'rb') as f:
-            return HttpResponse(f.read(), content_type='image/x-icon')
-    return HttpResponse(status=404)
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
@@ -80,9 +71,6 @@ urlpatterns = [
     # Google Search Console verification
     path('google76a61c0a0e658004.html', google_verification, name='google_verification'),
 
-    # Favicon routes for better Google recognition
-    path('favicon.ico', favicon_view, name='favicon'),
-    path('qh-favicon.ico', favicon_view, name='qh_favicon'),
 
 ]
 if settings.DEBUG:
