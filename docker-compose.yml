@@ -28,6 +28,7 @@ services:
       - ./sitemap.xml:/app/sitemap.xml:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro 
       - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - nginx_cache:/var/cache/nginx
     restart: always
 
 
@@ -51,3 +52,4 @@ services:
 
 volumes:
   postgres_data: 
+  nginx_cache:
