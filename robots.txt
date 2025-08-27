@@ -44,6 +44,15 @@ Allow: /img/
 Allow: /css/
 Allow: /js/
 
+# Allow favicon files
+Allow: /favicon.ico
+Allow: /*.ico
+Allow: /*.png
+
+# Allow root favicon specifically
+Allow: /favicon.ico
+Allow: /favicon.ico
+
 # Crawl delay (optional)
 Crawl-delay: 1
 
