@@ -317,15 +317,16 @@ class SitemapView(TemplateView):
         urlset = ET.Element('urlset')
         urlset.set('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
         
-        # Static pages
+        # Static pages - UPDATED with missing pages
         static_pages = [
-                    {'loc': 'https://qhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
-        {'loc': 'https://qhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
-        {'loc': 'https://qhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
-        {'loc': 'https://qhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
-        {'loc': 'https://qhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
-        {'loc': 'https://qhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
-        {'loc': 'https://qhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qhenterprises.com/', 'priority': '1.0', 'changefreq': 'daily'},
+            {'loc': 'https://qhenterprises.com/shop/', 'priority': '0.9', 'changefreq': 'daily'},
+            {'loc': 'https://qhenterprises.com/about-us/', 'priority': '0.8', 'changefreq': 'monthly'},  # ADDED
+            {'loc': 'https://qhenterprises.com/contact/', 'priority': '0.8', 'changefreq': 'monthly'},
+            {'loc': 'https://qhenterprises.com/testimonial/', 'priority': '0.7', 'changefreq': 'weekly'},
+            {'loc': 'https://qhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
         ]
         
         current_date = timezone.now().strftime('%Y-%m-%d')
@@ -333,7 +334,7 @@ class SitemapView(TemplateView):
         for page in static_pages:
             url = ET.SubElement(urlset, 'url')
             ET.SubElement(url, 'loc').text = page['loc']
-            ET.SubElement(url, 'lastmod').text = current_date
+            ET.SubElement(url, 'lastmod').text = current_date  # This will always show today's date
             ET.SubElement(url, 'changefreq').text = page['changefreq']
             ET.SubElement(url, 'priority').text = page['priority']
         
