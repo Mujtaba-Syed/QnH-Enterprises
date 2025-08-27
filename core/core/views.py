@@ -10,6 +10,7 @@ from xml.dom import minidom
 import requests
 from django.conf import settings
 from urllib.parse import urljoin
+from datetime import datetime
 
 
 class HomeView(TemplateView):
@@ -311,6 +312,83 @@ class RegisterView(TemplateView):
 class OAuthSuccessView(TemplateView):
     template_name = 'oauth-success.html'
 
+
+class ProductDetailView(TemplateView):
+    template_name = 'product-detail.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = self.kwargs.get('product_id')
+        response = requests.get(f'{settings.BASE_URL}/api/products/product-detail/{product_id}/')
+        if response.status_code == 200:
+            product = response.json()
+        else:
+            product = {}
+        context['product'] = product
+        return context
+
+
+class BlogDetailsView(TemplateView):
+    template_name = 'blog/blog-details.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        blog_id = self.kwargs.get('id')
+        response = requests.get(f'{settings.BASE_URL}/api/blog/{blog_id}/')
+        if response.status_code == 200:
+            blog = response.json()
+        else:
+            blog = None
+        
+        if blog:
+            image = blog.get('image')
+            if image:
+                if image.startswith("http"):
+                    blog['image'] = image
+                else:
+                    blog['image'] = urljoin(settings.BASE_URL, image)
+            else:
+                blog['image'] = ''
+
+            created_at = blog.get('created_at')
+            if created_at:
+                try:
+                    blog['created_at'] = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                except ValueError:
+                    blog['created_at'] = created_at
+        
+        context['blogs'] = [blog] if blog else []
+        return context
+
+class BlogView(TemplateView):
+    template_name = 'blog/blog-list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        response = requests.get(f'{settings.BASE_URL}/api/blog/')
+        if response.status_code == 200:
+            blogs = response.json()
+        else:
+            blogs = []
+        
+        if blogs:
+            for blog in blogs:
+                image = blog.get('image')
+                if image:
+                    if image.startswith("http"):
+                        blog['image'] = image
+                    else:
+                        blog['image'] = urljoin(settings.BASE_URL, image)
+                else:
+                    blog['image'] = ''
+                
+                created_at = blog.get('created_at')
+                if created_at:
+                    try:
+                        blog['created_at'] = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    except ValueError:
+                        blog['created_at'] = created_at
+        
+        context['blogs'] = blogs
+        return context
+
 class SitemapView(TemplateView):
     def get(self, request, *args, **kwargs):
         # Create the XML structure
@@ -354,15 +432,3 @@ class SitemapView(TemplateView):
         
         return HttpResponse(pretty_xml, content_type='application/xml')
 
-class ProductDetailView(TemplateView):
-    template_name = 'product-detail.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        product_id = self.kwargs.get('product_id')
-        response = requests.get(f'{settings.BASE_URL}/api/products/product-detail/{product_id}/')
-        if response.status_code == 200:
-            product = response.json()
-        else:
-            product = {}
-        context['product'] = product
-        return context
