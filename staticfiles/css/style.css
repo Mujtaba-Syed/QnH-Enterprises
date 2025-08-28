@@ -1058,5 +1058,8 @@
 .post-img:hover img {
     transform: scale(1.05);
 }
+.related-links {
+    margin-top: 50px;
+}
 
 /*** Blog Page Specific Styles End ***/
