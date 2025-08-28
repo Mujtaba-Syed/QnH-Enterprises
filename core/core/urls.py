@@ -80,4 +80,4 @@ if settings.DEBUG:
     # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Custom 404 handler - this will catch all non-existent URLs
-handler404 = 'core.views.custom_404'
+handler404 = 'core.core.views.custom_404'
