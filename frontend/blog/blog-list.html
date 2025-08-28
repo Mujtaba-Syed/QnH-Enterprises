@@ -130,6 +130,7 @@
         <!-- Blog Details Start -->
         <div class="container py-5">
             <h1 class="text-center mb-4">Our Blog</h1>
+            {% if blogs %}
             <div class="row">
                 {% for post in blogs %}
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
@@ -155,6 +156,15 @@
                 </div>
                 {% endfor %}
             </div>
+            {% else %}
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-newspaper fa-4x text-muted"></i>
+                </div>
+                <h3 class="text-muted mb-3">No Blog published at the moment</h3>
+                <p class="text-muted">Check back soon for new articles and updates!</p>
+            </div>
+            {% endif %}
         </div>
         
         <!-- Blog Details End -->
