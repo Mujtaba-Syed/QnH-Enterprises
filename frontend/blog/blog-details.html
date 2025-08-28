@@ -5,10 +5,10 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Privacy Policy - Q & H Enterprises | Data Protection & Privacy</title>
+        <title>Blog Details - Q & H Enterprises | Blog Details</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="solar powerbanks, cheap perfumes, online perfumes, polo shirts in lahore, cheap t shirt, brand shirt, die cast car models, best mobile accessories, cheap mobile accessories, privacy policy, data protection, privacy, Q&H Enterprises, data security, personal information, cookies, GDPR, solar charger, portable charger, power bank, mobile phone accessories, gaming accessories, car accessories online, model car collection, diecast models, collectible toys, fashion online Pakistan, beauty products, skincare, makeup, cosmetics, wholesale fashion, bulk orders, corporate gifts, event supplies, party accessories, home decor, lifestyle products" name="keywords">
-        <meta content="Read Q & H Enterprises Privacy Policy. Learn how we collect, use & protect your data while offering solar powerbanks, perfumes, apparel & accessories" name="description">
+        <meta name="description" content="Discover Q & H Enterprises Blog Details – articles on perfumes, die-cast model cars, fashion, bridal dresses, watches, mobile accessories & more. Stay informed with trends and buying guides.">
         
         <!-- SEO Meta Tags -->
         <meta name="author" content="Q & H Enterprises">
@@ -20,7 +20,7 @@
         
         <!-- Open Graph Meta Tags for Social Media -->
         <meta property="og:title" content="Privacy Policy - Q & H Enterprises">
-        <meta property="og:description" content="Discover Q & H Enterprises Privacy Policy. We explain how your data is handled while you shop solar powerbanks, perfumes, apparel & accessories.">
+        <meta property="og:description" content="Explore detailed blogs from Q & H Enterprises covering perfumes, die-cast cars, apparel, accessories, and lifestyle tips. Discover expert insights, guides, and trends.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://qhenterprises.com/privacy-policy">
         <meta property="og:site_name" content="Q & H Enterprises">
@@ -32,7 +32,7 @@
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Privacy Policy - Q & H Enterprises">
-        <meta name="twitter:description" content="Q & H Enterprises Privacy Policy – learn how we protect your data while providing solar powerbanks, perfumes, apparel & accessories.">
+        <meta name="twitter:description" content="Read in-depth blogs from Q & H Enterprises on perfumes, die-cast model cars, apparel, bridal dresses, watches, mobile accessories, and more. Stay updated with our latest trends and tips.">
         <meta name="twitter:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
         
         <!-- Additional SEO Meta Tags -->
@@ -43,7 +43,7 @@
         <meta name="apple-mobile-web-app-title" content="Q & H Enterprises">
         
         <!-- Canonical URL -->
-        <link rel="canonical" href="https://qhenterprises.com/privacy-policy/">
+        <link rel="canonical" href="https://qhenterprises.com/privacy-policy">
         
         <!-- Favicon -->
         <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
@@ -117,44 +117,59 @@
         <!-- Navbar End -->
 
         <!-- Single Page Header start -->
-        <div class="container-fluid py-5 mb-4">
-           
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Blog Details</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'blog' %}">Blog</a></li>
+                <li class="breadcrumb-item active text-white">Blog Details</li>
+            </ol>
         </div>
         <!-- Single Page Header End -->
 
-        <!-- Privacy Policy Start -->
+        <!-- Blog Details Start -->
         <div class="container py-5">
-            <h2 class="text-center mb-4">Privacy Policy</h2>
-            <p>At Q&H Enterprises, we value your privacy and are committed to protecting your personal information. This privacy policy outlines how we collect, use, and protect your data when you visit our website or use our services.</p>
-            
-            <h4>1. Information We Collect</h4>
-            <p>We collect information that you provide directly to us, such as your name, email address, phone number, and payment details. Additionally, we may collect technical data such as your IP address, browser type, and usage data when you interact with our website.</p>
-            
-            <h4>2. How We Use Your Information</h4>
-            <p>We use your information to process orders, communicate with you, provide customer support, improve our services, and send marketing communications (if you have opted in). We may also use your data to enhance your browsing experience on our website.</p>
-            
-            <h4>3. Data Security</h4>
-            <p>We take appropriate security measures to protect your personal information. While no method of data transmission or storage is 100% secure, we strive to protect your data using industry-standard security protocols.</p>
-            
-            <h4>4. Sharing Your Information</h4>
-            <p>We do not sell, rent, or share your personal information with third parties for marketing purposes.</p>
-            
-            <h4>5. Cookies</h4>
-            <p>We use cookies to improve your experience on our website. Cookies help us remember your preferences, analyze website traffic, and provide you with relevant content. You can control cookie settings through your browser.</p>
-            
-            <h4>6. Your Rights</h4>
-            <p>You have the right to access, update, or delete your personal data. You may also object to the processing of your data or request that we limit the use of your data.</p>
-            
-            <h4>7. Changes to This Privacy Policy</h4>
-            <p>We may update this privacy policy from time to time. Any changes will be reflected on this page, and we encourage you to review it periodically.</p>
-            
-            <p>If you have any questions or concerns regarding your privacy, please contact us at qhenterprises2@gmail.com or on our whatsapp number +923147864467</p>
-        </div>
+            {% if blogs %}
+                {% for blog in blogs %}
+                    <h2 class="text-center d-none d-lg-block mb-3">{{ blog.title }}</h2>
+                   
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-12 mb-4 mt-3">
+                            <div class="card h-100"  style="border: none;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ blog.meta_description }}</h5>
+                                    <p class="card-text mt-3">{{ blog.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-4 blog-image-card">
+                            <div class="card blog-details-card h-100">
+                                <img src="{{ blog.image }}" class="card-img-top" alt="{{ blog.title }}" >
+                            </div>
+                        </div>
+                        <small class="text-muted text-end" style="margin-top: 5px;">{{blog.created_at|date:"M d, Y"}}</small>
 
-        <div class="container mt-3">
-            <p class="text-end" style="color: black; font-weight: 200; font-size: large;">Last updated: August, 2025</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Blog not found.</p>
+            {% endif %}
+
+            <div class="related-links p-4 bg-gray-50 rounded-lg shadow-sm">
+                <h4 class="text-lg font-semibold mb-2 text-center">Explore More</h3>
+                <p class="text-gray-700 leading-relaxed">
+                  Loved this article? You might also like browsing our 
+                  <a href="{% url 'shop' %}?category=car" class="text-blue-600 hover:underline">Die Cast Car Models</a>  
+                  and other popular collections such as  
+                  <a href="{% url 'shop' %}?category=perfume" class="text-blue-600 hover:underline">Perfumes</a>,  
+                  <a href="{% url 'shop' %}?category=shirt" class="text-blue-600 hover:underline">Shirts & Apparel</a>, and  
+                  <a href="{% url 'shop' %}?category=mobile_accessories" class="text-blue-600 hover:underline">Mobile Accessories</a>.  
+                  Don’t forget to check out our <a href="{% url 'shop' %}?category=watches" class="text-blue-600 hover:underline">Watches</a> for a timeless touch.
+                </p>
+            </div>
+              
         </div>
-        <!-- Privacy Policy End -->
+        <!-- Blog Details End -->
 
         <!-- Footer Start -->
         {% include 'footer.html' %}

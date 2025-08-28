@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'backend.shipping',
     'backend.reviews',
     'backend.cart',
+    'backend.blog',
     'social_django',
 ]
 
