@@ -74,6 +74,8 @@ urlpatterns = [
     # Google Search Console verification
     path('google76a61c0a0e658004.html', google_verification, name='google_verification'),
 
+    # Catch-all pattern for 404 - must be last
+    path('<path:path>/', PageNotFoundView.as_view(), name='404-catch-all'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
