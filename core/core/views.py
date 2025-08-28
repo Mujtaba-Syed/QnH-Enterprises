@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.sitemaps import Sitemap
 from django.contrib.sitemaps.views import sitemap
 from backend.products.models import Product
+from backend.blog.models import Blog
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import requests
@@ -405,6 +406,8 @@ class SitemapView(TemplateView):
             {'loc': 'https://qhenterprises.com/privacy-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
             {'loc': 'https://qhenterprises.com/terms-of-use/', 'priority': '0.5', 'changefreq': 'yearly'},
             {'loc': 'https://qhenterprises.com/sales-and-refund-policy/', 'priority': '0.5', 'changefreq': 'yearly'},
+            {'loc': 'https://qhenterprises.com/blog/', 'priority': '0.5', 'changefreq': 'yearly'},
+            
         ]
         
         current_date = timezone.now().strftime('%Y-%m-%d')
@@ -424,6 +427,15 @@ class SitemapView(TemplateView):
             ET.SubElement(url, 'lastmod').text = product.updated_at.strftime('%Y-%m-%d') if hasattr(product, 'updated_at') else current_date
             ET.SubElement(url, 'changefreq').text = 'weekly'
             ET.SubElement(url, 'priority').text = '0.8'
+        
+        # Add individual blog posts
+        blogs = Blog.objects.filter(is_active=True)
+        for blog in blogs:
+            url = ET.SubElement(urlset, 'url')
+            ET.SubElement(url, 'loc').text = f"https://qhenterprises.com/blog-details/{blog.id}/"
+            ET.SubElement(url, 'lastmod').text = blog.created_at.strftime('%Y-%m-%d') if hasattr(blog, 'created_at') else current_date
+            ET.SubElement(url, 'changefreq').text = 'monthly'
+            ET.SubElement(url, 'priority').text = '0.6'
         
         # Create pretty XML
         rough_string = ET.tostring(urlset, 'unicode')
