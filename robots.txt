@@ -4,6 +4,13 @@ Allow: /
 # Sitemap location
 Sitemap: https://qhenterprises.com/sitemap.xml
 
+# Prevent indexing of search result pages with parameters
+Disallow: /shop/?search=*
+Disallow: /shop/?page=*
+Disallow: /shop/?category=*
+Disallow: /shop/?sort=*
+Disallow: /shop/?filter=*
+
 # Disallow admin and API endpoints
 Disallow: /admin/
 Disallow: /api/
