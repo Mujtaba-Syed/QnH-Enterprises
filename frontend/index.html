@@ -780,7 +780,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#">
                             <div class="service-item bg-secondary rounded border border-secondary">
-                                <img loading="lazy" width="300" height="200" src="{{ product.product_image }}" class="img-fluid rounded-top w-100" alt="">
+                                <img loading="lazy" style="max-height: 272px;" width="300" height="200" src="{{ product.product_image }}" class="img-fluid rounded-top w-100" alt="{{product.product_name}}">
                                 <div class="px-4 rounded-bottom">
                                     <div class="service-content bg-primary text-center p-4 rounded">
                                         <h5 class="text-white">{{ product.product_name }}</h5>
@@ -851,7 +851,7 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="position-relative">
-                            <img loading="lazy" width="300" height="200" src="{% static 'img/fcc7fcdf-127e-42e5-b375-d16a621422ad_removalai_preview.png' %}" class="img-fluid w-100 rounded" alt="">
+                            <img loading="lazy" width="300" height="200" src="{% static 'img/fcc7fcdf-127e-42e5-b375-d16a621422ad_removalai_preview.png' %}" class="img-fluid w-100 rounded" alt="No image">
                             <div class="d-flex align-items-center justify-content-center rounded-circle position-absolute" style="width: 140px; height: 140px; top: 0; left: 0;">
                                 <h2 class="display-1">Everything</h2>
                                 <div class="d-flex flex-column">
@@ -880,7 +880,7 @@
                         <div class="p-4 rounded bg-light">
                             <div class="row align-items-center">
                                 <div class="col-6">
-                                    <img loading="lazy" width="300" height="200" src="{{ product.image }}" class="img-fluid rounded-circle w-100" alt="">
+                                    <img loading="lazy" width="300" height="200" src="{{ product.image }}" class="img-fluid rounded-circle w-100" alt="{{ product.name }}">
                                 </div>
                                 <div class="col-6">
                                     <a href="#" class="h5">{{ product.name }}</a>
