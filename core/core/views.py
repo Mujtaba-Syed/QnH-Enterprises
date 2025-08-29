@@ -115,6 +115,33 @@ class HomeView(TemplateView):
         context['best_seller_products'] = best_seller_products
         context['client_review'] = client_review
 
+        # Get blogs for the blog section
+        response = requests.get(f'{settings.BASE_URL}/api/blog/')
+        if response.status_code == 200:
+            blogs = response.json()
+        else:
+            blogs = []
+        
+        if blogs:
+            for blog in blogs:
+                image = blog.get('image')
+                if image:
+                    if image.startswith("http"):
+                        blog['image'] = image
+                    else:
+                        blog['image'] = f'{settings.BASE_URL}{blog["image"]}'
+                else:
+                    blog['image'] = ''
+                
+                created_at = blog.get('created_at')
+                if created_at:
+                    try:
+                        blog['created_at'] = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    except ValueError:
+                        blog['created_at'] = created_at
+        
+        context['blogs'] = blogs
+
         return context
 
 class PageNotFoundView(TemplateView):
