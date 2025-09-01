@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend.authentication',
     'rest_framework',
+    'ckeditor',
     'rest_framework_simplejwt',
     'django_filters',
     'backend.orders',
