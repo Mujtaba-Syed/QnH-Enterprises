@@ -450,7 +450,7 @@ class SitemapView(TemplateView):
         products = Product.objects.filter(is_active=True)
         for product in products:
             url = ET.SubElement(urlset, 'url')
-            ET.SubElement(url, 'loc').text = f"https://qhenterprises.com/shop-detail/{product.id}/"
+            ET.SubElement(url, 'loc').text = f"https://qhenterprises.com/product-detail/{product.id}/"
             ET.SubElement(url, 'lastmod').text = product.updated_at.strftime('%Y-%m-%d') if hasattr(product, 'updated_at') else current_date
             ET.SubElement(url, 'changefreq').text = 'weekly'
             ET.SubElement(url, 'priority').text = '0.8'
