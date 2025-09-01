@@ -23,3 +23,4 @@ tzdata==2025.2
 urllib3==2.3.0
 uvicorn==0.27.1
 social-auth-app-django==5.5.1
+django-ckeditor==6.7.3
