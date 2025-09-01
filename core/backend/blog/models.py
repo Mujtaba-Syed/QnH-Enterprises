@@ -4,13 +4,14 @@ import os
 from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField()
+    content = RichTextField()
     image = models.ImageField(upload_to='blog_images/')
     meta_description = models.TextField(blank=True, null=True, help_text="Meta description for the blog post")
     keywords = models.TextField(blank=True, null=True, help_text="Comma separated keywords for the SEO post")

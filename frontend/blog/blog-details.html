@@ -139,7 +139,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ blog.meta_description }}</h5>
                                     <div class="card-text mt-3">
-                                        {{ blog.content|urlize|linebreaks }}
+                                        {{ blog.content|safe }}
                                     </div>
                                 
                                 </div>
