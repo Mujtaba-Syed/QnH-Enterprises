@@ -169,6 +169,10 @@ else:
         }
     }
 
+print("database name is")
+print("database user: ", DATABASES['default']['USER'])
+print("database host: ", DATABASES['default']['HOST'])
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
