@@ -98,6 +98,16 @@
 
         <!-- Template Javascript -->
         <script src="{% static 'js/main.js' %}"></script>
+        
+        <!-- Ensure spinner is hidden on 404 page -->
+        <script>
+            $(document).ready(function() {
+                // Force hide spinner after page loads
+                setTimeout(function() {
+                    $('#spinner').removeClass('show').hide();
+                }, 100);
+            });
+        </script>
     </body>
 
 </html>
