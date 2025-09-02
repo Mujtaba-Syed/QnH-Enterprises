@@ -7,7 +7,8 @@ from .views import (
     PasswordResetConfirmView,
     UserProfileView,
     GoogleOAuthView,
-    GoogleOAuthInitiateView
+    GoogleOAuthInitiateView,
+    CreateUserFromEmailView
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('google-oauth/', GoogleOAuthView.as_view(), name='google-oauth'),
     path('google-oauth-initiate/', GoogleOAuthInitiateView.as_view(), name='google-oauth-initiate'),
+    path('create-user-from-email/', CreateUserFromEmailView.as_view(), name='create-user-from-email'),
 ]

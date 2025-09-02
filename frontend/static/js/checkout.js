@@ -7,7 +7,9 @@ class CheckoutManager {
 
     async init() {
         const accessToken = localStorage.getItem('access');
-        if (!accessToken) {
+        const guestToken = localStorage.getItem('guest_token');
+        
+        if (!accessToken && !guestToken) {
             window.location.href = '/login/';
             return;
         }
@@ -18,6 +20,7 @@ class CheckoutManager {
 
     getAuthHeaders() {
         const accessToken = localStorage.getItem('access');
+        const guestToken = localStorage.getItem('guest_token');
         const headers = {
             'Content-Type': 'application/json',
             'X-CSRFToken': this.getCSRFToken()
@@ -25,6 +28,8 @@ class CheckoutManager {
         
         if (accessToken) {
             headers['Authorization'] = `Bearer ${accessToken}`;
+        } else if (guestToken) {
+            headers['X-Guest-Token'] = guestToken;
         }
         
         return headers;
@@ -33,9 +38,13 @@ class CheckoutManager {
     async loadCart() {
         try {
             const accessToken = localStorage.getItem('access');
-            console.log('Loading cart for checkout with token:', accessToken ? 'Token exists' : 'No token');
+            const guestToken = localStorage.getItem('guest_token');
+            console.log('Loading cart for checkout with token:', accessToken ? 'User token' : guestToken ? 'Guest token' : 'No token');
             
-            const response = await fetch(this.baseUrl, {
+            // Determine which endpoint to use
+            const url = accessToken ? this.baseUrl : `${this.baseUrl}guest/`;
+            
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
@@ -78,7 +87,7 @@ class CheckoutManager {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="5" class="text-center py-5">
-                        <img src="/static/img/vegetable-item-1.jpg" class="img-fluid mb-3" style="width: 100px; height: 100px; opacity: 0.5;" alt="Empty Cart">
+                        <img src="/static/img/vegetable-item-5.jpg" class="img-fluid mb-3" style="width: 100px; height: 100px; opacity: 0.5;" alt="Empty Cart">
                         <h5>Your cart is empty</h5>
                         <p class="text-muted">Add some products to your cart to proceed with checkout!</p>
                         <a href="/shop/" class="btn btn-primary">Continue Shopping</a>
@@ -144,14 +153,14 @@ class CheckoutManager {
     }
 
     renderCheckoutItem(item) {
-        const imageUrl = item.product.image ? item.product.image : '/static/img/vegetable-item-1.jpg';
+        const imageUrl = item.product.image ? item.product.image : '/static/img/vegetable-item-5.jpg';
         const itemTotal = (parseFloat(item.product.price) * item.quantity).toFixed(2);
         
         return `
             <tr>
                 <th scope="row">
                     <div class="d-flex align-items-center mt-2">
-                        <img src="${imageUrl}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="${item.product.name}" onerror="this.src='/static/img/vegetable-item-1.jpg'">
+                        <img src="${imageUrl}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="${item.product.name}" onerror="this.src='/static/img/vegetable-item-5.jpg'">
                     </div>
                 </th>
                 <td class="py-5">${item.product.name}</td>
@@ -290,7 +299,7 @@ class CheckoutManager {
         return emailRegex.test(email);
     }
 
-    handleWhatsAppOrder() {
+    async handleWhatsAppOrder() {
         // Validate form first
         if (!this.validateForm()) {
             this.showMessage('Please fill in all required fields correctly.', 'error');
@@ -303,12 +312,87 @@ class CheckoutManager {
             return;
         }
 
+        // Check if user is authenticated
+        const accessToken = localStorage.getItem('access');
+        const guestToken = localStorage.getItem('guest_token');
+        
+        if (!accessToken && guestToken) {
+            // Handle guest checkout - create user account from email
+            await this.handleGuestCheckout();
+        }
+
         // Format order details and open WhatsApp
         const orderDetails = this.formatOrderDetailsForWhatsApp();
         const whatsappUrl = `https://wa.me/923009845333?text=${encodeURIComponent(orderDetails)}`;
         
         // Open WhatsApp in new tab
         window.open(whatsappUrl, '_blank');
+    }
+
+    async handleGuestCheckout() {
+        try {
+            const shippingDetails = this.getShippingDetails();
+            if (!shippingDetails.email) {
+                this.showMessage('Email is required for checkout.', 'error');
+                return;
+            }
+
+            const guestToken = localStorage.getItem('guest_token');
+            if (!guestToken) {
+                this.showMessage('Guest session not found. Please try again.', 'error');
+                return;
+            }
+
+            // Show loading state
+            const whatsappBtn = document.getElementById('whatsapp-order-btn');
+            const originalText = whatsappBtn.textContent;
+            whatsappBtn.textContent = 'Creating Account...';
+            whatsappBtn.disabled = true;
+
+            // Create user account from email
+            const response = await fetch('/api/auth/create-user-from-email/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.getCSRFToken()
+                },
+                body: JSON.stringify({
+                    email: shippingDetails.email,
+                    phone: shippingDetails.mobile,
+                    first_name: shippingDetails.firstName,
+                    last_name: shippingDetails.lastName,
+                    guest_token: guestToken
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Store tokens
+                localStorage.setItem('access', data.access);
+                localStorage.setItem('refresh', data.refresh);
+                
+                // Remove guest token
+                localStorage.removeItem('guest_token');
+                
+                this.showMessage(data.message || 'Account created successfully!', 'success');
+            } else {
+                this.showMessage(data.error || 'Failed to create account', 'error');
+            }
+
+            // Restore button state
+            whatsappBtn.textContent = originalText;
+            whatsappBtn.disabled = false;
+
+        } catch (error) {
+            console.error('Error in guest checkout:', error);
+            this.showMessage('Failed to process checkout. Please try again.', 'error');
+            
+            // Restore button state
+            const whatsappBtn = document.getElementById('whatsapp-order-btn');
+            whatsappBtn.textContent = 'Place Order on WhatsApp';
+            whatsappBtn.disabled = false;
+        }
     }
 
     getCSRFToken() {

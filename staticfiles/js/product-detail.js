@@ -123,7 +123,7 @@ function switchMainImage(imageSrc, index) {
 // Cart Functions
 function handleAddToCart(event, productId) {
     event.preventDefault(); 
-    console.log('handleAddToCart called with productId:', productId);
+    console.log('handleAddToCart called222 with productId:', productId);
     const accessToken = localStorage.getItem('access');
     console.log('Access token:', accessToken ? 'Present' : 'Not found');
 
