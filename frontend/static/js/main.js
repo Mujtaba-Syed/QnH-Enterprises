@@ -200,15 +200,21 @@
 // Function to handle "Add to Cart" button click on index.html
   function handleAddToCart(event, productId) {
     event.preventDefault(); 
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
     console.log('handleAddToCart called with productId:', productId);
     const accessToken = localStorage.getItem('access');
+    const guestToken = localStorage.getItem('guest_token');
     console.log('Access token:', accessToken ? 'Present' : 'Not found');
+    console.log('Guest token:', guestToken ? 'Present' : 'Not found');
 
     if (accessToken) {
       // User is already logged in, add directly to cart
       addProductToCart(event, productId);
+    } else if (guestToken) {
+      // User has guest token, add to guest cart
+      addToGuestCart(event, productId, guestToken);
     } else {
-      // User is not logged in, show modal
+      // User is not logged in and no guest token, show modal
       showAddToCartModal(productId);
     }
   }
@@ -223,8 +229,60 @@
     modal.show();
   }
 
+  // Function to add product to guest cart (for guest users)
+  function addToGuestCart(event, productId, guestToken) {
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
+    // Show loading state
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
+    button.style.pointerEvents = 'none';
+
+    // Make API call to add product to guest cart
+    console.log('Making API call to /api/cart/guest/add/ with product_id:', productId);
+    fetch('/api/cart/guest/add/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Guest-Token': guestToken,
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        guest_token: guestToken
+      })
+    })
+    .then(response => {
+      console.log('Response status:', response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Response data:', data);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+
+      if (data.message) {
+        window.notificationManager.success(data.message);
+      } else {
+        window.notificationManager.success('Product added to cart successfully!');
+      }
+      // Update cart badge after successful addition
+      updateCartBadge();
+    })
+    .catch(error => {
+      console.error('Error adding to guest cart:', error);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+      
+      window.notificationManager.error('Failed to add product to cart. Please try again.');
+    });
+  }
+
   // Function to add product to cart (for logged-in users)
   function addProductToCart(event, productId) {
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
     // Show loading state
     const button = event.target;
     const originalText = button.innerHTML;
@@ -387,6 +445,20 @@
   async function handleGuestCheckout() {
     console.log('Guest checkout clicked for product:', window.currentProductId);
     
+    const productId = window.currentProductId;
+    if (!productId) {
+      window.notificationManager.error('Product ID not found. Please try again.');
+      return;
+    }
+
+    // Check if guest token already exists
+    const existingGuestToken = localStorage.getItem('guest_token');
+    if (existingGuestToken) {
+      // Use existing guest token
+      addToGuestCartFromModal(productId, existingGuestToken);
+      return;
+    }
+    
     try {
       // Step 1: Create guest user
       const guestResponse = await fetch('/api/cart/guest/create/', {
@@ -441,4 +513,36 @@
       console.error('Guest checkout error:', error);
       window.notificationManager.error('Failed to add product to cart. Please try again.');
     }
+  }
+
+  // Helper function to add to guest cart from modal
+  function addToGuestCartFromModal(productId, guestToken) {
+    fetch('/api/cart/guest/add/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Guest-Token': guestToken,
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        guest_token: guestToken
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message) {
+        window.notificationManager.success(data.message);
+        // Update cart badge
+        updateCartBadge();
+        // Redirect to cart page
+        window.location.href = '/cart/';
+      } else {
+        throw new Error(data.error || 'Failed to add product to cart');
+      }
+    })
+    .catch(error => {
+      console.error('Error adding to guest cart:', error);
+      window.notificationManager.error(error.message || 'Failed to add product to cart. Please try again.');
+    });
   }

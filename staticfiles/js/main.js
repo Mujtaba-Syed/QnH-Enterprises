@@ -200,7 +200,8 @@
 // Function to handle "Add to Cart" button click on index.html
   function handleAddToCart(event, productId) {
     event.preventDefault(); 
-    console.log('handleAddToCart called with productId:', productId);
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
+    console.log('handleAddToCart called wit111h productId:', productId);
     const accessToken = localStorage.getItem('access');
     console.log('Access token:', accessToken ? 'Present' : 'Not found');
 
@@ -225,6 +226,7 @@
 
   // Function to add product to cart (for logged-in users)
   function addProductToCart(event, productId) {
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
     // Show loading state
     const button = event.target;
     const originalText = button.innerHTML;
