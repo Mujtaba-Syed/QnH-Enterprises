@@ -22,6 +22,7 @@ from social_django.models import UserSocialAuth
 import requests
 from django.shortcuts import redirect
 from urllib.parse import urlencode
+from backend.cart.models import Cart, CartItem, GuestUser
 User = get_user_model()
 
 class RegisterView(APIView):
@@ -260,3 +261,124 @@ class GoogleOAuthInitiateView(APIView):
         
         auth_url = f"{google_auth_url}?{'&'.join([f'{k}={v}' for k, v in params.items()])}"
         return Response({'auth_url': auth_url}, status=status.HTTP_200_OK)
+
+
+class CreateUserFromEmailView(APIView):
+    """
+    Create user account from email at checkout and merge guest cart
+    """
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        try:
+            email = request.data.get('email')
+            guest_token = request.data.get('guest_token')
+            
+            if not email:
+                return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Check if user already exists
+            try:
+                user = User.objects.get(email=email)
+                # User exists, just return tokens
+                refresh = RefreshToken.for_user(user)
+                
+                # Merge guest cart if guest_token provided
+                if guest_token:
+                    self.merge_guest_cart(guest_token, user)
+                
+                return Response({
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'phone': user.phone
+                    },
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'message': 'Welcome back!'
+                }, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                # Create new user with email
+                username = email.split('@')[0]
+                base_username = username
+                counter = 1
+                while User.objects.filter(username=username).exists():
+                    username = f"{base_username}{counter}"
+                    counter += 1
+                
+                # Generate a random password (user can reset later)
+                import secrets
+                random_password = secrets.token_urlsafe(12)
+                
+                user = User.objects.create_user(
+                    username=username,
+                    email=email,
+                    password=random_password,
+                    phone=request.data.get('phone', ''),
+                    first_name=request.data.get('first_name', ''),
+                    last_name=request.data.get('last_name', '')
+                )
+                
+                # Merge guest cart if guest_token provided
+                if guest_token:
+                    self.merge_guest_cart(guest_token, user)
+                
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'phone': user.phone
+                    },
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                    'message': 'Account created successfully!'
+                }, status=status.HTTP_201_CREATED)
+                
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    def merge_guest_cart(self, guest_token, user):
+        """Merge guest cart with user cart"""
+        try:
+            # Get guest cart
+            try:
+                guest_user = GuestUser.objects.get(guest_token=guest_token)
+                if guest_user.is_expired():
+                    return
+                
+                try:
+                    guest_cart = Cart.objects.get(guest_user=guest_user)
+                except Cart.DoesNotExist:
+                    return
+                
+            except GuestUser.DoesNotExist:
+                return
+            
+            # Get or create user cart
+            user_cart, created = Cart.objects.get_or_create(user=user)
+            
+            # Merge cart items
+            for guest_item in guest_cart.items.all():
+                try:
+                    # Check if item already exists in user cart
+                    existing_item = CartItem.objects.get(cart=user_cart, product=guest_item.product)
+                    existing_item.quantity += guest_item.quantity
+                    existing_item.save()
+                except CartItem.DoesNotExist:
+                    # Create new item in user cart
+                    CartItem.objects.create(
+                        cart=user_cart,
+                        product=guest_item.product,
+                        quantity=guest_item.quantity
+                    )
+            
+            # Delete guest cart after merging
+            guest_cart.delete()
+            guest_user.delete()
+            
+        except Exception as e:
+            # Log error but don't fail user creation
+            print(f"Error merging cart: {str(e)}")
