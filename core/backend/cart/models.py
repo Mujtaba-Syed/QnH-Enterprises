@@ -9,9 +9,9 @@ from datetime import timedelta
 class GuestUser(models.Model):
     """Model to track guest users for cart persistence"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    guest_token = models.CharField(max_length=100, unique=True)
+    guest_token = models.CharField(max_length=100, unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
+    expires_at = models.DateTimeField(null=True, blank=True)
     
     def save(self, *args, **kwargs):
         if not self.guest_token:
@@ -21,6 +21,8 @@ class GuestUser(models.Model):
         super().save(*args, **kwargs)
     
     def is_expired(self):
+        if not self.expires_at:
+            return False
         return timezone.now() > self.expires_at
     
     def __str__(self):
