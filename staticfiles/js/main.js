@@ -326,7 +326,7 @@ function filterClothingProducts() {
     container.html('<div class="col-12 text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
     
     // Build API URL
-    let apiUrl = '/api/products/filter/?product_type=clothing';
+    let apiUrl = '/api/products/filter-products/?product_type=clothing';
     
     if (season && season !== 'all') {
         apiUrl += `&season=${season}`;
