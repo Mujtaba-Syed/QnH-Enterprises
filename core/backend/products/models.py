@@ -9,7 +9,7 @@ class Product(models.Model):
     """Stores all product details."""
     TYPE_CHOICES = [
         ('perfume', 'Perfume'),
-        ('shirt', 'Shirt'),
+        ('clothing', 'Clothing'),
         ('car', 'Car'),
         ('mobile_accessories', 'Mobile Accessories'),
         ('watches', 'Watches'),

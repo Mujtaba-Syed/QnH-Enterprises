@@ -73,6 +73,8 @@ class FilteredProductsAPIView(APIView):
             max_price = request.query_params.get('max_price')
             brand = request.query_params.get('brand')
             rating = request.query_params.get('rating')
+            season = request.query_params.get('season')  # summer or winter
+            gender = request.query_params.get('gender')  # male or female
             
             queryset = Product.objects.filter(is_active=True)
             
@@ -112,6 +114,14 @@ class FilteredProductsAPIView(APIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
             
+            # Filter by season (for clothing products)
+            if season:
+                queryset = queryset.filter(attributes__season=season)
+            
+            # Filter by gender (for clothing products)
+            if gender:
+                queryset = queryset.filter(attributes__gender=gender)
+            
             if not queryset.exists():
                 return Response(
                     {'message': 'No products found with the specified filters', 'results': []},
@@ -126,7 +136,9 @@ class FilteredProductsAPIView(APIView):
                     'min_price': min_price,
                     'max_price': max_price,
                     'brand': brand,
-                    'rating': rating
+                    'rating': rating,
+                    'season': season,
+                    'gender': gender
                 },
                 'results': serializer.data
             })

@@ -303,3 +303,81 @@
       cartBadge.textContent = '0';
     }
   }
+
+// Clothing Filter Functionality
+$(document).ready(function() {
+    // Handle clothing season filter
+    $('input[name="clothingSeason"]').on('change', function() {
+        filterClothingProducts();
+    });
+    
+    // Handle clothing gender filter
+    $('input[name="clothingGender"]').on('change', function() {
+        filterClothingProducts();
+    });
+});
+
+function filterClothingProducts() {
+    const season = $('input[name="clothingSeason"]:checked').val();
+    const gender = $('input[name="clothingGender"]:checked').val();
+    const container = $('#clothingProductsContainer');
+    
+    // Show loading state
+    container.html('<div class="col-12 text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+    
+    // Build API URL
+    let apiUrl = '/api/products/filter/?product_type=clothing';
+    
+    if (season && season !== 'all') {
+        apiUrl += `&season=${season}`;
+    }
+    
+    if (gender && gender !== 'all') {
+        apiUrl += `&gender=${gender}`;
+    }
+    
+    // Fetch filtered products
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                renderClothingProducts(data.results);
+            } else {
+                container.html('<div class="col-12 text-center"><p class="text-muted">No products found with the selected filters.</p></div>');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching filtered products:', error);
+            container.html('<div class="col-12 text-center"><p class="text-danger">Error loading products. Please try again.</p></div>');
+        });
+}
+
+function renderClothingProducts(products) {
+    const container = $('#clothingProductsContainer');
+    container.empty();
+    
+    products.forEach(product => {
+        const productHtml = `
+            <div class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex">
+                <div class="rounded position-relative fruite-item w-100 d-flex flex-column">
+                    <div class="fruite-img">
+                        <img loading="lazy" width="300" height="200" src="${product.image || '/static/images/no-image.jpg'}" class="img-fluid w-100 rounded-top" alt="${product.name}">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.product_type}</div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column flex-grow-1">
+                        <h4>${product.name}</h4>
+                        <p class="flex-grow-1">${product.description || ''}</p>
+                        <p class="text-dark fs-5 fw-bold me-2 pt-2">RS ${product.price}</p>
+                        <button onclick="handleViewDetails(event, '${product.id}')" class="btn border border-secondary rounded-pill text-primary mb-3" style="padding: 8px 16px;">
+                            <i class="fa fa-eye me-2 text-primary"></i> View Details
+                        </button>
+                        <button onclick="handleAddToCart(event, '${product.id}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.append(productHtml);
+    });
+}

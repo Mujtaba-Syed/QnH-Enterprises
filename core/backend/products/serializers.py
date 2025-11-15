@@ -78,7 +78,7 @@ class ProductTypeCountSerializer(serializers.Serializer):
     def get_icon_class(self, obj):
         icon_map = {
             'perfume': 'fas fa-wine-bottle',
-            'shirt': 'fas fa-tshirt',
+            'clothing': 'fas fa-tshirt',
             'car': 'fas fa-car',
             'mobile_accessories': 'fas fa-mobile-alt',
             'watches': 'fas fa-clock',
