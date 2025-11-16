@@ -38,8 +38,26 @@ class HomeView(TemplateView):
             else:
                 product['image'] = ''
 
+        # Sort products by created_at in descending order (latest first)
+        # Handle cases where created_at might be None or in different formats
+        def get_created_at(product):
+            created_at = product.get('created_at')
+            if created_at is None:
+                return datetime.min
+            if isinstance(created_at, str):
+                try:
+                    return datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                except (ValueError, AttributeError):
+                    return datetime.min
+            return created_at
+        
+        sorted_products = sorted(products, key=get_created_at, reverse=True)
+        
+        # Get latest 4 products for all_products
+        latest_4_products = sorted_products[:4]
+
         categorized_products = {
-            'all_products': products,
+            'all_products': latest_4_products,
             'perfumes': [product for product in products if product['product_type'] == 'perfume'],
             'clothing': [product for product in products if product['product_type'] == 'clothing'],
             'mobile_accessories': [product for product in products if product['product_type'] == 'mobile_accessories'],
