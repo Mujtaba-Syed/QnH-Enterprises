@@ -1,11 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Cart, CartItem
+from .models import Cart, CartItem, GuestUser
 from backend.products.models import Product
 from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer
+import uuid
 
 
 class CartView(APIView):
@@ -344,5 +345,155 @@ class DeleteCartView(APIView):
         except Exception as e:
             return Response(
                 {'error': f'Failed to delete cart: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class CreateGuestUserView(APIView):
+    """
+    Create a guest user and return guest token
+    """
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        try:
+            # Create new guest user
+            guest_user = GuestUser.objects.create()
+            
+            return Response({
+                'guest_token': guest_user.guest_token,
+                'expires_at': guest_user.expires_at,
+                'message': 'Guest user created successfully'
+            }, status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to create guest user: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class GuestAddToCartView(APIView):
+    """
+    Add item to guest cart
+    """
+    permission_classes = [AllowAny]
+    
+    def get_cart(self, guest_token):
+        """Get or create cart for guest user"""
+        try:
+            guest_user = GuestUser.objects.get(guest_token=guest_token)
+            if guest_user.is_expired():
+                return None, "Guest session expired"
+            
+            cart, created = Cart.objects.get_or_create(guest_user=guest_user)
+            return cart, None
+        except GuestUser.DoesNotExist:
+            return None, "Invalid guest token"
+        except Exception as e:
+            return None, f"Error getting cart: {str(e)}"
+
+    def post(self, request):
+        """Add item to guest cart"""
+        try:
+            guest_token = request.data.get('guest_token')
+            if not guest_token:
+                return Response(
+                    {'error': 'Guest token required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            serializer = AddCartItemSerializer(data=request.data)
+            if not serializer.is_valid():
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            cart, error = self.get_cart(guest_token)
+            if error:
+                return Response(
+                    {'error': error},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            product_id = serializer.validated_data['product_id']
+            quantity = 1
+
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return Response(
+                    {'error': 'Product not found'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+
+            try:
+                cart_item = CartItem.objects.get(cart=cart, product=product)
+                cart_item.quantity += quantity
+                cart_item.save()
+                message = f'Updated quantity for {product.name}'
+                status_code = status.HTTP_200_OK
+            except CartItem.DoesNotExist:
+                cart_item = CartItem.objects.create(
+                    cart=cart, 
+                    product=product, 
+                    quantity=quantity
+                )
+                message = f'Added {product.name} to cart'
+                status_code = status.HTTP_201_CREATED
+
+            return Response({
+                'message': message,
+                'item': CartItemSerializer(cart_item).data,
+                'guest_token': guest_token
+            }, status=status_code)
+
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to add item to cart: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class GuestCartView(APIView):
+    """
+    Get guest user's cart
+    """
+    permission_classes = [AllowAny]
+    
+    def get_cart(self, guest_token):
+        """Get or create cart for guest user"""
+        try:
+            guest_user = GuestUser.objects.get(guest_token=guest_token)
+            if guest_user.is_expired():
+                return None, "Guest session expired"
+            
+            cart, created = Cart.objects.get_or_create(guest_user=guest_user)
+            return cart, None
+        except GuestUser.DoesNotExist:
+            return None, "Invalid guest token"
+        except Exception as e:
+            return None, f"Error getting cart: {str(e)}"
+
+    def get(self, request):
+        """Get guest user's cart with all items"""
+        try:
+            guest_token = request.headers.get('X-Guest-Token')
+            if not guest_token:
+                return Response(
+                    {'error': 'Guest token required'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            cart, error = self.get_cart(guest_token)
+            if error:
+                return Response(
+                    {'error': error},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
+            serializer = CartSerializer(cart)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {'error': f'Failed to retrieve cart: {str(e)}'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

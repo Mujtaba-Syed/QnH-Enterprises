@@ -263,7 +263,7 @@
                                         </div>
                                     </div>
                                     
-                                    <button onclick="handleAddToCart(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                                    <button type="button" onclick="handleAddToCart(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
                                     </button>
                                     <button onclick="handleAddReview(event, '{{ product.product.id }}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
@@ -498,6 +498,35 @@
                             <i class="fa fa-spinner fa-spin me-2"></i>Submitting...
                         </span>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add to Cart Modal -->
+    <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToCartModalLabel">Add to Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">Please choose how you'd like to proceed:</p>
+                    <div class="d-grid gap-3">
+                        <button id="googleLoginBtn" class="btn btn-primary btn-lg">
+                            <i class="fab fa-google me-2"></i>Login with Google
+                        </button>
+                        <button id="continueAsGuestBtn" class="btn btn-outline-secondary btn-lg">
+                            <i class="fa fa-user me-2"></i>Continue as Guest
+                        </button>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fa fa-info-circle me-1"></i>
+                            Guest checkout allows you to add items to cart and complete your order with just an email address.
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>

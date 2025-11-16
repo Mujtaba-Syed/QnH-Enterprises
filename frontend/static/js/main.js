@@ -200,62 +200,134 @@
 // Function to handle "Add to Cart" button click on index.html
   function handleAddToCart(event, productId) {
     event.preventDefault(); 
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
     console.log('handleAddToCart called with productId:', productId);
     const accessToken = localStorage.getItem('access');
+    const guestToken = localStorage.getItem('guest_token');
     console.log('Access token:', accessToken ? 'Present' : 'Not found');
+    console.log('Guest token:', guestToken ? 'Present' : 'Not found');
 
     if (accessToken) {
-      // Show loading state
-      const button = event.target;
-      const originalText = button.innerHTML;
-      button.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
-      button.style.pointerEvents = 'none';
-
-      // Make API call to add product to cart
-      console.log('Making API call to /api/cart/add/ with product_id:', productId);
-      fetch('/api/cart/add/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-          'X-CSRFToken': getCSRFToken()
-        },
-        body: JSON.stringify({
-          product_id: productId
-        })
-      })
-      .then(response => {
-        console.log('Response status:', response.status);
-        return response.json();
-      })
-      .then(data => {
-        console.log('Response data:', data);
-        // Restore button state
-        button.innerHTML = originalText;
-        button.style.pointerEvents = 'auto';
-
-        if (data.message) {
-          window.notificationManager.success(data.message);
-        } else {
-          window.notificationManager.success('Product added to cart successfully!');
-        }
-        // Update cart badge after successful addition
-        updateCartBadge();
-      })
-      .catch(error => {
-        console.error('Error adding to cart:', error);
-        // Restore button state
-        button.innerHTML = originalText;
-        button.style.pointerEvents = 'auto';
-        
-        window.notificationManager.error('Failed to add product to cart. Please try again.');
-      });
+      // User is already logged in, add directly to cart
+      addProductToCart(event, productId);
+    } else if (guestToken) {
+      // User has guest token, add to guest cart
+      addToGuestCart(event, productId, guestToken);
     } else {
-      window.notificationManager.warning('Please log in to add items to your cart.');
-      setTimeout(() => {
-        window.location.href = '/login/';
-      }, 2000);
+      // User is not logged in and no guest token, show modal
+      showAddToCartModal(productId);
     }
+  }
+
+  // Function to show the Add to Cart modal
+  function showAddToCartModal(productId) {
+    // Store the product ID for later use
+    window.currentProductId = productId;
+    
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+    modal.show();
+  }
+
+  // Function to add product to guest cart (for guest users)
+  function addToGuestCart(event, productId, guestToken) {
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
+    // Show loading state
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
+    button.style.pointerEvents = 'none';
+
+    // Make API call to add product to guest cart
+    console.log('Making API call to /api/cart/guest/add/ with product_id:', productId);
+    fetch('/api/cart/guest/add/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Guest-Token': guestToken,
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        guest_token: guestToken
+      })
+    })
+    .then(response => {
+      console.log('Response status:', response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Response data:', data);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+
+      if (data.message) {
+        window.notificationManager.success(data.message);
+      } else {
+        window.notificationManager.success('Product added to cart successfully!');
+      }
+      // Update cart badge after successful addition
+      updateCartBadge();
+    })
+    .catch(error => {
+      console.error('Error adding to guest cart:', error);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+      
+      window.notificationManager.error('Failed to add product to cart. Please try again.');
+    });
+  }
+
+  // Function to add product to cart (for logged-in users)
+  function addProductToCart(event, productId) {
+    event.stopPropagation(); // Prevent event from bubbling up to parent div
+    // Show loading state
+    const button = event.target;
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i>Adding...';
+    button.style.pointerEvents = 'none';
+
+    // Make API call to add product to cart
+    console.log('Making API call to /api/cart/add/ with product_id:', productId);
+    fetch('/api/cart/add/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
+        'X-CSRFToken': getCSRFToken()
+      },
+      body: JSON.stringify({
+        product_id: productId
+      })
+    })
+    .then(response => {
+      console.log('Response status:', response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Response data:', data);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+
+      if (data.message) {
+        window.notificationManager.success(data.message);
+      } else {
+        window.notificationManager.success('Product added to cart successfully!');
+      }
+      // Update cart badge after successful addition
+      updateCartBadge();
+    })
+    .catch(error => {
+      console.error('Error adding to cart:', error);
+      // Restore button state
+      button.innerHTML = originalText;
+      button.style.pointerEvents = 'auto';
+      
+      window.notificationManager.error('Failed to add product to cart. Please try again.');
+    });
   }
 
    // Function to handle "View Details" button click on index.html
@@ -274,19 +346,31 @@
   // Function to update cart badge in navbar
   async function updateCartBadge() {
     const accessToken = localStorage.getItem('access');
+    const guestToken = localStorage.getItem('guest_token');
     const cartBadge = document.getElementById('cartBadge');
     
-    if (!accessToken || !cartBadge) {
+    if ((!accessToken && !guestToken) || !cartBadge) {
+      if (cartBadge) cartBadge.textContent = '0';
       return;
     }
 
     try {
-      const response = await fetch('/api/cart/', {
+      // Determine which endpoint to use
+      const url = accessToken ? '/api/cart/' : '/api/cart/guest/';
+      
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+      
+      if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      } else if (guestToken) {
+        headers['X-Guest-Token'] = guestToken;
+      }
+
+      const response = await fetch(url, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        }
+        headers: headers
       });
 
       if (response.ok) {

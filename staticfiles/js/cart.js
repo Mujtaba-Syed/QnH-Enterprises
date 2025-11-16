@@ -7,7 +7,9 @@ class CartManager {
 
     async init() {
         const accessToken = localStorage.getItem('access');
-        if (!accessToken) {
+        const guestToken = localStorage.getItem('guest_token');
+        
+        if (!accessToken && !guestToken) {
             window.location.href = '/login/';
             return;
         }
@@ -18,6 +20,7 @@ class CartManager {
 
     getAuthHeaders() {
         const accessToken = localStorage.getItem('access');
+        const guestToken = localStorage.getItem('guest_token');
         const headers = {
             'Content-Type': 'application/json',
             'X-CSRFToken': this.getCSRFToken()
@@ -25,6 +28,8 @@ class CartManager {
         
         if (accessToken) {
             headers['Authorization'] = `Bearer ${accessToken}`;
+        } else if (guestToken) {
+            headers['X-Guest-Token'] = guestToken;
         }
         
         return headers;
@@ -33,9 +38,13 @@ class CartManager {
     async loadCart() {
         try {
             const accessToken = localStorage.getItem('access');
-            console.log('Loading cart with token:', accessToken ? 'Token exists' : 'No token');
+            const guestToken = localStorage.getItem('guest_token');
+            console.log('Loading cart with token:', accessToken ? 'User token' : guestToken ? 'Guest token' : 'No token');
             
-            const response = await fetch(this.baseUrl, {
+            // Determine which endpoint to use
+            const url = accessToken ? this.baseUrl : `${this.baseUrl}guest/`;
+            
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: this.getAuthHeaders()
             });
@@ -86,7 +95,7 @@ class CartManager {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="6" class="text-center py-5">
-                        <img src="/static/img/vegetable-item-1.jpg" class="img-fluid mb-3" style="width: 100px; height: 100px; opacity: 0.5;" alt="Empty Cart">
+                        <img src="/static/img/vegetable-item-5.jpg" class="img-fluid mb-3" style="width: 100px; height: 100px; opacity: 0.5;" alt="Empty Cart">
                         <h5>Your cart is empty</h5>
                         <p class="text-muted">Add some products to your cart to get started!</p>
                         <a href="/shop/" class="btn btn-primary">Continue Shopping</a>
@@ -112,12 +121,12 @@ class CartManager {
     }
 
     renderCartItem(item) {
-        const imageUrl = item.product.image ? item.product.image : '/static/img/vegetable-item-1.jpg';
+        const imageUrl = item.product.image ? item.product.image : '/static/img/vegetable-item-5.jpg';
         return `
             <tr data-product-id="${item.product.id}">
                 <th scope="row">
                     <div class="d-flex align-items-center">
-                        <img src="${imageUrl}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="${item.product.name}" onerror="this.src='/static/img/vegetable-item-1.jpg'">
+                        <img src="${imageUrl}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="${item.product.name}" onerror="this.src='/static/img/vegetable-item-5.jpg'">
                     </div>
                 </th>
                 <td>
@@ -199,17 +208,41 @@ class CartManager {
 
     async increaseQuantity(productId) {
         try {
-            const response = await fetch(`${this.baseUrl}update/${productId}/`, {
-                method: 'PUT',
-                headers: this.getAuthHeaders()
-            });
+            const accessToken = localStorage.getItem('access');
+            const guestToken = localStorage.getItem('guest_token');
+            
+            if (guestToken && !accessToken) {
+                // Guest user - add item to guest cart
+                const response = await fetch(`${this.baseUrl}guest/add/`, {
+                    method: 'POST',
+                    headers: this.getAuthHeaders(),
+                    body: JSON.stringify({
+                        product_id: productId,
+                        guest_token: guestToken
+                    })
+                });
 
-            if (response.ok) {
-                await this.loadCart();
-                this.showMessage('Quantity updated successfully', 'success');
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Quantity updated successfully', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to update quantity', 'error');
+                }
             } else {
-                const error = await response.json();
-                this.showMessage(error.error || 'Failed to update quantity', 'error');
+                // Authenticated user - use regular endpoint
+                const response = await fetch(`${this.baseUrl}update/${productId}/`, {
+                    method: 'PUT',
+                    headers: this.getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Quantity updated successfully', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to update quantity', 'error');
+                }
             }
         } catch (error) {
             console.error('Error increasing quantity:', error);
@@ -219,17 +252,37 @@ class CartManager {
 
     async decreaseQuantity(productId) {
         try {
-            const response = await fetch(`${this.baseUrl}decrease/${productId}/`, {
-                method: 'PUT',
-                headers: this.getAuthHeaders()
-            });
+            const accessToken = localStorage.getItem('access');
+            const guestToken = localStorage.getItem('guest_token');
+            
+            if (guestToken && !accessToken) {
+                // Guest user - use guest decrease endpoint
+                const response = await fetch(`${this.baseUrl}guest/decrease/${productId}/`, {
+                    method: 'PUT',
+                    headers: this.getAuthHeaders()
+                });
 
-            if (response.ok) {
-                await this.loadCart();
-                this.showMessage('Quantity updated successfully', 'success');
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Quantity updated successfully', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to update quantity', 'error');
+                }
             } else {
-                const error = await response.json();
-                this.showMessage(error.error || 'Failed to update quantity', 'error');
+                // Authenticated user - use regular endpoint
+                const response = await fetch(`${this.baseUrl}decrease/${productId}/`, {
+                    method: 'PUT',
+                    headers: this.getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Quantity updated successfully', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to update quantity', 'error');
+                }
             }
         } catch (error) {
             console.error('Error decreasing quantity:', error);
@@ -238,22 +291,61 @@ class CartManager {
     }
 
     async removeItem(productId) {
-        if (!confirm('Are you sure you want to remove this item from your cart?')) {
-            return;
+        // Use custom confirmation notification instead of browser alert
+        if (window.notificationManager) {
+            window.notificationManager.confirm(
+                'Are you sure you want to remove this item from your cart?',
+                async () => {
+                    // User confirmed - proceed with removal
+                    await this.performRemoveItem(productId);
+                },
+                () => {
+                    // User cancelled - do nothing
+                    console.log('Item removal cancelled by user');
+                }
+            );
+        } else {
+            // Fallback to browser confirm if notification manager is not available
+            if (!confirm('Are you sure you want to remove this item from your cart?')) {
+                return;
+            }
+            await this.performRemoveItem(productId);
         }
+    }
 
+    async performRemoveItem(productId) {
         try {
-            const response = await fetch(`${this.baseUrl}remove/${productId}/`, {
-                method: 'DELETE',
-                headers: this.getAuthHeaders()
-            });
+            const accessToken = localStorage.getItem('access');
+            const guestToken = localStorage.getItem('guest_token');
+            
+            if (guestToken && !accessToken) {
+                // Guest user - use guest remove endpoint
+                const response = await fetch(`${this.baseUrl}guest/remove/${productId}/`, {
+                    method: 'DELETE',
+                    headers: this.getAuthHeaders()
+                });
 
-            if (response.ok) {
-                await this.loadCart();
-                this.showMessage('Item removed from cart', 'success');
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Item removed from cart', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to remove item', 'error');
+                }
             } else {
-                const error = await response.json();
-                this.showMessage(error.error || 'Failed to remove item', 'error');
+                // Authenticated user - use regular endpoint
+                const response = await fetch(`${this.baseUrl}remove/${productId}/`, {
+                    method: 'DELETE',
+                    headers: this.getAuthHeaders()
+                });
+
+                if (response.ok) {
+                    await this.loadCart();
+                    this.showMessage('Item removed from cart', 'success');
+                } else {
+                    const error = await response.json();
+                    this.showMessage(error.error || 'Failed to remove item', 'error');
+                }
             }
         } catch (error) {
             console.error('Error removing item:', error);
@@ -262,10 +354,29 @@ class CartManager {
     }
 
     async clearCart() {
-        if (!confirm('Are you sure you want to clear your entire cart?')) {
-            return;
+        // Use custom confirmation notification instead of browser alert
+        if (window.notificationManager) {
+            window.notificationManager.confirm(
+                'Are you sure you want to clear your entire cart?',
+                async () => {
+                    // User confirmed - proceed with clearing
+                    await this.performClearCart();
+                },
+                () => {
+                    // User cancelled - do nothing
+                    console.log('Cart clearing cancelled by user');
+                }
+            );
+        } else {
+            // Fallback to browser confirm if notification manager is not available
+            if (!confirm('Are you sure you want to clear your entire cart?')) {
+                return;
+            }
+            await this.performClearCart();
         }
+    }
 
+    async performClearCart() {
         try {
             const response = await fetch(`${this.baseUrl}clear/`, {
                 method: 'DELETE',
@@ -315,22 +426,7 @@ class CartManager {
             window.notificationManager.show(message, type, 4000);
         } else {
             // Fallback to simple alert if notification system is not available
-            const toast = document.createElement('div');
-            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
-            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            toast.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.remove();
-                }
-            }, 3000);
+            alert(message);
         }
     }
 }

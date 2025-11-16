@@ -1147,6 +1147,47 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
+        <!-- Add to Cart Modal -->
+        <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addToCartModalLabel">
+                            <i class="fa fa-shopping-cart me-2 text-primary"></i>
+                            Add to Cart
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="mb-4">
+                            <i class="fa fa-shopping-bag fa-3x text-primary mb-3"></i>
+                            <h6 class="text-muted">To add items to your cart, please choose an option:</h6>
+                        </div>
+                        
+                        <div class="d-grid gap-3">
+                            <!-- Google Login Option -->
+                            <button type="button" class="btn btn-outline-primary btn-lg" id="googleLoginBtn">
+                                <i class="fab fa-google me-2"></i>
+                                Login with Google
+                            </button>
+                            
+                            <!-- Continue as Guest Option -->
+                            <button type="button" class="btn btn-primary btn-lg" id="continueAsGuestBtn">
+                                <i class="fa fa-user me-2"></i>
+                                Continue as Guest
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <small class="text-muted">
+                                <i class="fa fa-info-circle me-1"></i>
+                                Guest users can add items to cart and checkout with email
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
