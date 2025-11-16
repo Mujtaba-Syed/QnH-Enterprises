@@ -113,13 +113,13 @@
                 } else {
                     alert('You have been logged out.');
                 }
-                window.location.href = '{% url "login-temp" %}';
+                window.location.href = '{% url "home" %}';
             });
 
         } else {
             // If no token, show login
             userMenu.innerHTML = `
-                <a href="{% url 'login-temp' %}" class="dropdown-item custom-text-color">Login</a>
+                <a href="{% url 'home' %}" class="dropdown-item custom-text-color">Login</a>
             `;
         }
 

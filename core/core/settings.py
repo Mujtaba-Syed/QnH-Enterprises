@@ -169,9 +169,10 @@ else:
         }
     }
 
-print("database name is")
-print("database user: ", DATABASES['default']['USER'])
-print("database host: ", DATABASES['default']['HOST'])
+print("is production", PRODUCTION)
+print("is development", not PRODUCTION)
+print("is debug", DEBUG)
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
