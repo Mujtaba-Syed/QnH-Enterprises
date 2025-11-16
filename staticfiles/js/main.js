@@ -332,115 +332,80 @@
     }
   }
 
-  // Add event listeners for modal buttons when DOM is loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    // Update cart badge on page load
-    updateCartBadge();
+// Clothing Filter Functionality
+$(document).ready(function() {
+    // Handle clothing season filter
+    $('input[name="clothingSeason"]').on('change', function() {
+        filterClothingProducts();
+    });
     
-    // Google Login button in modal
-    const googleLoginBtn = document.getElementById('googleLoginBtn');
-    if (googleLoginBtn) {
-      googleLoginBtn.addEventListener('click', async function() {
-        try {
-          // Close the modal
-          const modal = bootstrap.Modal.getInstance(document.getElementById('addToCartModal'));
-          modal.hide();
-          
-          // Get the Google OAuth URL (same logic as login.js)
-          const response = await fetch('/accounts/google-oauth-initiate/');
-          const data = await response.json();
-          
-          if (response.ok) {
-            // Redirect to Google OAuth
-            window.location.href = data.auth_url;
-          } else {
-            if (window.notificationManager) {
-              window.notificationManager.error('Failed to initiate Google login');
+    // Handle clothing gender filter
+    $('input[name="clothingGender"]').on('change', function() {
+        filterClothingProducts();
+    });
+});
+
+function filterClothingProducts() {
+    const season = $('input[name="clothingSeason"]:checked').val();
+    const gender = $('input[name="clothingGender"]:checked').val();
+    const container = $('#clothingProductsContainer');
+    
+    // Show loading state
+    container.html('<div class="col-12 text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+    
+    // Build API URL
+    let apiUrl = '/api/products/filter-products/?product_type=clothing';
+    
+    if (season && season !== 'all') {
+        apiUrl += `&season=${season}`;
+    }
+    
+    if (gender && gender !== 'all') {
+        apiUrl += `&gender=${gender}`;
+    }
+    
+    // Fetch filtered products
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                renderClothingProducts(data.results);
             } else {
-              alert('Failed to initiate Google login');
+                container.html('<div class="col-12 text-center"><p class="text-muted">No products found with the selected filters.</p></div>');
             }
-          }
-        } catch (error) {
-          console.error('Google login error:', error);
-          if (window.notificationManager) {
-            window.notificationManager.error('Failed to initiate Google login');
-          } else {
-            alert('Failed to initiate Google login');
-          }
-        }
-      });
-    }
-
-    // Continue as Guest button in modal
-    const continueAsGuestBtn = document.getElementById('continueAsGuestBtn');
-    if (continueAsGuestBtn) {
-      continueAsGuestBtn.addEventListener('click', function() {
-        // Close the modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addToCartModal'));
-        modal.hide();
-        
-        // Handle guest checkout (we'll implement this in the next step)
-        handleGuestCheckout();
-      });
-    }
-  });
-
-  // Function to handle guest checkout
-  async function handleGuestCheckout() {
-    console.log('Guest checkout clicked for product:', window.currentProductId);
-    
-    try {
-      // Step 1: Create guest user
-      const guestResponse = await fetch('/api/cart/guest/create/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken()
-        }
-      });
-
-      if (!guestResponse.ok) {
-        throw new Error('Failed to create guest session');
-      }
-
-      const guestData = await guestResponse.json();
-      const guestToken = guestData.guest_token;
-      
-      // Store guest token in localStorage for later use
-      localStorage.setItem('guest_token', guestToken);
-      
-      // Step 2: Add product to guest cart
-      const addToCartResponse = await fetch('/api/cart/guest/add/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': getCSRFToken()
-        },
-        body: JSON.stringify({
-          product_id: window.currentProductId,
-          guest_token: guestToken
         })
-      });
+        .catch(error => {
+            console.error('Error fetching filtered products:', error);
+            container.html('<div class="col-12 text-center"><p class="text-danger">Error loading products. Please try again.</p></div>');
+        });
+}
 
-      if (!addToCartResponse.ok) {
-        throw new Error('Failed to add product to guest cart');
-      }
-
-      const cartData = await addToCartResponse.json();
-      
-      // Show success message
-      window.notificationManager.success(cartData.message || 'Product added to cart!');
-      
-      // Update cart badge
-      updateCartBadge();
-      
-      // Redirect to cart page to show the item
-      setTimeout(() => {
-        window.location.href = '/cart/';
-      }, 1500);
-      
-    } catch (error) {
-      console.error('Guest checkout error:', error);
-      window.notificationManager.error('Failed to add product to cart. Please try again.');
-    }
-  }
+function renderClothingProducts(products) {
+    const container = $('#clothingProductsContainer');
+    container.empty();
+    
+    products.forEach(product => {
+        const productHtml = `
+            <div class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex">
+                <div class="rounded position-relative fruite-item w-100 d-flex flex-column">
+                    <div class="fruite-img">
+                        <img loading="lazy" width="300" height="200" src="${product.image || '/static/images/no-image.jpg'}" class="img-fluid w-100 rounded-top" alt="${product.name}">
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.product_type}</div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column flex-grow-1">
+                        <h4>${product.name}</h4>
+                        <p class="flex-grow-1">${product.description || ''}</p>
+                        <p class="text-dark fs-5 fw-bold me-2 pt-2">RS ${product.price}</p>
+                        <button onclick="handleViewDetails(event, '${product.id}')" class="btn border border-secondary rounded-pill text-primary mb-3" style="padding: 8px 16px;">
+                            <i class="fa fa-eye me-2 text-primary"></i> View Details
+                        </button>
+                        <button onclick="handleAddToCart(event, '${product.id}')" class="btn border border-secondary rounded-pill text-primary" style="padding: 8px 16px;">
+                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.append(productHtml);
+    });
+}

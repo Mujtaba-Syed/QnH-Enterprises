@@ -169,10 +169,9 @@ else:
         }
     }
 
-print("is production", PRODUCTION)
-print("is development", not PRODUCTION)
-print("is debug", DEBUG)
+print(f"Environment: {'PRODUCTION' if PRODUCTION else 'DEVELOPMENT'}")
 
+# print("database host: ", DATABASES['default']['HOST'])
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

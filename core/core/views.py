@@ -41,7 +41,7 @@ class HomeView(TemplateView):
         categorized_products = {
             'all_products': products,
             'perfumes': [product for product in products if product['product_type'] == 'perfume'],
-            'shirts': [product for product in products if product['product_type'] == 'shirt'],
+            'clothing': [product for product in products if product['product_type'] == 'clothing'],
             'mobile_accessories': [product for product in products if product['product_type'] == 'mobile_accessories'],
             'cars': [product for product in products if product['product_type'] == 'car'],
             'watches': [product for product in products if product['product_type'] == 'watches'],

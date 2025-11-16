@@ -305,6 +305,36 @@
         <!-- Template Stylesheet -->
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
+        
+        <!-- Custom Styles for Clothing Filters -->
+        <style>
+            /* Clothing filter buttons custom color */
+            #tab-3 .btn-check:checked + .btn-outline-primary {
+                background-color: #b86e00 !important;
+                border-color: #b86e00 !important;
+                color: white !important;
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            
+            #tab-3 .btn-outline-primary:hover {
+                background-color: #b86e00 !important;
+                border-color: #b86e00 !important;
+                color: white !important;
+            }
+            
+            #tab-3 .btn-outline-primary:focus,
+            #tab-3 .btn-outline-primary:active,
+            #tab-3 .btn-outline-primary.active {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            
+            #tab-3 .btn-outline-primary {
+                border-color: #b86e00 !important;
+                color: #b86e00 !important;
+            }
+        </style>
 
         <!-- Product Card Image Styles -->
         <style>
@@ -517,7 +547,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="d-flex m-2 py-2 bg-light rounded-pill p-2" data-bs-toggle="pill" href="#tab-3">
-                                        <span class="text-dark category-filter-span">Shirts</span>
+                                        <span class="text-dark category-filter-span">Clothing</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -620,10 +650,50 @@
                             </div>
                         </div>
                         <div id="tab-3" class="tab-pane fade show p-0">
+                            <!-- Clothing Sub-Filters -->
+                            <div class="row mb-4">
+                                <div class="col-lg-12">
+                                    <div class="bg-light p-3 rounded">
+                                        <h5 class="mb-3">Filter Clothing</h5>
+                                        <div class="row mb-5">
+                                            <!-- Season Filter -->
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Collection:</label>
+                                                <div class="btn-group w-100" role="group">
+                                                    <input type="radio" class="btn-check" name="clothingSeason" id="seasonAll" value="all" checked>
+                                                    <label class="btn btn-outline-primary" for="seasonAll">All</label>
+                                                    
+                                                    <input type="radio" class="btn-check" name="clothingSeason" id="seasonSummer" value="summer">
+                                                    <label class="btn btn-outline-primary" for="seasonSummer">Summer</label>
+                                                    
+                                                    <input type="radio" class="btn-check" name="clothingSeason" id="seasonWinter" value="winter">
+                                                    <label class="btn btn-outline-primary" for="seasonWinter">Winter</label>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Gender Filter -->
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">Gender:</label>
+                                                <div class="btn-group w-100" role="group">
+                                                    <input type="radio" class="btn-check" name="clothingGender" id="genderAll" value="all" checked>
+                                                    <label class="btn btn-outline-primary" for="genderAll">All</label>
+                                                    
+                                                    <input type="radio" class="btn-check" name="clothingGender" id="genderMale" value="male">
+                                                    <label class="btn btn-outline-primary" for="genderMale">Male</label>
+                                                    
+                                                    <input type="radio" class="btn-check" name="clothingGender" id="genderFemale" value="female">
+                                                    <label class="btn btn-outline-primary" for="genderFemale">Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="row g-4">
                                 <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        {% for product in categorized_products.shirts %}
+                                    <div class="row g-4" id="clothingProductsContainer">
+                                        {% for product in categorized_products.clothing %}
                                         <div class="col-md-6 col-lg-4 col-xl-3 mt-4 d-flex" >
                                             <div class="rounded position-relative fruite-item w-100 d-flex flex-column">
                                                 <div class="fruite-img">
