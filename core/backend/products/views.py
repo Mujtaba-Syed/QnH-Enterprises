@@ -32,14 +32,17 @@ class ProductFilter(filters.FilterSet):
 
 
 class ProductPagination(pagination.PageNumberPagination):
-    page_size = 100
+    page_size = 10 
     page_size_query_param = "page_size"
+    max_page_size = 100
 
     def get_paginated_response(self, data):
         return Response(
             {
                 "count": self.page.paginator.count,
                 "pages": self.page.paginator.num_pages,
+                "next": self.get_next_link(),
+                "previous": self.get_previous_link(),
                 "results": data,
             }
         )
@@ -54,7 +57,7 @@ class ProductView(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         try:
-            queryset = Product.objects.filter(is_active=True)
+            queryset = Product.objects.filter(is_active=True).order_by('-created_at')
             if not queryset.exists():
                 raise NotFound(detail="No active products found.")
             return queryset

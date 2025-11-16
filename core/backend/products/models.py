@@ -29,7 +29,8 @@ class Product(models.Model):
     discount_percentage = models.PositiveIntegerField(default=0, help_text="Discount percentage (e.g., 10 for 10% off)")
     discount_text = models.CharField(max_length=100, blank=True, null=True, help_text="Custom discount text (e.g., 'Limited Time Offer')")
     number_of_sales = models.PositiveIntegerField(default=0, help_text="Number of times this product has been sold")
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def clean(self):
         if self.rating and self.rating > 5:
             raise ValidationError("Rating must be between 0 and 5")
