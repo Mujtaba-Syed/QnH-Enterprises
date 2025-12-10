@@ -61,7 +61,7 @@
   
       <form id="loginForm">
           <div class="mb-3">
-            <label for="username" class="form-label">Username or Email</label>
+            <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" required>
           </div>
   
@@ -89,6 +89,9 @@
             <!-- <a href="/password-reset">Forgot password?</a> -->
           </div>
         </form>
+        <div class="text-center mt-3">
+          <a href="{% url 'home' %}" class="text-decoration-none" style="color: #198754;">Back to home</a>
+        </div>
       </div>
     </div>
   </div>
