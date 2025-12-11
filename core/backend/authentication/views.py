@@ -197,6 +197,22 @@ class GoogleOAuthView(APIView):
             
             try:
                 user = User.objects.get(email=email)
+                # Update user info if available from Google
+                if first_name and not user.first_name:
+                    user.first_name = first_name
+                if last_name and not user.last_name:
+                    user.last_name = last_name
+                user.save()
+                
+                # Create or update UserSocialAuth for existing user
+                UserSocialAuth.objects.update_or_create(
+                    user=user,
+                    provider='google-oauth2',
+                    defaults={
+                        'uid': google_id,
+                        'extra_data': user_info
+                    }
+                )
             except User.DoesNotExist:
                 username = email.split('@')[0]  
                 base_username = username
@@ -205,14 +221,18 @@ class GoogleOAuthView(APIView):
                     username = f"{base_username}{counter}"
                     counter += 1
                 
+                # Create user with default values for required fields
                 user = User.objects.create_user(
                     username=username,
                     email=email,
                     first_name=first_name,
                     last_name=last_name,
-                    password=None 
+                    is_google_user = True,
+                    phone='',  # Default empty string for required phone field
+                    password=None  # OAuth users don't need password
                 )
                 
+                # Save Google OAuth social auth data
                 UserSocialAuth.objects.create(
                     user=user,
                     provider='google-oauth2',
