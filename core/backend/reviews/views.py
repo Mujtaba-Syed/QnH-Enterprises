@@ -45,6 +45,8 @@ class AddReviewAPIView(APIView):
             serializer = ReviewSerializer(data=data)
             if serializer.is_valid():
                 review = serializer.save()
+                review.is_active = False
+                review.save()
                 
                 if not product.is_active:
                     product.is_active = True
