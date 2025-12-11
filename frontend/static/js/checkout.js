@@ -353,7 +353,7 @@ class CheckoutManager {
             whatsappBtn.innerHTML = '<i class="fab fa-whatsapp me-2"></i>Opening WhatsApp...';
             
             const orderDetails = this.formatOrderDetailsForWhatsApp(orderData);
-            const whatsappUrl = `https://wa.me/923009845333?text=${encodeURIComponent(orderDetails)}`;
+            const whatsappUrl = `https://wa.me/923147864467?text=${encodeURIComponent(orderDetails)}`;
             
             // Open WhatsApp in new tab
             window.open(whatsappUrl, '_blank');
