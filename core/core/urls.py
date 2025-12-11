@@ -62,6 +62,7 @@ urlpatterns = [
     path('api/reviews/', include('backend.reviews.urls')),
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
+    path('api/orders/', include('backend.orders.urls')),
     path('api/blog/', include('backend.blog.urls')),
     path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
 

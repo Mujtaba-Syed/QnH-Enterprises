@@ -209,7 +209,7 @@ class CheckoutManager {
         return form.checkValidity();
     }
 
-    formatOrderDetailsForWhatsApp() {
+    formatOrderDetailsForWhatsApp(orderData = null) {
         if (this.cartItems.length === 0) {
             return "Hello, I want to confirm my order.";
         }
@@ -219,6 +219,11 @@ class CheckoutManager {
         const total = subtotal; // Add shipping if needed
 
         let orderText = "Hello, I want to confirm my order:\n\n";
+        
+        // Add order number if available
+        if (orderData && orderData.order_number) {
+            orderText += `📦 *ORDER NUMBER: ${orderData.order_number}*\n\n`;
+        }
         
         // Add shipping details
         if (shippingDetails) {
@@ -253,6 +258,12 @@ class CheckoutManager {
         
         orderText += `\n💰 Subtotal: Rs.${subtotal.toFixed(2)}`;
         orderText += `\n💳 Total: Rs.${total.toFixed(2)}`;
+        
+        // Add order number at the end for easy reference
+        if (orderData && orderData.order_number) {
+            orderText += `\n\n📦 Order Reference: ${orderData.order_number}`;
+        }
+        
         orderText += "\n\nPlease confirm my order and provide payment details.";
         
         return orderText;
@@ -321,12 +332,112 @@ class CheckoutManager {
             await this.handleGuestCheckout();
         }
 
-        // Format order details and open WhatsApp
-        const orderDetails = this.formatOrderDetailsForWhatsApp();
-        const whatsappUrl = `https://wa.me/923009845333?text=${encodeURIComponent(orderDetails)}`;
-        
-        // Open WhatsApp in new tab
-        window.open(whatsappUrl, '_blank');
+        // Show loading state
+        const whatsappBtn = document.getElementById('whatsapp-order-btn');
+        const originalText = whatsappBtn.innerHTML;
+        whatsappBtn.disabled = true;
+        whatsappBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving Order...';
+
+        try {
+            // Save order to database first
+            const orderData = await this.createOrder();
+            
+            if (!orderData) {
+                // Error already shown in createOrder
+                whatsappBtn.innerHTML = originalText;
+                whatsappBtn.disabled = false;
+                return;
+            }
+
+            // Order saved successfully, now open WhatsApp
+            whatsappBtn.innerHTML = '<i class="fab fa-whatsapp me-2"></i>Opening WhatsApp...';
+            
+            const orderDetails = this.formatOrderDetailsForWhatsApp(orderData);
+            const whatsappUrl = `https://wa.me/923009845333?text=${encodeURIComponent(orderDetails)}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Show success message
+            this.showMessage(`Order #${orderData.order_number} created successfully! Opening WhatsApp...`, 'success');
+            
+            // Restore button after a delay
+            setTimeout(() => {
+                whatsappBtn.innerHTML = originalText;
+                whatsappBtn.disabled = false;
+            }, 2000);
+
+        } catch (error) {
+            console.error('Error in handleWhatsAppOrder:', error);
+            this.showMessage('Failed to create order. Please try again.', 'error');
+            whatsappBtn.innerHTML = originalText;
+            whatsappBtn.disabled = false;
+        }
+    }
+
+    async createOrder() {
+        try {
+            const shippingDetails = this.getShippingDetails();
+            
+            // Prepare order items from cart
+            const items = this.cartItems.map(item => ({
+                product_id: item.product.id,
+                quantity: item.quantity
+            }));
+
+            // Get shipping address checkbox
+            const shipToDifferentAddress = document.getElementById('Address-1')?.checked || false;
+
+            // Prepare order data
+            const orderData = {
+                first_name: shippingDetails.firstName,
+                last_name: shippingDetails.lastName,
+                email: shippingDetails.email || '',
+                mobile: shippingDetails.mobile,
+                address: shippingDetails.address,
+                city: shippingDetails.city,
+                country: shippingDetails.country || 'Pakistan',
+                zipcode: shippingDetails.zipcode || '',
+                ship_to_different_address: shipToDifferentAddress,
+                shipping_address: shipToDifferentAddress ? shippingDetails.address : '',
+                shipping_city: shipToDifferentAddress ? shippingDetails.city : '',
+                shipping_country: shipToDifferentAddress ? (shippingDetails.country || 'Pakistan') : '',
+                shipping_zipcode: shipToDifferentAddress ? (shippingDetails.zipcode || '') : '',
+                order_notes: shippingDetails.orderNotes || '',
+                payment_method: 'whatsapp',
+                items: items
+            };
+
+            // Call the order creation API
+            const response = await fetch('/api/orders/create/', {
+                method: 'POST',
+                headers: this.getAuthHeaders(),
+                body: JSON.stringify(orderData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.order) {
+                console.log('Order created successfully:', data.order);
+                return data.order;
+            } else {
+                // Handle validation errors
+                if (data.errors) {
+                    const errorMessages = Object.values(data.errors).flat().join(', ');
+                    this.showMessage(`Validation error: ${errorMessages}`, 'error');
+                } else if (data.error) {
+                    this.showMessage(data.error, 'error');
+                } else {
+                    this.showMessage('Failed to create order. Please try again.', 'error');
+                }
+                return null;
+            }
+
+        } catch (error) {
+            console.error('Error creating order:', error);
+            this.showMessage('Network error. Please check your connection and try again.', 'error');
+            return null;
+        }
     }
 
     async handleGuestCheckout() {
