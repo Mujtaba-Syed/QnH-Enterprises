@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'rest_framework_simplejwt',
     'django_filters',
+    'drf_spectacular',  # Swagger/OpenAPI documentation
     'backend.orders',
     'backend.products',
     'backend.customers',
@@ -97,7 +98,35 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# Swagger/OpenAPI Settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'QnH Enterprises API',
+    'DESCRIPTION': 'API documentation for QnH Enterprises e-commerce platform',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX': '/api/',
+    'AUTHENTICATION_WHITELIST': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': False,
+        'filter': True,
+        'tagsSorter': 'alpha',
+        'operationsSorter': 'alpha',
+    },
+    'SWAGGER_UI_FAVICON_HREF': '/static/favicon.ico',
+    'REDOC_UI_SETTINGS': {
+        'hideDownloadButton': False,
+        'hideHostname': False,
+        'hideSingleRequestTime': False,
+    },
 }
 
 MIDDLEWARE = [
@@ -111,8 +140,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 FRONTEND_URL = 'http://www.qhenterprises.com' 
 
@@ -172,6 +199,42 @@ else:
 print(f"Environment: {'PRODUCTION' if PRODUCTION else 'DEVELOPMENT'}")
 
 # print("database host: ", DATABASES['default']['HOST'])
+
+# Email Configuration
+# Use SMTP if PRODUCTION=True OR EMAIL_USE_SMTP=True
+# This allows testing real emails in development mode
+EMAIL_USE_SMTP = config('EMAIL_USE_SMTP', default=False, cast=bool)
+
+if PRODUCTION or EMAIL_USE_SMTP:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = config('EMAIL_HOST', default='smtp.hostinger.com')
+    EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+    EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+    EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
+    SERVER_EMAIL = DEFAULT_FROM_EMAIL  # For admin error emails
+    
+    # Print email configuration for debugging
+    print(f"Email Backend: SMTP")
+    print(f"Email Host: {EMAIL_HOST}:{EMAIL_PORT}")
+    print(f"Email User: {EMAIL_HOST_USER}")
+    print(f"From Email: {DEFAULT_FROM_EMAIL}")
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'noreply@qhenterprises.com'
+    SERVER_EMAIL = DEFAULT_FROM_EMAIL
+    print(f"Email Backend: Console (emails will be printed to terminal)")
+
+# Email settings for order notifications
+ADMINS = [
+    (config('ADMIN_NAME', default='Admin'), config('ADMIN_EMAIL', default='')),
+]
+MANAGERS = ADMINS
+
+# Email timeout settings
+EMAIL_TIMEOUT = 30  # seconds (increased for Hostinger SMTP)
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

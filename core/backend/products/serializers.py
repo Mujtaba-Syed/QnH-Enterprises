@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.types import OpenApiTypes
 from .models import Product, FeaturedProducts, ProductImage
 
 
@@ -19,6 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
     
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_all_images(self, obj):
         """Get all images including main image and additional images."""
         return obj.get_all_images()
@@ -41,6 +44,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'discounted_price', 'has_discount', 'number_of_sales'
         ]
     
+    @extend_schema_field(OpenApiTypes.OBJECT)
     def get_all_images(self, obj):
         """Get all images including main image and additional images."""
         return obj.get_all_images()

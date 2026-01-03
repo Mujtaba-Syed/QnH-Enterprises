@@ -15,6 +15,7 @@ from .serializers import (ProductSerializer,
 from rest_framework import status, pagination, viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound, APIException
+from drf_spectacular.utils import extend_schema
 import random
 
 
@@ -68,7 +69,14 @@ class ProductView(viewsets.ReadOnlyModelViewSet):
 class FilteredProductsAPIView(APIView):
     """API for advanced filtering of products by type and price range."""
     permission_classes = [AllowAny]
+    serializer_class = ProductSerializer
     
+    @extend_schema(
+        summary="Filter Products",
+        description="Advanced filtering of products by type, price range, brand, rating, season, and gender",
+        responses={200: ProductSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             product_type = request.query_params.get('product_type')
@@ -156,7 +164,14 @@ class FilteredProductsAPIView(APIView):
 class ProductsByTypeAPIView(APIView):
     """API to get products filtered by specific product type."""
     permission_classes = [AllowAny]
+    serializer_class = ProductSerializer
     
+    @extend_schema(
+        summary="Get Products by Type",
+        description="Get all products filtered by a specific product type",
+        responses={200: ProductSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request, product_type):
         try:
             valid_types = [choice[0] for choice in Product.TYPE_CHOICES]
@@ -194,7 +209,14 @@ class ProductsByTypeAPIView(APIView):
 class ProductsByPriceRangeAPIView(APIView):
     """API to get products filtered by price range."""
     permission_classes = [AllowAny]
+    serializer_class = ProductSerializer
     
+    @extend_schema(
+        summary="Get Products by Price Range",
+        description="Get products filtered by minimum and maximum price",
+        responses={200: ProductSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             min_price = request.query_params.get('min_price', 0)
@@ -243,6 +265,14 @@ class ProductsByPriceRangeAPIView(APIView):
 
 
 class FeaturedProdcutsApiView(APIView):
+    serializer_class = FeaturedProductsSerializer
+    
+    @extend_schema(
+        summary="Get Featured Products",
+        description="Get all featured products",
+        responses={200: FeaturedProductsSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             featured_products = FeaturedProducts.objects.all()
@@ -252,6 +282,14 @@ class FeaturedProdcutsApiView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class NewlyAddedProductsApiView(APIView):
+    serializer_class = NewlyAddedProductsSerializer
+    
+    @extend_schema(
+        summary="Get Newly Added Products",
+        description="Get all newly added products",
+        responses={200: NewlyAddedProductsSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             newly_added_products = Product.objects.filter(newly_added=True)
@@ -261,6 +299,14 @@ class NewlyAddedProductsApiView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class BestSellerProductsApiView(APIView):
+    serializer_class = BestSellerProductsSerializer
+    
+    @extend_schema(
+        summary="Get Best Seller Products",
+        description="Get all best seller products",
+        responses={200: BestSellerProductsSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             best_seller_products = Product.objects.filter(best_seller=True)
@@ -272,6 +318,14 @@ class BestSellerProductsApiView(APIView):
 
 class ProductTypeCountAPIView(APIView):
     permission_classes = [AllowAny]
+    serializer_class = ProductTypeCountSerializer
+    
+    @extend_schema(
+        summary="Get Product Type Counts",
+        description="Get count of products by each product type",
+        responses={200: ProductTypeCountSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         product_counts = Product.objects.values('product_type').annotate(count=Count('id'))
 
@@ -292,7 +346,14 @@ class ProductTypeCountAPIView(APIView):
 class ProductDetailAPIView(APIView):
     """API for getting detailed product information including all images."""
     permission_classes = [AllowAny]
+    serializer_class = ProductDetailSerializer
     
+    @extend_schema(
+        summary="Get Product Details",
+        description="Get detailed information about a specific product including images and reviews",
+        responses={200: ProductDetailSerializer},
+        tags=['Products']
+    )
     def get(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id, is_active=True)
@@ -376,7 +437,14 @@ class ProductDetailAPIView(APIView):
 class RandomProductsAPIView(APIView):
     """API for getting random products for product slider."""
     permission_classes = [AllowAny]
+    serializer_class = ProductSerializer
     
+    @extend_schema(
+        summary="Get Random Products",
+        description="Get random products for product slider (up to 8 products)",
+        responses={200: ProductSerializer(many=True)},
+        tags=['Products']
+    )
     def get(self, request):
         try:
             products = Product.objects.filter(is_active=True)

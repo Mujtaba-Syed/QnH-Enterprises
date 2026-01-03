@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import Cart, CartItem, GuestUser
 from backend.products.models import Product
 from .serializers import CartSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer
+from drf_spectacular.utils import extend_schema
 import uuid
 
 
@@ -198,6 +199,7 @@ class UpdateCartItemView(APIView):
     Increment quantity of specific item in cart by 1
     """
     permission_classes = [IsAuthenticated]
+    serializer_class = CartItemSerializer
 
     def get_cart(self, user):
         """Get cart for user"""
@@ -209,6 +211,12 @@ class UpdateCartItemView(APIView):
         except Exception as e:
             raise Exception(f"Error getting cart: {str(e)}")
 
+    @extend_schema(
+        summary="Update Cart Item Quantity",
+        description="Increment quantity of a specific item in cart by 1",
+        responses={200: CartItemSerializer},
+        tags=['Cart']
+    )
     def put(self, request, product_id):
         """Increment quantity of specific item in cart by 1"""
         try:

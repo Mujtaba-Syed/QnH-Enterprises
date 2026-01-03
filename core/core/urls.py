@@ -26,6 +26,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.http import HttpResponse
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 import os
 
 def google_verification(request):
@@ -63,7 +68,13 @@ urlpatterns = [
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
     path('api/blog/', include('backend.blog.urls')),
+    path('api/orders/', include('backend.orders.urls')),
     path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
+
+    # API Documentation (Swagger/OpenAPI)
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     path('oauth/', include('social_django.urls', namespace='social')),
     path('sitemap.xml', SitemapView.as_view(), name='sitemap'),

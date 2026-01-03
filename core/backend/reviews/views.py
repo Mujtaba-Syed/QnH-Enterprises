@@ -5,10 +5,18 @@ from .models import Review
 from .serializers import ReviewSerializer
 from backend.products.models import Product
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 
 class ProductReviewListAPIView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ReviewSerializer
 
+    @extend_schema(
+        summary="Get Product Reviews",
+        description="Get all active reviews for a specific product",
+        responses={200: ReviewSerializer(many=True)},
+        tags=['Reviews']
+    )
     def get(self, request, product_id):
         try:
             product = get_object_or_404(Product, id=product_id)
@@ -21,7 +29,15 @@ class ProductReviewListAPIView(APIView):
 
 class AddReviewAPIView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ReviewSerializer
 
+    @extend_schema(
+        summary="Add Product Review",
+        description="Submit a new review for a product",
+        request=ReviewSerializer,
+        responses={201: ReviewSerializer},
+        tags=['Reviews']
+    )
     def post(self, request, product_id):
         try:
             product = get_object_or_404(Product, id=product_id)
@@ -64,7 +80,14 @@ class AddReviewAPIView(APIView):
 
 
 class ActiveReviewsApiView(APIView):
+    serializer_class = ReviewSerializer
 
+    @extend_schema(
+        summary="Get Active Reviews",
+        description="Get all active reviews across all products",
+        responses={200: ReviewSerializer(many=True)},
+        tags=['Reviews']
+    )
     def get(self, request):
         try:
             reviews = Review.objects.filter(is_active=True)
