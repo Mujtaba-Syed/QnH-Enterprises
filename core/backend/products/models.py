@@ -13,6 +13,7 @@ class Product(models.Model):
         ('car', 'Car'),
         ('mobile_accessories', 'Mobile Accessories'),
         ('watches', 'Watches'),
+        ('bridal', 'Bridal'),
     ]
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
