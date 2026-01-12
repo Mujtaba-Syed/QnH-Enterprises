@@ -18,3 +18,4 @@ venv/
 
 # Ignore temporary directories
 banana/
+.env
