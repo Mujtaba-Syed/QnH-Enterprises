@@ -161,6 +161,9 @@ class CheckoutView(TemplateView):
 class ContactView(TemplateView):
     template_name = 'contact.html'
 
+class PortfolioView(TemplateView):
+    template_name = 'portfolio.html'
+
 
 class ShopView(TemplateView):
     template_name = 'shop.html'
