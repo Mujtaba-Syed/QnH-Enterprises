@@ -20,7 +20,7 @@ from .views import( HomeView, PageNotFoundView, CartView, CheckoutView,
         ContactView, ShopView, TestimonialView, 
             PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
             LoginView, RegisterView, OAuthSuccessView, SitemapView, AboutUsView,
-            ProductDetailView, BlogView, BlogDetailsView
+            ProductDetailView, BlogView, BlogDetailsView, PortfolioView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -63,6 +63,7 @@ urlpatterns = [
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
     path('api/blog/', include('backend.blog.urls')),
+    path('portfolio/', PortfolioView.as_view(), name='portfolio'),
     path('dashboard/', include('backend.dashboard.urls')),
     path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
     
