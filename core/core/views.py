@@ -164,6 +164,9 @@ class ContactView(TemplateView):
 class PortfolioView(TemplateView):
     template_name = 'portfolio.html'
 
+class OurTeamsView(TemplateView):
+    template_name = 'our-teams.html'
+
 
 class ShopView(TemplateView):
     template_name = 'shop.html'

@@ -20,7 +20,7 @@ from .views import( HomeView, PageNotFoundView, CartView, CheckoutView,
         ContactView, ShopView, TestimonialView, 
             PrivacyPolicyView, TermsOfUseView, SalesAndRefundPolicyView,
             LoginView, RegisterView, OAuthSuccessView, SitemapView, AboutUsView,
-            ProductDetailView, BlogView, BlogDetailsView, PortfolioView
+            ProductDetailView, BlogView, BlogDetailsView, PortfolioView, OurTeamsView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -64,6 +64,7 @@ urlpatterns = [
     path('api/cart/', include('backend.cart.urls')),
     path('api/blog/', include('backend.blog.urls')),
     path('portfolio/', PortfolioView.as_view(), name='portfolio'),
+        path('our-teams/', OurTeamsView.as_view(), name='our_teams'),
     path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
 
     path('oauth/', include('social_django.urls', namespace='social')),
