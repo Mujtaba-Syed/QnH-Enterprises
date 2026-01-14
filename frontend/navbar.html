@@ -32,6 +32,8 @@
                     </div>
                     <a href="{% url 'contact' %}" class="nav-item nav-link custom-text-color">Contact</a>
                     <a href="{% url 'blog' %}" class="nav-item nav-link custom-text-color">Blog</a>
+                    <a href="{% url 'portfolio' %}" class="nav-item nav-link custom-text-color">Portfolio</a>
+                    <a href="#" class="nav-item nav-link custom-text-color" id="dashboardLink" style="display: none;">Dashboard</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search custom-icon-color"></i></button>
@@ -98,6 +100,53 @@
         // Update cart count on page load
         updateCartCount();
 
+        // Function to check if user email contains "-qhent" before "@"
+        async function checkUserEmailAndShowDashboard() {
+            const dashboardLink = document.getElementById('dashboardLink');
+            if (!dashboardLink) return;
+
+            const accessToken = localStorage.getItem('access');
+            if (!accessToken) {
+                dashboardLink.style.display = 'none';
+                return;
+            }
+
+            try {
+                // Fetch user profile to get email
+                const response = await fetch('/accounts/profile/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    const email = userData.email || '';
+                    
+                    // Check if email contains "-qhent" before "@"
+                    // Pattern: anything-qhent@anything
+                    const emailPattern = /-qhent@/;
+                    if (emailPattern.test(email)) {
+                        dashboardLink.style.display = 'block';
+                        // Set dashboard URL if needed (you can update this to your actual dashboard URL)
+                        dashboardLink.href = '/dashboard/';
+                    } else {
+                        dashboardLink.style.display = 'none';
+                    }
+                } else {
+                    dashboardLink.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+                dashboardLink.style.display = 'none';
+            }
+        }
+
+        // Check and show dashboard link
+        checkUserEmailAndShowDashboard();
+
         // If token exists, show logout
         if (accessToken) {
             userMenu.innerHTML = `
@@ -127,6 +176,7 @@
         window.addEventListener('storage', function(e) {
             if (e.key === 'access') {
                 updateCartCount();
+                checkUserEmailAndShowDashboard();
             }
         });
 
@@ -136,6 +186,7 @@
             originalSetItem.apply(this, arguments);
             if (key === 'access') {
                 updateCartCount();
+                checkUserEmailAndShowDashboard();
             }
         };
 
@@ -144,6 +195,10 @@
             originalRemoveItem.apply(this, arguments);
             if (key === 'access') {
                 cartBadge.textContent = '0';
+                const dashboardLink = document.getElementById('dashboardLink');
+                if (dashboardLink) {
+                    dashboardLink.style.display = 'none';
+                }
             }
         };
     });

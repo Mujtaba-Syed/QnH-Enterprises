@@ -1,0 +1,284 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Our Portfolio - Q & H Enterprises</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="web design portfolio, website development projects, e-commerce solutions, UI/UX design, branding projects, responsive websites, Django development, Python web applications, digital portfolio, web development agency" name="keywords">
+    <meta name="description" content="Explore Q & H Enterprises portfolio of web design and development projects. View our latest websites, e-commerce solutions, and branding projects.">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="author" content="Q & H Enterprises">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Our Portfolio - Q & H Enterprises">
+    <meta property="og:description" content="View our portfolio of professional web design and development projects at Q & H Enterprises.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qhenterprises.com/portfolio/">
+    <meta property="og:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/qh-favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/qh-favicon-16x16.png' %}">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
+    
+    <!-- Portfolio Custom CSS -->
+<style>
+    .portfolio-item {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 30px;
+    }
+
+    .portfolio-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .portfolio-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .portfolio-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .portfolio-item .card-body {
+        padding: 20px;
+        background: #fff;
+    }
+
+    .portfolio-item .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #1f3327;
+    }
+
+    .portfolio-item .card-text {
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    .portfolio-item .btn {
+        background-color: #1f3327;
+        border-color: #1f3327;
+        color: #fff;
+        padding: 8px 20px;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .portfolio-item .btn:hover {
+        background-color: #145a32;
+        border-color: #145a32;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(20, 90, 50, 0.3);
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+        color: #2e3d47;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .section-title p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+</style>
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    {% include 'spinner.html' %}
+    <!-- Spinner End -->
+
+    <!-- Navbar start -->
+    {% include 'navbar.html' %}
+    <!-- Navbar End -->
+
+    <!-- Single Page Header Start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Our Portfolio</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active text-white">Portfolio</li>
+        </ol>
+    </div>
+  
+    <!-- Single Page Header End -->
+
+    <!-- Portfolio Section Start -->
+    <div class="container py-5">
+        <div class="section-title">
+            <h2>Our Featured Projects</h2>
+            <p>Explore our latest web design and development projects. Each project showcases our expertise in creating responsive, user-friendly websites and applications.</p>
+        </div>
+        
+        <div class="row">
+            <!-- Portfolio Item 1 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Website Project 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Corporate Website</h5>
+                        <p class="card-text">A modern corporate website built with Django, featuring responsive design, SEO optimization, and integrated content management system.</p>
+                        <a href="https://www.qhenterprises.com" class="btn" target="_blank">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 2 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1" alt="Website Project 2">
+                    <div class="card-body">
+                        <h5 class="card-title">E-commerce Platform</h5>
+                        <p class="card-text">Full-featured e-commerce solution with shopping cart, payment gateway integration, and inventory management system.</p>
+                        <a href="https://www.qhenterprises.com/" class="btn" target="_blank">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 3 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://cdn.pixabay.com/photo-2017-08-01/00-38/03-architecture-2562340_1280.jpg" alt="Website Project 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Portfolio Website</h5>
+                        <p class="card-text">Creative portfolio website for a design agency with custom animations, interactive elements, and mobile-responsive layout.</p>
+                        <a href="https://www.qhenterprises.com" class="btn" target="_blank">Visit Website</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 4 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://via.placeholder.com/600x400/198754/ffffff?text=QH+Enterprises" alt="Branding Project">
+                    <div class="card-body">
+                        <h5 class="card-title">Branding & Identity</h5>
+                        <p class="card-text">Complete branding solution including logo design, color palette, typography, and brand guidelines for a corporate client.</p>
+                        <a href="#" class="btn" onclick="showCaseStudy(1)">View Case Study</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 5 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="E-commerce Website">
+                    <div class="card-body">
+                        <h5 class="card-title">Mobile App UI/UX</h5>
+                        <p class="card-text">User interface and experience design for mobile applications with focus on usability, accessibility, and aesthetic appeal.</p>
+                        <a href="#" class="btn" onclick="showCaseStudy(2)">View Designs</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Item 6 -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="card h-100 portfolio-item">
+                    <img src="https://img.freepik.com/free-vector/gradient-ui-ux-background_23-2149052117.jpg?size=626&ext=jpg" alt="UI/UX Design">
+                    <div class="card-body">
+                        <h5 class="card-title">Web Application</h5>
+                        <p class="card-text">Custom web application with real-time features, user authentication, and database integration for business operations.</p>
+                        <a href="#" class="btn" onclick="showCaseStudy(3)">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Portfolio Section End -->
+
+    <!-- Footer Start -->
+    {% include 'footer.html' %}
+    <!-- Footer End -->
+
+    <!-- Copyright Start -->
+    {% include 'copyright.html' %}
+    <!-- Copyright End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </a>   
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- Portfolio Script -->
+    <script>
+        function showCaseStudy(id) {
+            alert('Case Study ' + id + ' details will be shown in a modal or separate page.\nThis is a placeholder for demonstration.');
+            // You can replace this with actual modal or page navigation
+        }
+        
+        // Lightbox for portfolio images
+        document.addEventListener('DOMContentLoaded', function() {
+            const portfolioImages = document.querySelectorAll('.portfolio-item img');
+            portfolioImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function() {
+                    lightbox.start(this);
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
