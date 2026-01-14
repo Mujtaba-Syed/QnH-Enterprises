@@ -389,6 +389,17 @@ async function submitReview() {
     submitBtn.disabled = true;
 
     try {
+        // Check if user is logged in
+        const accessToken = localStorage.getItem('access');
+        if (!accessToken) {
+            window.notificationManager.error('You need to login to submit a review. Please login and try again.');
+            // Optionally redirect to login page
+            setTimeout(() => {
+                window.location.href = '/login/';
+            }, 2000);
+            return;
+        }
+
         // Create FormData for file uploads
         const formData = new FormData();
         formData.append('name', name);
@@ -403,13 +414,17 @@ async function submitReview() {
             formData.append('whtsapp_image', whtsappImageFile);
         }
 
+        // Prepare headers
+        const headers = {
+            'X-CSRFToken': getCSRFToken(),
+            'Authorization': `Bearer ${accessToken}`
+        };
+
         // Make API call
         const response = await fetch(`/api/reviews/${productId}/reviews-add/`, {
             method: 'POST',
             body: formData,
-            headers: {
-                'X-CSRFToken': getCSRFToken()
-            }
+            headers: headers
         });
 
         const data = await response.json();
@@ -436,8 +451,26 @@ async function submitReview() {
                 window.location.reload();
             }, 1500);
         } else {
-            // Error
-            const errorMessage = data.error || data.message || 'Failed to submit review. Please try again.';
+            // Handle specific error cases
+            let errorMessage = 'Failed to submit review. Please try again.';
+            
+            if (response.status === 401) {
+                // Unauthorized - user not logged in
+                errorMessage = 'You need to login to submit a review. Please login and try again.';
+                setTimeout(() => {
+                    window.location.href = '/login/';
+                }, 2000);
+            } else if (response.status === 403) {
+                // Forbidden - user not eligible
+                errorMessage = data.error || data.detail || 'You are not eligible to post a review.';
+            } else if (data.error) {
+                errorMessage = data.error;
+            } else if (data.detail) {
+                errorMessage = data.detail;
+            } else if (data.message) {
+                errorMessage = data.message;
+            }
+            
             window.notificationManager.error(errorMessage);
         }
     } catch (error) {
