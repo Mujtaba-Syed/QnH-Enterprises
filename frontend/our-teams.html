@@ -1,0 +1,393 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Our Teams - Q & H Enterprises</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="our team, company leadership, web designers, management team, creative professionals" name="keywords">
+    <meta name="description" content="Meet the core team at Q & H Enterprises. Our leadership, management, and creative professionals work together to deliver exceptional results.">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="author" content="Q & H Enterprises">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Our Teams - Q & H Enterprises">
+    <meta property="og:description" content="Meet the core team behind Q & H Enterprises.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://qhenterprises.com/teams/">
+    <meta property="og:image" content="{% static 'img/banner_img_index_image-Photoroom.png' %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/qh-favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/qh-favicon-16x16.png' %}">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/color-scheme.css' %}">
+    
+    <!-- Team Page Specific CSS -->
+    <style>
+        .team-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .team-img {
+            height: 300px;
+            overflow: hidden;
+        }
+        
+        .team-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-card:hover .team-img img {
+            transform: scale(1.05);
+        }
+        
+        .team-info {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color:  #1f3327;
+        }
+        
+        .team-position {
+            color: #1f3327;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: block;
+        }
+        
+        .team-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: #1f3327;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .team-icon {
+            font-size: 2rem;
+            color: #1f3327; 
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        /* Fix for footer gap */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .team-section {
+            flex: 1;
+            margin-bottom: 0;
+            padding-bottom: 100px;
+        }
+        
+        /* Remove any extra margins/padding causing gaps */
+        .container-fluid.team-section {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        
+        .page-header {
+            margin-bottom: 0 !important;
+        }
+        
+        @media (max-width: 768px) {
+            .team-section {
+                padding: 60px 0;
+                padding-bottom: 60px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .team-info {
+                padding: 20px;
+            }
+            
+            .team-img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    {% include 'spinner.html' %}
+    <!-- Spinner End -->
+
+    <!-- Navbar start -->
+    {% include 'navbar.html' %}
+    <!-- Navbar End -->
+
+    <!-- Single Page Header Start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Our Teams</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item active text-white">Our Teams</li>
+        </ol>
+    </div>
+    <!-- Single Page Header End -->
+
+    <!-- Team Section Start -->
+    <div class="container-fluid team-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet Our Team</h2>
+                <p>Our dedicated team of professionals works together to bring your digital vision to life. Each member plays a crucial role in delivering exceptional results.</p>
+            </div>
+
+            <div class="row justify-content-center">
+               <!-- CEO -->
+<div class="col-lg-4 col-md-6">
+    <div class="team-card">
+        <div class="team-img">
+            <img src="{% static 'img/cars.png' %}">
+        </div>
+        <div class="team-info">
+            <div class="team-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h4 class="team-name">Shoaib Hussain</h4>
+            <span class="team-position">Chief Executive Officer</span>
+            <p class="team-description">
+                With over 07 years of industry experience, delivers strategic leadership and vision for Q & H Enterprises, ensuring exceptional client value while driving innovation and team growth.
+            </p>
+            <div class="team-social">
+                <a href="https://linkedin.com/in/YOUR_LINKEDIN_URL" class="social-icon" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+               <a href="mailto:qhenterprises2@gmail.com?subject=Inquiry%20from%20Q%20%26%20H%20Enterprises%20Website" class="social-icon" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="tel:+923147864467" class="social-icon" title="Phone">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+                <!-- Manager -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <div class="team-img">
+                            <img src="{% static 'img/cars.png' %}">
+                        </div>
+                        <div class="team-info">
+                            <div class="team-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h4 class="team-name">Tanvir Zaman</h4>
+                            <span class="team-position">Project Manager</span>
+                            <p class="team-description">
+                            Responsible for overseeing all projects from conception to completion, ensuring timely delivery, budget control, and clear communication between the team and clients.
+                            </p>
+                            <div class="team-social">
+                                <a href="#" class="social-icon" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Calendar">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Designer -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card">
+                        <div class="team-img">
+                            <img src="{% static 'img/cars.png' %}">
+                        </div>
+                        <div class="team-info">
+                            <div class="team-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h4 class="team-name">Mujtaba Gillani</h4>
+                            <span class="team-position">Web developer</span>
+                            <p class="team-description">
+                            Designs intuitive, visually appealing interfaces that combine creativity and functionality to deliver exceptional user experiences across all devices.
+                            </p>
+                            <div class="team-social">
+                                <a href="#" class="social-icon" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Dribbble">
+                                    <i class="fab fa-dribbble"></i>
+                                </a>
+                                <a href="#" class="social-icon" title="Behance">
+                                    <i class="fab fa-behance"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Description Section -->
+            <div class="row mt-5 pt-5">
+                <div class="col-lg-12">
+                    <div class="bg-white p-5 rounded shadow-sm">
+                        <h3 class="text-center mb-4">Our Collaborative Approach</h3>
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="mb-3">
+                                    <i class="fas fa-lightbulb fa-2x" style="color: #1f3327;"></i> <!-- Updated color -->
+                                </div>
+                                <h5>Strategic Vision</h5>
+                                <p class="text-muted">Our CEO sets the strategic direction, ensuring we're always innovating and staying ahead of industry trends.</p>
+                            </div>
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="mb-3">
+                                    <i class="fas fa-project-diagram fa-2x" style="color: #1f3327;"></i>
+                                </div>
+                                <h5>Efficient Management</h5>
+                                <p class="text-muted">Our manager ensures smooth project execution, keeping everything on track and within budget.</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="mb-3">
+                                    <i class="fas fa-paint-brush fa-2x" style="color: #1f3327;"></i> 
+                                </div>
+                                <h5>Creative Excellence</h5>
+                                <p class="text-muted">Our designer brings ideas to life with stunning visuals and user-friendly interfaces.</p>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'contact' %}" class="btn btn-primary btn-lg mt-3">Work With Our Team</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team Section End -->
+
+    <!-- Footer Start -->
+    {% include 'footer.html' %}
+    <!-- Footer End -->
+
+    <!-- Copyright Start -->
+    {% include 'copyright.html' %}
+    <!-- Copyright End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </a>   
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
