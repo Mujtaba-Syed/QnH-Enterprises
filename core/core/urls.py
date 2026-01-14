@@ -62,6 +62,7 @@ urlpatterns = [
     path('api/reviews/', include('backend.reviews.urls')),
     path('accounts/', include('backend.authentication.urls')),
     path('api/cart/', include('backend.cart.urls')),
+    path('api/orders/', include('backend.orders.urls')),
     path('api/blog/', include('backend.blog.urls')),
     path('portfolio/', PortfolioView.as_view(), name='portfolio'),
 <<<<<<< HEAD

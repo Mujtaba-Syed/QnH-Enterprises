@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     city = models.CharField(max_length=100, blank=True)
     state = models.CharField(max_length=100, blank=True)
     zipcode = models.CharField(max_length=10, blank=True)
-
+    is_google_user = models.BooleanField(default=False)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'phone']
 
