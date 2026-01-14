@@ -64,9 +64,13 @@ urlpatterns = [
     path('api/cart/', include('backend.cart.urls')),
     path('api/blog/', include('backend.blog.urls')),
     path('portfolio/', PortfolioView.as_view(), name='portfolio'),
+<<<<<<< HEAD
         path('our-teams/', OurTeamsView.as_view(), name='our_teams'),
+=======
+    path('dashboard/', include('backend.dashboard.urls')),
+>>>>>>> 7d92c20c12bd09272a2dc1f982faea8df5779801
     path('product-detail/<int:product_id>/', ProductDetailView.as_view(), name='product-detail'),
-
+    
     path('oauth/', include('social_django.urls', namespace='social')),
     path('sitemap.xml', SitemapView.as_view(), name='sitemap'),
     
